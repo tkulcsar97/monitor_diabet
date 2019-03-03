@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+     <script src="script_reprezentarea_glicemiei.js"></script>
+
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title></title>
+  </head>
+  <body>
+      <div class="p-1 mb-2 bg-white"></div>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <a class="navbar-brand" href="#">Monitor Diabet</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="index.htm">Algoritm diagnostic</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="analiza_glicemiei.htm">Analiza glicemiei</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="stadializarea_nefropatiei_diabetice.htm">Stadializarea nefropatiei diabetice</a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="reprezentarea_glicemiei.htm">Reprezentarea glicemiei <span class="sr-only">(current)</span></a>
+              </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+            <a class="btn btn-outline-success my-2 my-sm-0 mr-3" href="autentificare.htm">Autentificare</a>
+            <a class="btn btn-outline-success my-2 my-sm-0" href="inregistrare.htm">Inregistrare</a>
+            </form>
+          </div>
+        </nav>
+        <div class="p-1 mb-5 bg-white"></div>
+        <div class="container">
+          <p>
+              Acesta este un calcul pur experimental prin care puteți vedea cât timp vi se menține glicemia deasupra 
+              limitei de sus a normalului. În cazul unui nediabetic, valorile glicemiei trec doar pentru foarte putin 
+              timp peste pragul de hiperglicemie în cursul unei zile însă la un diabetic acest prag este frecvent depășit 
+              și pentru perioade mai lungi. După ce introduceți toate valorile glicemiei în formularul de mai jos sistemul 
+              va genera curba cea mai probabilă a glicemiilor dumneavoastră pe perioada investigată și va calcula cât timp 
+              glicemia dumneavoastră depășește pragul de hiperglicemie. De asemenea, vă va arăta cum se prezintă curba 
+              glicemiilor dumneavoastră în cursul zilei, în comparație cu o curbă normală a glicemiei. Este important ca 
+              glicemiile să fie luate exact la ora precizată, altfel curba glicemiilor nu va fi corectă și să nu modificați 
+              regimul alimentar de la o zi la alta.
+          </p>
+          <p>
+              Se va creea graficul estimat al glicemiilor pacientului, eventual colorat tot intervalul de timp cât 
+              graficul se află deasupra pragului de normalitate și se va afișa valoarea numerică a timpului cât graficul 
+              se află deasupra acestui prag, atât pentru nediabetic cât și pentru diabetic!
+          </p>
+          <div class="row justify-content-md-center">
+            <form>
+              <div class="form-group">
+                <label> Glicemia înainte de micul dejun, ora 7: </label>
+                <input type="number" class="form-control" id="1">
+              </div>
+              <div class="form-group">
+                <label> Glicemia la micul dejun, ora 8: </label>
+                <input type="number" class="form-control" id="2">
+              </div>
+              <div class="form-group">
+                <label> Glicemia după micul dejun, ora 9: </label>
+                <input type="number" class="form-control" id="3">
+              </div>
+              <div class="form-group">
+                <label> Glicemia la ora 11: </label>
+                <input type="number" class="form-control" id="4">
+              </div>
+              <div class="form-group">
+                <label> Glicemia înainte de prânz, ora 13: </label>
+                <input type="number" class="form-control" id="5">
+              </div>
+              <div class="form-group">
+                <label> Glicemia la prânz, ora 14 : </label>
+                <input type="number" class="form-control" id="6">
+              </div>
+              <div class="form-group">
+                <label> Glicemia după prânz, ora 15 : </label>
+                <input type="number" class="form-control" id="7">
+              </div>
+              <div class="form-group">
+                <label> Glicemia la ora 17 : </label>
+                <input type="number" class="form-control" id="8">
+              </div>
+              <div class="form-group">
+                <label> Glicemia înainte de cină, ora 19 : </label>
+                <input type="number" class="form-control" id="9">
+              </div>
+              <div class="form-group">
+                <label> Glicemia la cină, ora 20 : </label>
+                <input type="number" class="form-control" id="10">
+              </div>
+              <div class="form-group">
+                <label> Glicemia după cină, ora 21: </label>
+                <input type="number" class="form-control" id="11">
+              </div>
+              <div class="form-group">
+                <label> Glicemia înainte de culcare, ora 22: </label>
+                <input type="number" class="form-control" id="12">
+              </div>
+              <button class="btn btn-outline-success my-2 my-sm-4" onclick="Calculează()">Calculează</button>
+            </form>
+          </div>
+        </div>
+             
+
+
+        	<div id="chart_div" align="justify-content-md-center"></div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>

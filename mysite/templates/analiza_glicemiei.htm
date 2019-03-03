@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  	<script src="papaparse.min.js"></script>
+    <script src="script_analiza_glicemiei.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+      $.ajax({
+        url: 'http://localhost:8000/analiza_glicemiei/',
+        data: {
+          text: 'muie psd'
+        },
+        dataType: 'json',
+        success: function (data) {
+          console.log("succes!");
+          if (data.is_taken) {
+            alert("A user with this username already exists.");
+          }
+        }
+      });
+
+    
+    </script>
+ 
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title></title>
+  </head>
+  <body>
+      <div class="p-1 mb-2 bg-white"></div>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <a class="navbar-brand" href="#">Monitor Diabet</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="index.htm">Algoritm diagnostic</a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="#">Analiza glicemiei <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="stadializarea_nefropatiei_diabetice.htm">Stadializarea nefropatiei diabetice</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="reprezentarea_glicemiei.htm">Reprezentarea glicemiei</a>
+              </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+            <a class="btn btn-outline-success my-2 my-sm-0 mr-3" href="autentificare.htm">Autentificare</a>
+            <a class="btn btn-outline-success my-2 my-sm-0" href="inregistrare.htm">Inregistrare</a>
+            </form>
+          </div>
+        </nav>
+        <div class="p-1 mb-5 bg-white"></div>
+        <div class="container">
+          <p>Aplicația permite calcularea unor indici de variabilitate ai glicemiei, cum ar fi media, deviația standard, 
+            coeficientul de variație, indexul J și media diferențelor zilnice (MODD - mean of daily difference în engleză). 
+            Acești indici dau o imagine mai bună asupra variabilității valorilor glicemiei decât simpla examinare a datelor 
+            individuale, fiind o măsură a bunei gestionări a diabetului dumneavoastră. Analiza necesită un număr de cel puțin 
+            7 măsurători de glicemie pe zi (dar se pot introduce până la 12 măsurători), pentru un număr maxim de 7 zile. 
+            Pentru măsurarea mediei diferențelor zilnice este necesar să completați datele pentru două zile (se compară datele 
+            a două zile, nu este necesar să fie zile consecutive dar datele trebuie introduse în coloane consecutive). 
+            Pentru aceste analize statistice nu este importantă ora la care s-a făcut citirea glicemiei însă mediei diferențelor 
+            zilnice este influențată de dietă iar rezultatele vor fi mai mari dacă aveți o dietă variabilă (cu excese alimentare).
+          </p>
+          <p>
+              Dacă valorile calculate ale indicilor de variabilitate glicemică sunt mai mari decât valorile normale înseamnă că aveți 
+              variabilitate ridicată în valorile zilnice și de la o zi la alta ale glicemiei și glicemia dumneavoastră nu este 
+              gestionată așa cum trebuie si este necesar să luați măsuri – tratament + dietă - pentru corectarea situației.
+          </p>
+        </div>
+
+        <div align="center">
+          <input type="file"  id="upload" class="btn btn-outline-success my-2 my-sm-4" onchange="addFile();"></input>
+        </div>
+
+        <!-- tabel -->
+
+
+
+
+        <style>
+ th, td {
+  
+    text-align: center; 
+    padding : 5px;  
+}
+
+
+.wrapper {
+    text-align: center;
+}
+
+.button {
+    position: absolute;
+    top: 50%;
+}
+</style>
+<table class="table table-sm" id="table" style="width:100%">
+  <thead>
+  <tr>
+    <th> </th>
+    <th>Ziua 1</th>
+    <th>Ziua 2</th> 
+    <th>Ziua 3</th>
+    <th>Ziua 4</th>
+    <th>Ziua 5</th> 
+    <th>Ziua 6</th>
+    <th>Ziua 7</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <tr>
+<th style="width:11%" >Mic dejun</th>
+<td><input style="width:50%" type="number" id="val1day1"> </td>
+<td><input style="width:50%" type="number" id="val1day2"> </br></td>
+<td><input style="width:50%" type="number" id="val1day3"> </br></td>
+<td><input style="width:50%" type="number" id="val1day4"> </br></td>
+<td><input style="width:50%" type="number" id="val1day5"> </br></td>
+<td><input style="width:50%" type="number" id="val1day6"> </br></td>
+<td><input style="width:50%" type="number" id="val1day7"> </br></td>
+</tr>
+
+<tr>
+<th>După mic dejun</th>
+<td><input style="width:50%" type="number" id="val2day1"> </td>
+<td><input style="width:50%" type="number" id="val2day2"> </br></td>
+<td><input style="width:50%" type="number" id="val2day3"> </br></td>
+<td><input style="width:50%" type="number" id="val2day4"> </br></td>
+<td><input style="width:50%" type="number" id="val2day5"> </br></td>
+<td><input style="width:50%" type="number" id="val2day6"> </br></td>
+<td><input style="width:50%" type="number" id="val2day7"> </br></td>
+</tr>
+
+<tr>
+<th>Înainte de prânz</th>
+<td><input style="width:50%" type="number" id="val3day1"> </td>
+<td><input style="width:50%" type="number" id="val3day2"> </br></td>
+<td><input style="width:50%" type="number" id="val3day3"> </br></td>
+<td><input style="width:50%" type="number" id="val3day4"> </br></td>
+<td><input style="width:50%" type="number" id="val3day5"> </br></td>
+<td><input style="width:50%" type="number" id="val3day6"> </br></td>
+<td><input style="width:50%" type="number" id="val3day7"> </br></td>
+</tr>
+
+<tr>
+<th>După prânz</th>
+<td><input style="width:50%" type="number" id="val4day1"> </td>
+<td><input style="width:50%" type="number" id="val4day2"> </br></td>
+<td><input style="width:50%" type="number" id="val4day3"> </br></td>
+<td><input style="width:50%" type="number" id="val4day4"> </br></td>
+<td><input style="width:50%" type="number" id="val4day5"> </br></td>
+<td><input style="width:50%" type="number" id="val4day6"> </br></td>
+<td><input style="width:50%" type="number" id="val4day7"> </br></td>
+</tr>
+
+<tr>
+<th>Înainte de cină</th>
+<td><input style="width:50%" type="number" id="val5day1"> </td>
+<td><input style="width:50%" type="number" id="val5day2"> </br></td>
+<td><input style="width:50%" type="number" id="val5day3"> </br></td>
+<td><input style="width:50%" type="number" id="val5day4"> </br></td>
+<td><input style="width:50%" type="number" id="val5day5"> </br></td>
+<td><input style="width:50%" type="number" id="val5day6"> </br></td>
+<td><input style="width:50%" type="number" id="val5day7"> </br></td>
+</tr>
+
+<tr>
+<th>După cină</th>
+<td><input style="width:50%" type="number" id="val6day1"> </td>
+<td><input style="width:50%" type="number" id="val6day2"> </br></td>
+<td><input style="width:50%" type="number" id="val6day3"> </br></td>
+<td><input style="width:50%" type="number" id="val6day4"> </br></td>
+<td><input style="width:50%" type="number" id="val6day5"> </br></td>
+<td><input style="width:50%" type="number" id="val6day6"> </br></td>
+<td><input style="width:50%" type="number" id="val6day7"> </br></td>
+</tr>
+
+<tr>
+<th>Înainte de culcare</th>
+<td><input style="width:50%" type="number" id="val7day1"> </td>
+<td><input style="width:50%" type="number" id="val7day2"> </br></td>
+<td><input style="width:50%" type="number" id="val7day3"> </br></td>
+<td><input style="width:50%" type="number" id="val7day4"> </br></td>
+<td><input style="width:50%" type="number" id="val7day5"> </br></td>
+<td><input style="width:50%" type="number" id="val7day6"> </br></td>
+<td><input style="width:50%" type="number" id="val7day7"> </br></td>
+  </tr>
+
+  <tr>
+<th> Valori suplimentare</th>
+<td><input style="width:50%" type="number" id="val8day1" value="0"></td>
+<td><input style="width:50%" type="number" id="val8day2" value="0"> </br></td>
+<td><input style="width:50%" type="number" id="val8day3" value="0"> </br></td>
+<td><input style="width:50%" type="number" id="val8day4" value="0"> </br></td>
+<td><input style="width:50%" type="number" id="val8day5" value="0"> </br></td>
+<td><input style="width:50%" type="number" id="val8day6" value="0"> </br></td>
+<td><input style="width:50%" type="number" id="val8day7" value="0"> </br></td>
+  </tr>
+
+  <tr>
+<th> Valori suplimentare</th>
+<td><input style="width:50%" type="number" id="val9day1" value="0"></td>
+<td><input style="width:50%" type="number" id="val9day2" value="0"> </br></td>
+<td><input style="width:50%" type="number" id="val9day3" value="0"> </br></td>
+<td><input style="width:50%" type="number" id="val9day4" value="0"> </br></td>
+<td><input style="width:50%" type="number" id="val9day5" value="0"> </br></td>
+<td><input style="width:50%" type="number" id="val9day6" value="0"> </br></td>
+<td><input style="width:50%" type="number" id="val9day7" value="0"> </br></td>
+  </tr>
+
+  <tr>
+<th>Valori suplimentare</th>
+<td><input style="width:50%" type="number" id="val10day1" value="0"></td>
+<td><input style="width:50%" type="number" id="val10day2" value="0"> </br></td>
+<td><input style="width:50%" type="number" id="val10day3" value="0"> </br></td>
+<td><input style="width:50%" type="number" id="val10day4" value="0"> </br></td>
+<td><input style="width:50%" type="number" id="val10day5" value="0"> </br></td>
+<td><input style="width:50%" type="number" id="val10day6" value="0"> </br></td>
+<td><input style="width:50%" type="number" id="val10day7" value="0"> </br></td>
+  </tr>
+
+  <tr>
+<th>Valori suplimentare</th>
+<td><input style="width:50%" type="number" id="val11day1" value="0"></td>
+<td><input style="width:50%" type="number" id="val11day2" value="0"> </br></td>
+<td><input style="width:50%" type="number" id="val11day3" value="0"> </br></td>
+<td><input style="width:50%" type="number" id="val11day4" value="0"> </br></td>
+<td><input style="width:50%" type="number" id="val11day5" value="0"> </br></td>
+<td><input style="width:50%" type="number" id="val11day6" value="0"> </br></td>
+<td><input style="width:50%" type="number" id="val11day7" value="0"> </br></td>
+  </tr>
+
+  <tr>
+<th>Valori suplimentare</th>
+<td><input style="width:50%" type="number" id="val12day1" value="0"></td>
+<td><input style="width:50%" type="number" id="val12day2" value="0"> </br></td>
+<td><input style="width:50%" type="number" id="val12day3" value="0"> </br></td>
+<td><input style="width:50%" type="number" id="val12day4" value="0"> </br></td>
+<td><input style="width:50%" type="number" id="val12day5" value="0"> </br></td>
+<td><input style="width:50%" type="number" id="val12day6" value="0"> </br></td>
+<td><input style="width:50%" type="number" id="val12day7" value="0"> </br></td>
+<th>Valori normale</th>
+  </tr>
+
+
+
+  <tr>
+<th>Media</th>
+<td><output type="number" id="media0"> </td>
+<td><output type="number" id="media1"> </br></td>
+<td><output type="number" id="media2"> </br></td>
+<td><output type="number" id="media3"> </br></td>
+<td><output type="number" id="media4"> </br></td>
+<td><output type="number" id="media5"> </br></td>
+<td><output type="number" id="media6"> </br></td>
+<td> <90 </td>
+  </tr>
+
+  <tr>
+<th>Deviația standard</th>
+<td><output type="number" id="ds0"></td>
+<td><output type="number" id="ds1"> </br></td>
+<td><output type="number" id="ds2"> </br></td>
+<td><output type="number" id="ds3"> </br></td>
+<td><output type="number" id="ds4"> </br></td>
+<td><output type="number" id="ds5"> </br></td>
+<td><output type="number" id="ds6"> </br></td>
+<td> <20 </td>
+  </tr>
+
+
+  <tr>
+ <th>Coeficient de variație</th>
+<td><output type="number" id="cv0"></td>
+<td><output type="number" id="cv1"> </br></td>
+<td><output type="number" id="cv2"> </br></td>
+<td><output type="number" id="cv3"> </br></td>
+<td><output type="number" id="cv4"> </br></td>
+<td><output type="number" id="cv5"> </br></td>
+<td><output type="number" id="cv6"> </br></td>
+<td> 1-2 </td>
+  </tr>
+
+
+  <tr>
+<th>J index</th>
+<td><output type="number" id="jindex0"></td>
+<td><output type="number" id="jindex1"> </br></td>
+<td><output type="number" id="jindex2"> </br></td>
+<td><output type="number" id="jindex3"> </br></td>
+<td><output type="number" id="jindex4"> </br></td>
+<td><output type="number" id="jindex5"> </br></td>
+<td><output type="number" id="jindex6"> </br></td>
+<td>1 </td>
+  </tr>
+
+  <tr>
+<th>MODD</th>
+<td><output type="number" id="modd0"> </td>
+<td><output type="number" id="modd1"> </br></td>
+<td><output type="number" id="modd2"> </br></td>
+<td><output type="number" id="modd3"> </br></td>
+<td><output type="number" id="modd4"> </br></td>
+<td><output type="number" id="modd5"> </br></td>
+<td><output type="number" id="modd6"> </br></td>
+<td> 15 </td>
+  </tr>
+
+</tbody>
+</table>
+
+
+<div class="wrapper">
+     <button type="submit" class="btn btn-outline-success my-2 my-sm-4"  onclick= "Output();">Calculeaza</button>
+</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>

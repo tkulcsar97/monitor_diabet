@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title></title>
+  </head>
+  <body>
+      <div class="p-1 mb-2 bg-white"></div>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <a class="navbar-brand" href="#">Monitor Diabet</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="#">Algoritm diagnostic <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="analiza_glicemiei.htm">Analiza glicemiei</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="stadializarea_nefropatiei_diabetice.htm">Stadializarea nefropatiei diabetice</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="reprezentarea_glicemiei.htm">Reprezentarea glicemiei</a>
+              </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+            <a class="btn btn-outline-success my-2 my-sm-0 mr-3" href="autentificare.htm">Autentificare</a>
+            <a class="btn btn-outline-success my-2 my-sm-0" href="inregistrare.htm">Inregistrare</a>
+            </form>
+          </div>
+        </nav>
+        <div class="p-1 mb-5 bg-white"></div>
+        <div class="container">
+          <p>
+            Un nou studiu efectuat în Suedia pe o populație de diabetici (a se vedea articolul de referința la finalul acestei pagini) 
+            a aratat că ar exista 5 tipuri de diabet, fiecare cu caracteristici specifice, gravitate și evolutie particulară, tratament diferit și riscuri diferite de dezvoltare a unor complicații.
+          </p>
+          <p>
+            Cele 5 clustere de diabet sunt:
+            - clusterul 1 - severe autoimmune diabetes (SAID) – diabetul autoimun sever;
+            - clusterul 2 - severe insulin-deficient diabetes (SIDD) – diabetul insulino-deficient sever;
+            - clusterul 3 - severe insulin-resistant diabetes (SIRD) – diabetul insulino-rezistent sever;
+            - clusterul 4 - mild obesity-related diabetes (MORD) – diabetul moderat asociat cu obezitatea;
+            - clusterul 5 - mild age-related diabetes (MARD) – diabetul moderat asociat cu vârsta;
+          </p>
+                  
+          <p>
+            În timp ce SAID corespunde actualului diabet de tip 1 și diabetului de tip LADA (diabetul autoimun latent al adultului), studiul a identificat două noi forme, severe, de diabet și anume SIDD și SIRD, care sunt mascate actualmente de tipul 2 de diabet. Algoritmul nostru vă permite încadrarea diabetului dumneavoastră într-unul din cele 5 tipuri (clustere) nou descrise.
+          </p> 
+          <p>
+            Aveți nevoie de următoarele date:
+
+            - vârsta la debutul diabetului;
+            - prezența sau absența anticorpilor anti decarboxilaza acidului glutamic (anticorpii anti-GADA);
+            - nivelul hemoglobinei glicozilate (HbA1c);
+            - indicele masei corporale (IMC);
+            - evaluarea funcției celulelor beta-pancreatice HOMA-2B prin modelul homeostatic HOMA2;
+            - evaluarea insulino-rezistenței HOMA2-IR prin modelul homeostatic HOMA2;
+          </p>
+          <p>
+            Indicele masei corporale se poate calcula în multe locuri: <a href="http://www.doctor.info.ro/calculator_imc.html">aici </a> sau <a href="https://chirurgie-drfodor.ro/utile/calculator-indice-masa-corporala"> aici</a>
+          </p>
+          <p>
+            HOMA-2B și HOMA2-IR pot fi calculate cu ajutorul unui freeware, care poate fi descărcat de <a href="https://www.dtu.ox.ac.uk/homacalculator/">aici</a>. Pentru calculul acestor doi parametri este nevoie de valorile glicemiei și insulinei plasmatice.
+          </p>
+          <div class="p-1 mb-4 bg-white"></div>
+          <div class="row justify-content-md-center">
+              <form>
+                <div class="form-group">
+                  <label> Varsta la debutul diabetului: </label>
+                  <input type="number" class="form-control" id="varsta_debut">
+                </div>
+                <div class="form-group">
+                  <label> Indicele de masa corporala: </label>
+                  <input type="number" class="form-control" id="indice_masa">
+                </div>
+                <div class="form-group">
+                  <label> Nivelul hemoglobinei glicozilate: </label>
+                  <input type="number" class="form-control" id="nivel_hemoglobina">
+                </div>
+                <div class="form-group">
+                  <label> HOMA2-IR: </label>
+                  <input type="number" class="form-control" id="homa2_ir">
+                </div>
+                <div class="form-group">
+                  <label> HOMA2-Beta: </label>
+                  <input type="number" class="form-control" id="homa2_beta">
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="anticorpi" id="prezenti" value="prezenti" checked>
+                  <label class="form-check-label" for="exampleRadios1">
+                      Anticorpi anti-GADA prezenti
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="anticorpi" id="absenti" value="absenti">
+                  <label class="form-check-label" for="exampleRadios1">
+                    Anticorpi anti-GADA absenti
+                  </label>
+                </div>
+                <button type="submit" class="btn btn-outline-success my-2 my-sm-4">Calculeaza</button>
+              </form>
+          </div>
+        </div>
+             
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>
