@@ -1,7 +1,6 @@
 from django.http import HttpResponse,JsonResponse
 
 def analiza_glicemiei(request):
-	print('#############incarcam functia$$$$$$$$$$$')
 	text = request.GET.get('text')
 	data = {
 	    'text': 'am primit:' + text
@@ -10,7 +9,6 @@ def analiza_glicemiei(request):
 	return JsonResponse(data)
 
 def login(request):
-    print ('-------------Login function-------------')
     user = request.POST.get('username')
     if Utilizator.objects.filter(nume_utilizator=user).exists():
         print ('Login successfull')
