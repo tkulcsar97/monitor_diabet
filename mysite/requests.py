@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from .models import Utilizator
 
 def analiza_glicemiei(request):
-	print('#############incarcam functia$$$$$$$$$$$')
 	text = request.GET.get('text')
 	data = {
 	    'text': 'am primit:' + text

@@ -57,7 +57,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         #'DIRS': [r'C:\Users\tkulcsar\Desktop\mysite\mysite\mysite\templates'],
-        'DIRS': [r'D:\Facultate\mysite\mysite\templates'],
+        'DIRS': [r'D:\Facultate\Licenta\git\monitor_diabet\mysite\templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -83,7 +83,7 @@ DATABASES = {
         'PASSWORD':'',
         'NAME' : 'monitor_diabet',
         'HOST':'127.0.0.1',
-        'PORT' : '',
+        'PORT' : '3306',
     }
 }
 
@@ -124,4 +124,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
+#STATICFILES_DIRS = [
+ #   os.path.join(BASE_DIR, "static"),
+#]
+
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
