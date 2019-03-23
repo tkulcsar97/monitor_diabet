@@ -12,21 +12,26 @@ def analiza_glicemiei(request):
 	return JsonResponse(data)
 
 def login(request):
-    username = request.POST.get('username')
-    password = request.POST.get('password')
+    print ('AICI, IN LOGIN')
+    username = request.GET.get('username')
+    password = request.GET.get('password')
+    print (username)
+    print (password)
     user = authenticate(request, username=username, password=password)
     if user is not None:
-        data = {'successful': True}
+        data = {'successful': 'true'}
     else:
-        data = {'successful': False}
+        data = {'successful': 'false'}
+    print (data)
     return JsonResponse(data)
 
+
 def create_acount(request):
-    username = request.POST.get('username')
-    password = request.POST.get('password')
-    birth_date = request.POST.get('birth_date')
-    antibodies = request.POST.get('antibodies')
-    onset_age = request.POST.get('onset_age')
+    username = request.GET.get('username')
+    password = request.GET.get('password')
+    birth_date = request.GET.get('birth_date')
+    antibodies = request.GET.get('antibodies')
+    onset_age = request.GET.get('onset_age')
     try:
         user = User.objects.create_user(username=username
                 ,password=password)

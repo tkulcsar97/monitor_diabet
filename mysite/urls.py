@@ -35,5 +35,5 @@ urlpatterns = [
     path('stadializarea_nefropatiei_diabetice.htm', views.stadializarea_nefropatiei_diabetice),
     url(r'analiza_glicemiei/$', requests.analiza_glicemiei),
     url(r'login/$', requests.login),
-    url(r'autentificare/$', requests.create_acount)
+    url(r'register/$', requests.create_acount)
 ]
