@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url
+from django.contrib.auth.models import User
+from .models import Utilizator
 
 from . import views
 from . import requests
@@ -31,5 +33,7 @@ urlpatterns = [
     path('inregistrare.htm', views.inregistrare),
     path('reprezentarea_glicemiei.htm', views.reprezentarea_glicemiei),
     path('stadializarea_nefropatiei_diabetice.htm', views.stadializarea_nefropatiei_diabetice),
-    url(r'analiza_glicemiei/$', requests.analiza_glicemiei)
+    url(r'analiza_glicemiei/$', requests.analiza_glicemiei),
+    url(r'login/$', requests.login),
+    url(r'autentificare/$', requests.create_acount)
 ]

@@ -1,4 +1,7 @@
 from django.http import HttpResponse,JsonResponse
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
+from .models import Utilizator
 
 def analiza_glicemiei(request):
 	print('#############incarcam functia$$$$$$$$$$$')
@@ -10,13 +13,31 @@ def analiza_glicemiei(request):
 	return JsonResponse(data)
 
 def login(request):
-    print ('-------------Login function-------------')
-    user = request.POST.get('username')
-    if Utilizator.objects.filter(nume_utilizator=user).exists():
-        print ('Login successfull')
-        data = {'text': 'Login reusit cu: ' + user}
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        data = {'successful': True}
     else:
-        print ('Incercati sa va logati cu un username inexistent')
-        data = \
-            {'text': 'Incercati sa va logati cu un username inexistent.'}
+        data = {'successful': False}
+    return JsonResponse(data)
+
+def create_acount(request):
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    birth_date = request.POST.get('birth_date')
+    antibodies = request.POST.get('antibodies')
+    onset_age = request.POST.get('onset_age')
+    try:
+        user = User.objects.create_user(username=username
+                ,password=password)
+    except IntegrityError:
+        data = {'successful': False}
+    else:
+        utilizator = Utilizator(user=user)
+        utilizator.data_nastere = birth_date
+        utilizator.anticorpi = antibodies
+        utilizator.varsta_debut = onset_age
+        utilizator.save()
+        data = {'successful': True}
     return JsonResponse(data)
