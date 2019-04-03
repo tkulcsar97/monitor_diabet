@@ -1,6 +1,8 @@
 from django.http import HttpResponse,JsonResponse
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import User
+from django.db import IntegrityError
 from .models import Utilizator
 
 def analiza_glicemiei(request):
@@ -19,14 +21,14 @@ def login(request):
     print (password)
     user = authenticate(request, username=username, password=password)
     if user is not None:
-        data = {'successful': 'true'}
+        data = {'successful': True}
     else:
-        data = {'successful': 'false'}
+        data = {'successful': False}
     print (data)
     return JsonResponse(data)
 
 
-def create_acount(request):
+def create_account(request):
     username = request.GET.get('username')
     password = request.GET.get('password')
     birth_date = request.GET.get('birth_date')
@@ -43,5 +45,5 @@ def create_acount(request):
         utilizator.anticorpi = antibodies
         utilizator.varsta_debut = onset_age
         utilizator.save()
-        data = {'successful': True}
+        data = {'successful': True}   
     return JsonResponse(data)

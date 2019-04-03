@@ -36,7 +36,7 @@ function register(){
     }
 
     f = function(data_recived){
-        if (data.data_recived.successful == true){
+        if (data_recived.successful == true){
             alert("Register successful!");
         }
         else{
