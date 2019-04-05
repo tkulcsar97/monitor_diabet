@@ -5,24 +5,6 @@
     <script type="text/javascript" src="{% static 'js/papaparse.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/script_analiza_glicemiei.js' %}"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script>
-      console.log("gfdgdf");
-      $.ajax({
-        url: 'http://localhost:8000/analiza_glicemiei/',
-        data: {
-          text: 'muie psd'
-        },
-        dataType: 'json',
-        success: function (data) {
-          console.log("succes!");
-          if (data.is_taken) {
-            alert("A user with this username already exists.");
-          }
-        }
-      });
-
-    
-    </script>
  
     <!-- Required meta tags -->
     <meta charset="utf-8">
