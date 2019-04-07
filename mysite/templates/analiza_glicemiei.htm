@@ -2,9 +2,12 @@
 {% load static %}
 <html lang="en">
   <head>
+    <script type="text/javascript" src="{% static 'js/render(A).js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery-3.3.1.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/server_requests(A).js' %}"></script>
+
     <script type="text/javascript" src="{% static 'js/papaparse.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/script_analiza_glicemiei.js' %}"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
  
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -38,8 +41,14 @@
               </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
-            <a class="btn btn-outline-success my-2 my-sm-0 mr-3" href="autentificare.htm">Autentificare</a>
-            <a class="btn btn-outline-success my-2 my-sm-0" href="inregistrare.htm">Inregistrare</a>
+            {% if logged %}
+              <p class = "text-success h4 border">Bun venit, {{username}}</p>
+              &nbsp&nbsp&nbsp&nbsp
+              <button class="btn btn-outline-success my-2 my-sm-0" onclick="logout()">Delogare</button>
+            {% else %}
+              <a class="btn btn-outline-success my-2 my-sm-0 mr-3" href="autentificare.htm">Autentificare</a>
+              <a class="btn btn-outline-success my-2 my-sm-0" href="inregistrare.htm">Inregistrare</a>
+            {% endif %}
             </form>
           </div>
         </nav>
@@ -61,6 +70,62 @@
               gestionată așa cum trebuie si este necesar să luați măsuri – tratament + dietă - pentru corectarea situației.
           </p>
         </div>
+
+        {% if logged %}
+          <div id = "initial_state">
+            <div class="row justify-content-md-center">
+              <form>
+                <label class = "text-success" style="display: block" id="message"></label>
+                <button type="button" class="btn btn-outline-success my-2 my-sm-4" onclick="renderAG_addValue()">Adaugă o singură valoare</button>
+                &nbsp&nbsp&nbsp&nbsp&nbsp
+                <button type="button" class="btn btn-outline-success my-2 my-sm-4" onclick="renderAG_showValues()">Afișează tabel</button>
+              </form>
+            </div>
+          </div>
+
+          <div class="container" style="display: none" id="view_addValue">
+            <div class="row justify-content-md-center">
+              <form>
+                <div class="form-group">
+                  <label> Introduceți ziua </label>
+                  <input type="date" class="form-control" id="zi_valoare">
+                </div> 
+                <div class="form-group">
+                  <label> Introduceți momentul </label>
+                  <input type="time" class="form-control" id="moment_valoare">
+                </div>
+                <div class="form-group">
+                  <label> Introduceți valoarea </label>
+                  <input type="number" class="form-control" id="valoare">
+                </div>
+                <button type="button" class="btn btn-outline-success my-2 my-sm-4" onclick="adauga_glicemie()">Adaugă</button>
+                &nbsp&nbsp&nbsp&nbsp
+                <button type="button" class="btn btn-outline-success my-2 my-sm-4" onclick="renderAG_initState(null)">Înapoi</button>
+              </form>                 
+            </div>
+          </div>
+
+          <div class="container" style="display: none" id="view_showValues">
+              <div class="row justify-content-md-center">
+                <form>
+                  <label class="text-danger"> Puteți alege maxim 7 zile </label>
+                  <div class="form-group">
+                    <label> Introduceți data de început </label>
+                    <input type="date" class="form-control" id="start_date">
+                  </div> 
+                  <div class="form-group">
+                    <label> Introduceți data de sfârșit </label>
+                    <input type="date" class="form-control" id="end_date">
+                  </div>
+                  <button type="button" class="btn btn-outline-success my-2 my-sm-4" onclick="preia_glicemie()">Afișează</button>
+                  &nbsp&nbsp&nbsp&nbsp
+                  <button type="button" class="btn btn-outline-success my-2 my-sm-4" onclick="renderAG_initState(null)">Înapoi</button>
+                </form>                 
+              </div>
+            </div>
+
+
+        {% else %}
 
         <div align="center">
           <input type="file"  id="upload" class="btn btn-outline-success my-2 my-sm-4" onchange="addFile();"></input>
@@ -307,10 +372,11 @@
 <div class="wrapper">
      <button type="submit" class="btn btn-outline-success my-2 my-sm-4"  onclick= "Output();">Calculeaza</button>
 </div>
+{% endif %}
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </body>

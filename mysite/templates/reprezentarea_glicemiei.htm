@@ -38,8 +38,14 @@
               </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
-            <a class="btn btn-outline-success my-2 my-sm-0 mr-3" href="autentificare.htm">Autentificare</a>
-            <a class="btn btn-outline-success my-2 my-sm-0" href="inregistrare.htm">Inregistrare</a>
+            {% if logged %}
+              <p class = "text-success h4 border">Bun venit, {{username}}</p>
+              &nbsp&nbsp&nbsp&nbsp
+              <button class="btn btn-outline-success my-2 my-sm-0" onclick="logout()">Delogare</button>
+            {% else %}
+              <a class="btn btn-outline-success my-2 my-sm-0 mr-3" href="autentificare.htm">Autentificare</a>
+              <a class="btn btn-outline-success my-2 my-sm-0" href="inregistrare.htm">Inregistrare</a>
+            {% endif %}
             </form>
           </div>
         </nav>

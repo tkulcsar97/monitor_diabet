@@ -1,6 +1,13 @@
 <!doctype html>
+{% load static %}
 <html lang="en">
   <head>
+    <!-- Scripts-->
+  
+    <script type="text/javascript" src="{% static 'js/jquery-3.3.1.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/data.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/server_requests(A).js' %}"></script>
+
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -33,8 +40,14 @@
               </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
-            <a class="btn btn-outline-success my-2 my-sm-0 mr-3" href="autentificare.htm">Autentificare</a>
-            <a class="btn btn-outline-success my-2 my-sm-0" href="inregistrare.htm">Inregistrare</a>
+            {% if logged %}
+              <p class = "text-success h4 border">Bun venit, {{username}}</p>
+              &nbsp&nbsp&nbsp&nbsp
+              <button class="btn btn-outline-success my-2 my-sm-0" onclick="logout()">Delogare</button>
+            {% else %}
+              <a class="btn btn-outline-success my-2 my-sm-0 mr-3" href="autentificare.htm">Autentificare</a>
+              <a class="btn btn-outline-success my-2 my-sm-0" href="inregistrare.htm">Inregistrare</a>
+            {% endif %}
             </form>
           </div>
         </nav>

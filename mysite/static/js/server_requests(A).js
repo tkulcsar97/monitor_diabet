@@ -1,15 +1,15 @@
 function login(){
-    username = document.getElementById("nume_utilizator").value;
-    password = document.getElementById("parola").value;
-    url = 'http://localhost:8000/login/';
-    data_to_send = {
+    var username = document.getElementById("nume_utilizator").value;
+    var password = document.getElementById("parola").value;
+    var url = 'http://localhost:8000/login/';
+    var data_to_send = {
         username: username,
         password: password
     }
     
-    f = function(data_recived){
+    f = function(data_recived, user){
         if (data_recived.successful == true){
-            alert("Login successful");
+            window.location.href = "http://localhost:8000/index.htm";
         }
         else{
             alert("The username or password is incorrect");
@@ -24,7 +24,8 @@ function register(){
     password = document.getElementById("parola").value;
     birth_date = document.getElementById("data_nasterii").value;
     onset_age = document.getElementById("varsta_debut").value;
-    antibodies = document.getElementById("anticorpi").value;
+    //antibodies = document.getElementById("anticorpi").value;
+    antibodies = true;
 
     url = "http://localhost:8000/register/";
     data_to_send = {
@@ -47,6 +48,13 @@ function register(){
     ajax_request(url,data_to_send,f);
 }
 
+function logout(){
+    
+}
+
+function adauga_glicemie(){
+    renderAG_initState("Valoarea a fost adaugată cu succes!");
+}
 
 function ajax_request(url,data,f){
     $(document).ready(function(){
