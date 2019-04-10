@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title></title>
   </head>
-  <body>
+  <body onload="checkCookie()">
       <div class="p-1 mb-2 bg-white"></div>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <a class="navbar-brand" href="#">Monitor Diabet</a>
@@ -128,6 +128,7 @@
         {% else %}
 
         <div align="center">
+          <label>Adaugati un fisier de tip .csv</label>
           <input type="file"  id="upload" class="btn btn-outline-success my-2 my-sm-4" onchange="addFile();"></input>
         </div>
 
