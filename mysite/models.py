@@ -1,7 +1,8 @@
-# Create your models here.
+ # Create your models here.
 
 from django.db import models
 from django.contrib.auth.models import User
+import datetime
 
 class Rol(models.Model):
 	id_rol = models.IntegerField(primary_key = True)
@@ -30,16 +31,13 @@ class Utilizator(models.Model):
 	class Meta: 
 		verbose_name = "Utilizator"
 		verbose_name_plural = "Utilizatori"
-
-'''>>> u = User.objects.get(username='fsmith')
->>> freds_department = u.employee.department'''
 	
 class Nefropatie(models.Model):
 	id_nefropatie = models.AutoField(primary_key=True)
 	data_ora = models.DateTimeField()
 	rata_filtrare_glomerulara = models.FloatField()
 	albuminuria = models.FloatField()
-	id = models.ForeignKey(Utilizator, on_delete = models.CASCADE, default="")
+	user = models.ForeignKey(User, on_delete = models.CASCADE, default="")
 	
 	class Meta: 
 		verbose_name = "Inregistrare Nefropatie"
@@ -47,9 +45,9 @@ class Nefropatie(models.Model):
 	
 class Variabilitate_Glicemie(models.Model):
 	id_variabilitate = models.AutoField(primary_key=True)
-	data_ora = models.DateTimeField()
+	data_ora = models.DateTimeField(default=datetime.datetime.today)
 	valoare_glicemie = models.FloatField()
-	id = models.ForeignKey(Utilizator, on_delete = models.CASCADE, default="")
+	user = models.ForeignKey(User, on_delete = models.CASCADE, default="")
 	
 	class Meta: 
 		verbose_name = "Inregistrare pentru analiza glicemiei"
@@ -58,19 +56,9 @@ class Variabilitate_Glicemie(models.Model):
 class Reprezentare_Glicemie(models.Model):
 	id_reprezentare = models.AutoField(primary_key=True)
 	data = models.DateField()
-	valoare_inainte_mic_dejun = models.IntegerField()
-	valoare_mic_dejun = models.IntegerField()
-	valoare_dupa_mic_dejun = models.IntegerField()
-	valoare_mic_dejun_pranz = models.IntegerField()
-	valoare_inainte_pranz = models.IntegerField()
-	valoare_pranz = models.IntegerField()
-	valoare_dupa_pranz = models.IntegerField()
-	valoare_mic_dejun = models.IntegerField()
-	valoare_pranz_cina = models.IntegerField()
-	valoare_cina = models.IntegerField()
-	valoare_dupa_cina = models.IntegerField()
-	valoare_inainte_culcare = models.IntegerField()
-	id = models.ForeignKey(Utilizator, on_delete = models.CASCADE, default="")
+	moment_al_zilei = models.CharField(max_length=50, default='', blank=True)
+	valoare_glicemie = models.IntegerField()
+	user = models.ForeignKey(User, on_delete = models.CASCADE, default="")
 	
 	class Meta: 
 		verbose_name = "Inregistrare pentru reprezentarea glicemiei"
