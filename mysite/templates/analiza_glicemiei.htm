@@ -75,7 +75,7 @@
           <div id = "initial_state">
             <div class="row justify-content-md-center">
               <form>
-                <label class = "text-success" style="display: block" id="message"></label>
+                <label class = "text-success" style="display: block" id="message1"></label>
                 <button type="button" class="btn btn-outline-success my-2 my-sm-4" onclick="renderAG_addValue()">Adaugă o singură valoare</button>
                 &nbsp&nbsp&nbsp&nbsp&nbsp
                 <button type="button" class="btn btn-outline-success my-2 my-sm-4" onclick="renderAG_showValues()">Afișează tabel</button>
@@ -88,11 +88,11 @@
               <form>
                 <div class="form-group">
                   <label> Introduceți ziua </label>
-                  <input type="date" class="form-control" id="zi_valoare">
+                  <input type="date" class="form-control" id="data_valoare">
                 </div> 
                 <div class="form-group">
                   <label> Introduceți momentul </label>
-                  <input type="time" class="form-control" id="moment_valoare">
+                  <input type="time" class="form-control" id="timp_valoare">
                 </div>
                 <div class="form-group">
                   <label> Introduceți valoarea </label>
@@ -108,7 +108,7 @@
           <div class="container" style="display: none" id="view_showValues">
               <div class="row justify-content-md-center">
                 <form>
-                  <label class="text-danger"> Puteți alege maxim 7 zile </label>
+                  <label class="text-danger" id = "message2"> Puteți alege maxim 7 zile </label>
                   <div class="form-group">
                     <label> Introduceți data de început </label>
                     <input type="date" class="form-control" id="start_date">

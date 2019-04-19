@@ -6,8 +6,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-     <script type="text/javascript" src="{% static 'js/script_reprezentarea_glicemiei.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/render(A).js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery-3.3.1.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/server_requests(A).js' %}"></script>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="{% static 'js/script_reprezentarea_glicemiei.js' %}"></script>
 
 
     <!-- Bootstrap CSS -->
@@ -67,6 +71,61 @@
               graficul se află deasupra pragului de normalitate și se va afișa valoarea numerică a timpului cât graficul 
               se află deasupra acestui prag, atât pentru nediabetic cât și pentru diabetic!
           </p>
+          {% if logged %}
+          <div id="initial_state">
+            <div class="row justify-content-md-center">
+              <button class="btn btn-outline-success my-2 my-sm-4" onclick="renderRG_addValue()">Adaugă valoare</button>
+              &nbsp&nbsp&nbsp&nbsp&nbsp
+              <button class="btn btn-outline-success my-2 my-sm-4" onclick="renderRG_showValues()">Afișează grafic</button>
+            </div>
+          </div>
+          <div id="view_addValue" style="display: none">
+            <div class="row justify-content-md-center">
+              <form>
+                <div class="form-group">
+                  <label> Introduceți ziua </label>
+                  <input type="date" class="form-control" id="data_valoare">
+                </div> 
+                <div class="form-group">
+                  <label> La ce moment a-ți analizat glicemia? </label>
+                  <select class="form-control" id="moment">
+                    <option>Înainte de micul dejun, ora 7</option>
+                    <option>La micul dejun, ora 8</option>
+                    <option>După micul dejun, ora 9</option>
+                    <option>La ora 11</option>
+                    <option>La prânz, ora 14</option>
+                    <option>După prânz, ora 15</option>
+                    <option>La ora 17</option>
+                    <option>Înainte de cină, ora 19</option>
+                    <option>La cină, ora 20</option>
+                    <option>După cină, ora 21</option>
+                    <option>Înainte de culcare, ora 22</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label> Introduceți valoarea </label>
+                  <input type="number" class="form-control" id="valoare">
+                </div>
+                <button class="btn btn-outline-success my-2 my-sm-4" onclick="add_RG()">Adaugă</button>
+                &nbsp&nbsp&nbsp&nbsp
+                <button type="button" class="btn btn-outline-success my-2 my-sm-4" onclick="renderRG_initState()">Înapoi</button>
+              </form>
+            </div>
+          </div>
+          <div class="container" style="display: none" id="view_showValues">
+            <div class="row justify-content-md-center">
+              <form>
+                <div class="form-group">
+                  <label> Introduceți ziua </label>
+                  <input type="date" class="form-control" id="data_valoare">
+                </div>
+                <button class="btn btn-outline-success my-2 my-sm-4" onclick="show_RG()">Afișează</button>
+                &nbsp&nbsp&nbsp&nbsp
+                <button type="button" class="btn btn-outline-success my-2 my-sm-4" onclick="renderRG_initState()">Înapoi</button>
+              </form>
+            </div>
+          </div>
+          {% else %}
           <div class="row justify-content-md-center">
             <form>
               <div class="form-group">
@@ -125,11 +184,11 @@
 
 
         	<div id="chart_div" align="justify-content-md-center"></div>
-
+        {% endif %}
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </body>
