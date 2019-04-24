@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 logged = False
 username = ''
+password = ''
 
 def index(request):
 	return render(request, 'index.htm', {'logged': logged, 'username': username})
