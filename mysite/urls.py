@@ -17,12 +17,11 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url
 from django.contrib.auth.models import User
-from .models import Utilizator
+from .models import Utilizator, Variabilitate_Glicemie
+import datetime
 
 from . import views
 from . import requests
-
-print("------------------ajungem aici-------------------------")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,5 +34,10 @@ urlpatterns = [
     path('stadializarea_nefropatiei_diabetice.htm', views.stadializarea_nefropatiei_diabetice),
     url(r'analiza_glicemiei/$', requests.analiza_glicemiei),
     url(r'login/$', requests.login),
-    url(r'register/$', requests.create_account)
+    url(r'register/$', requests.create_account),
+    url(r'logout/$', requests.logout),
+    url(r'set_analiza/$', requests.setare_date_analiza),
+    url(r'get_analiza/$', requests.preluare_date_analiza),
+    url(r'setare_date_reprezentare/$', requests.setare_date_reprezentare),
+    url(r'get_reprezentare/$', requests.preluare_date_reprezentare)
 ]

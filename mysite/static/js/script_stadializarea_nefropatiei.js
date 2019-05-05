@@ -136,7 +136,7 @@ function drawChart()
     var options = {
         width: 1200,
         height: 800,
-        
+        fontSize: 14,
         // #008000 green ;   #FF0000 red ;  #FFFF00 yellow ; #FFA500 orange
           
           series:{
