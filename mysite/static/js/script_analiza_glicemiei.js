@@ -1,18 +1,86 @@
 var cols=7;
 var rows=12;
-var json_tabel;
+var cookieJsonTabel;
+var nrRezultate=5;
 
-var tabel=new Array(rows);
+//declare table
+var tabel=new Array(cols);
 for(var i=0;i<cols;i++)
-tabel[i]=new Array(cols);
+tabel[i]=new Array(rows);
 
+//declare result table
+var rezultateAnaliza=new Array(cols);
+for(var i=0;i<cols;i++)
+rezultateAnaliza[i]=new Array(nrRezultate);
 
+function resetColours()
+{
+document.getElementById("ValNormMedie1").style.backgroundColor = "white";
+document.getElementById("ValNormMedie2").style.backgroundColor = "white";
+
+document.getElementById("ValNormDS1").style.backgroundColor = "white";
+document.getElementById("ValNormDS2").style.backgroundColor = "white";
+
+document.getElementById("ValNormCD1").style.backgroundColor = "white";
+document.getElementById("ValNormCD2").style.backgroundColor = "white";
+document.getElementById("ValNormCD3").style.backgroundColor = "white";
+document.getElementById("ValNormCD4").style.backgroundColor = "white";
+
+document.getElementById("ValNormJ1").style.backgroundColor = "white";
+document.getElementById("ValNormJ2").style.backgroundColor = "white";
+document.getElementById("ValNormJ3").style.backgroundColor = "white";
+document.getElementById("ValNormJ4").style.backgroundColor = "white";
+
+document.getElementById("ValNormMODD1").style.backgroundColor = "white";
+document.getElementById("ValNormMODD2").style.backgroundColor = "white";
+document.getElementById("ValNormMODD3").style.backgroundColor = "white";
+}
+
+function compareResults(day)
+{
+	resetColours();
+	for(var j=0;j<nrRezultate;j++)
+	{
+		switch(j)
+		{
+		case 0:
+			if(rezultateAnaliza[day][j]<=154) document.getElementById("ValNormMedie1").style.backgroundColor = "red";
+			else if(rezultateAnaliza[day][j]>154)document.getElementById("ValNormMedie2").style.backgroundColor = "red";
+			break;
+		case 1:
+			if(rezultateAnaliza[day][j]<60) document.getElementById("ValNormDS1").style.backgroundColor = "red";
+			else if(rezultateAnaliza[day][j]>60)document.getElementById("ValNormDS2").style.backgroundColor = "red";
+			break;
+		case 2:
+			if(rezultateAnaliza[day][j]<33.5) document.getElementById("ValNormCD1").style.backgroundColor = "red";
+			else if(rezultateAnaliza[day][j]>=36.8 && rezultateAnaliza[day][j]<36.8) document.getElementById("ValNormCD2").style.backgroundColor = "red";
+			else if(rezultateAnaliza[day][j]>=36.8  && rezultateAnaliza[day][j]<40.6) document.getElementById("ValNormCD3").style.backgroundColor = "red";
+			else if(rezultateAnaliza[day][j]>40.6)document.getElementById("ValNormCD4").style.backgroundColor = "red";
+			break;
+		case 3:
+			if(rezultateAnaliza[day][j]>=10 && rezultateAnaliza[day][j]<20) document.getElementById("ValNormJ1").style.backgroundColor = "red";
+			else if(rezultateAnaliza[day][j]>=20 && rezultateAnaliza[day][j]<30) document.getElementById("ValNormJ2").style.backgroundColor = "red";
+			else if(rezultateAnaliza[day][j]>=30 && rezultateAnaliza[day][j]<=40) document.getElementById("ValNormJ3").style.backgroundColor = "red";
+			else if(rezultateAnaliza[day][j]>40)  document.getElementById("ValNormJ4").style.backgroundColor = "red";
+			break;
+		case 4:
+			if(rezultateAnaliza[day][j]<7) document.getElementById("ValNormMODD1").style.backgroundColor = "red";
+			else if(rezultateAnaliza[day][j]>=7 && rezultateAnaliza[day][j]<=25) document.getElementById("ValNormMODD2").style.backgroundColor = "red";
+			else if(rezultateAnaliza[day][j]>40) document.getElementById("ValNormMODD3").style.backgroundColor = "red";
+			break;
+		}
+
+		
+	}
+	
+}
 var parseFileSucces=false;
 function addFile()
 {
 	document.getElementById("upload").addEventListener('change',parseFile(event), false);
 	getValues();
 }
+
 function parseFile(event)
 {
 	 if (!document.getElementById('upload').files[0]) 
@@ -24,6 +92,7 @@ function parseFile(event)
 		dynamicTyping:true,
 		complete: function(results) {
 			parseFileSucces=true;
+
 			for(var i=0;i<cols;i++)
 			{ 
 			for(var j=0;j<results.data.length-1;j++)
@@ -36,6 +105,43 @@ function parseFile(event)
 		}
 	})
 	}
+}
+
+
+function makeCsvFile()
+{
+getValues();
+var tabelString=new Array(cols);
+for(var i=0;i<cols;i++)
+tabelString[i]=new Array(rows);
+
+	for(var i=0;i<cols;i++)
+		{ 
+		for(var j=0;j<rows;j++)
+			{
+				if(tabel[i][j]==null || isNaN(tabel[i][j])) tabelString[i][j]="";
+				else tabelString[i][j]=""+tabel[i][j]+"";
+			}
+		}
+
+	var csvData=Papa.unparse(JSON.stringify(tabelString),{header:false});
+	
+	//download the file
+	downloadCsvFile(csvData);
+}
+
+//make download link
+function downloadCsvFile(csv)
+{
+var downloadLink = document.createElement("a");
+var blob = new Blob(["\ufeff", csv]);
+var url = URL.createObjectURL(blob);
+downloadLink.href = url;
+downloadLink.download = "analiza_glicemiei.csv";
+
+document.body.appendChild(downloadLink);
+downloadLink.click();
+document.body.removeChild(downloadLink);
 }
 
 function setCookie(cname, cvalue, exdays) {
@@ -66,8 +172,8 @@ function checkCookie()
 
 if(document.cookie.indexOf('cookie_tabel=')!= -1) 
 	{
-		json_tabel=getCookie('cookie_tabel');
-		tabel=JSON.parse(json_tabel);
+		cookieJsonTabel=getCookie('cookie_tabel');
+		tabel=JSON.parse(cookieJsonTabel);
 		for(var i=0;i<cols;i++)
 		{ 
 			for(var j=0;j<rows;j++)
@@ -78,7 +184,8 @@ if(document.cookie.indexOf('cookie_tabel=')!= -1)
 
 function validNr(a)
 {
-	if(a!=0 && !isNaN(a)) return true;
+	if(a!=0 && a>9 && a<999) return true;
+	 else return false;
 }
 
 
@@ -89,21 +196,30 @@ function getValues()
 		for(var i=0;i<cols;i++)
 		{ 
 		for(var j=0;j<rows;j++)
-			if(isNaN(tabel[i][j]) || tabel[i][j]==null) 
+			{
+			//if(isNaN(tabel[i][j]) || tabel[i][j]==null)
 			tabel[i][j]=Math.abs(parseInt(document.getElementById('val'+(j+1)+'day'+(i+1)).value));
+			
+			//delete invalid numbers
+			if(!validNr(tabel[i][j])) 
+				{
+					tabel[i][j]=NaN;
+					document.getElementById('val'+(j+1)+'day'+(i+1)).value=null;
+				}
+			}
 		}
 	}	
 
-	json_tabel=JSON.stringify(tabel);	
+	//add / edit cookies for 7days
+	cookieJsonTabel=JSON.stringify(tabel);	
 	if(document.cookie.indexOf('cookie_tabel=')== -1) 
-		setCookie('cookie_tabel', json_tabel,365);
+		setCookie('cookie_tabel', cookieJsonTabel,7);
 	else{
 		document.cookie = 'cookie_tabel=;';
-		setCookie('cookie_tabel', json_tabel,365);
+		setCookie('cookie_tabel', cookieJsonTabel,7);
 	}
 
  }
-
 
 
 function Medie(i)
@@ -129,14 +245,13 @@ function DS(i)
 	var sumOfSquares=0;
 	var count=0;
 	
-
 	for(var j=0;j<rows;j++)
 			{
-			if(validNr(tabel[i][j])) 
+				if(validNr(tabel[i][j])) 
 				{
 				count++;
-				sumOfSquares+=Math.pow(tabel[i][j]-Medie(i),2); 
-				}	
+				sumOfSquares+=Math.pow(tabel[i][j]-Medie(i),2); 	
+				}
 			}
 
 	return (Math.sqrt(sumOfSquares/(count-1))).toFixed(1);
@@ -178,16 +293,24 @@ function MODD(i)
 
 function Output()
 {
-		
 		getValues();
-
+		
 		for(var i=0;i<cols;i++)
 		{	
 		document.getElementById('media'+i).value=Medie(i);
+		rezultateAnaliza[i][0]=parseInt(document.getElementById('media'+i).value=Medie(i));
+
 		document.getElementById('ds'+i).value=DS(i);
+		rezultateAnaliza[i][1]=parseInt(document.getElementById('ds'+i).value=DS(i));
+
 		document.getElementById('cv'+i).value=CV(i);
+		rezultateAnaliza[i][2]=parseInt(document.getElementById('cv'+i).value=CV(i));
+
 		document.getElementById('jindex'+i).value=Jindex(i);
+		rezultateAnaliza[i][3]=parseInt(document.getElementById('jindex'+i).value=Jindex(i));
+
 		document.getElementById('modd'+i).value=MODD(i);
+		rezultateAnaliza[i][4]=parseInt(document.getElementById('modd'+i).value=MODD(i));
 		}
 
 }
