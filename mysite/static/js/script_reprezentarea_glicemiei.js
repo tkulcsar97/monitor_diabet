@@ -29,23 +29,23 @@ function drawChart() {
      
 
        ['X','Glicemia normala','Glicemia pacientului'],
-       [0, 0, tabel[0]],    
-       [1, 10, tabel[1]],  
-       [2, 23, tabel[2]], 
-       [3, 17,tabel[3]],
-       [4, 18, tabel[4]],
-       [5, 9, tabel[5]],
-       [6, 11, tabel[6]], 
-       [7, 27,tabel[7]],
-       [8, 33, tabel[8]], 
-       [9, 40, tabel[9]], 
-       [10, 32, tabel[10]], 
-       [11, 35, tabel[11]]
+       [0, 88, tabel[0]],    
+       [1, 90, tabel[1]],  
+       [2, 93, tabel[2]], 
+       [3, 92,tabel[3]],
+       [4, 106, tabel[4]],
+       [5, 108, tabel[5]],
+       [6, 115, tabel[6]], 
+       [7, 86,tabel[7]],
+       [8, 106, tabel[8]], 
+       [9, 90, tabel[9]], 
+       [10, 80, tabel[10]], 
+       [11, 86, tabel[11]]
        
       ]);
 
       var options = {
-        
+        curveType: 'function',
         width: 1200,
         height: 800,
 
@@ -74,7 +74,7 @@ function drawChart() {
         curveType: 'function'
       };
 
-      var chart = new google.visualization.LineChart(document.getElementById('chart-container'));
+      var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
       chart.draw(data, options);
 
     }

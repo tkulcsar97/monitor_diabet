@@ -31,7 +31,7 @@ for(var i=0;i<size;i++)
 
 function validNr(a)
 {
-  if(a>=0 && !isNaN(a)) return true;
+  if(a>9 && a<999 && !isNaN(a)) return true;
 }
 
 function getValues()
