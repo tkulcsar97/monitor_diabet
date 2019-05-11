@@ -13,8 +13,14 @@ var rezultateAnaliza=new Array(cols);
 for(var i=0;i<cols;i++)
 rezultateAnaliza[i]=new Array(nrRezultate);
 
+function setColour(name,colour)
+{
+	var element = document.getElementById(name).style.backgroundColor=colour;
+}
+
 function resetColours()
 {
+// MAKE A FUNTION TO COLOUR CELLS ---- setColour
 document.getElementById("ValNormMedie1").style.backgroundColor = "white";
 document.getElementById("ValNormMedie2").style.backgroundColor = "white";
 

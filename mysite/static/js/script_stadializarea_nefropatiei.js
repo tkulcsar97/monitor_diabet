@@ -85,10 +85,10 @@ function Calculeaza()
           { 
             switch(culori[i]) 
             {
-              case green : mesaj[i]="Risc scăzut de ND";break;
+              case green  : mesaj[i]="Risc scăzut de ND";break;
               case yellow : mesaj[i]="Risc moderat de ND";break;
               case orange : mesaj[i]="Risc crescut de ND";break;
-              case red : mesaj[i]="Risc foarte crescut de ND";break;
+              case red    : mesaj[i]="Risc foarte crescut de ND";break;
             }
             culori[i]=culori[i].split("stroke-width:1; fill-opacity: 0.6;")+"stroke-width:3;";
     		    succes=true;

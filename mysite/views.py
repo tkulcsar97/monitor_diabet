@@ -21,3 +21,8 @@ def reprezentarea_glicemiei(request):
 def stadializarea_nefropatiei_diabetice(request):
 	return render(request, 'stadializarea_nefropatiei_diabetice.htm', {'logged': logged, 'username': username})
 
+def calculator_hipoglicemic(request):
+	return render(request, 'calculator_hipoglicemic.htm', {'logged': logged, 'username': username})
+
+def calculator_diabet(request):
+	return render(request, 'calculator_diabet.htm', {'logged': logged, 'username': username})

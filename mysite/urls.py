@@ -32,6 +32,8 @@ urlpatterns = [
     path('inregistrare.htm', views.inregistrare),
     path('reprezentarea_glicemiei.htm', views.reprezentarea_glicemiei),
     path('stadializarea_nefropatiei_diabetice.htm', views.stadializarea_nefropatiei_diabetice),
+    path('calculator_hipoglicemic.htm', views.calculator_hipoglicemic),
+    path('calculator_diabet.htm', views.calculator_diabet),
     url(r'analiza_glicemiei/$', requests.analiza_glicemiei),
     url(r'login/$', requests.login),
     url(r'register/$', requests.create_account),
