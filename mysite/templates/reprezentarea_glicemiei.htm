@@ -27,7 +27,7 @@
           </button>
         
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
+            <ul class="navbar-nav mr-auto my-sm-auto">
               <li class="nav-item">
                 <a class="nav-link" href="index.htm">Algoritm diagnostic</a>
               </li>
@@ -46,18 +46,24 @@
               <li class="nav-item">
                 <a class="nav-link" href="calculator_diabet.htm">Calculator diabet</a>
               </li>
+              {% if logged %}
+              {% else %}
+                <li class="nav-item">
+                  <a class="btn btn-outline-success my-2 my-sm-2 mr-2" href="autentificare.htm">Autentificare</a>
+                </li>
+                <li class="nav-item">
+                  <a class="btn btn-outline-success my-2 my-sm-2 mr" href="inregistrare.htm">Inregistrare</a>
+                </li>
+              {% endif %}
             </ul>
             
-            <form class="form-inline my-2 my-lg-0">
             {% if logged %}
-              <p class = "text-success h4 border">Bun venit, {{username}}</p>
-              &nbsp&nbsp&nbsp&nbsp
-              <button class="btn btn-outline-success my-2 my-sm-0" onclick="logout()">Delogare</button>
-            {% else %}
-              <a class="btn btn-outline-success my-2 my-sm-0 mr-3" href="autentificare.htm">Autentificare</a>
-              <a class="btn btn-outline-success my-2 my-sm-0" href="inregistrare.htm">Inregistrare</a>
+              <form class="form-inline my-2 my-lg-0">
+                <p class = "text-success h4 border">Bun venit, {{username}}</p>
+                <button class="btn btn-outline-success my-2 my-sm-0 ml-4"" onclick="logout()">Delogare</button>
+              </form>
             {% endif %}
-            </form>
+            
           </div>
         </nav>
         <div class="p-1 mb-5 bg-white"></div>
@@ -133,58 +139,105 @@
             </div>
           </div>
           {% else %}
+          <div class="p-1 mb-4 bg-white"></div>
           <div class="row justify-content-md-center">
-            <form>
-              <div class="form-group">
-                <label> Glicemia înainte de micul dejun, ora 7: </label>
-                <input type="number" class="form-control" id="timp1">
-              </div>
-              <div class="form-group">
-                <label> Glicemia la micul dejun, ora 8: </label>
-                <input type="number" class="form-control" id="timp2">
-              </div>
-              <div class="form-group">
-                <label> Glicemia după micul dejun, ora 9: </label>
-                <input type="number" class="form-control" id="timp3">
-              </div>
-              <div class="form-group">
-                <label> Glicemia la ora 11: </label>
-                <input type="number" class="form-control" id="timp4">
-              </div>
-              <div class="form-group">
-                <label> Glicemia înainte de prânz, ora 13: </label>
-                <input type="number" class="form-control" id="timp5">
-              </div>
-              <div class="form-group">
-                <label> Glicemia la prânz, ora 14 : </label>
-                <input type="number" class="form-control" id="timp6">
-              </div>
-              <div class="form-group">
-                <label> Glicemia după prânz, ora 15 : </label>
-                <input type="number" class="form-control" id="timp7">
-              </div>
-              <div class="form-group">
-                <label> Glicemia la ora 17 : </label>
-                <input type="number" class="form-control" id="timp8">
-              </div>
-              <div class="form-group">
-                <label> Glicemia înainte de cină, ora 19 : </label>
-                <input type="number" class="form-control" id="timp9">
-              </div>
-              <div class="form-group">
-                <label> Glicemia la cină, ora 20 : </label>
-                <input type="number" class="form-control" id="timp10">
-              </div>
-              <div class="form-group">
-                <label> Glicemia după cină, ora 21: </label>
-                <input type="number" class="form-control" id="timp11">
-              </div>
-              <div class="form-group">
-                <label> Glicemia înainte de culcare, ora 22: </label>
-                <input type="number" class="form-control" id="timp12">
-              </div>
+            <style type="text/css">
+              td {
+                padding:0 40px 0 40px;
+              }
+            </style>
+            <table>
+              <tr>
+                <td>
+                  <div class="form-group">
+                    <label> Glicemia înainte de micul dejun, ora 7: </label>
+                    <input type="number" class="form-control" id="timp1">
+                  </div>
+                </td>
+                <td>
+                  <div class="form-group">
+                    <label> Glicemia la micul dejun, ora 8: </label>
+                    <input type="number" class="form-control" id="timp2">
+                  </div>
+                </td>
+                <td>
+                  <div class="form-group">
+                    <label> Glicemia după micul dejun, ora 9: </label>
+                    <input type="number" class="form-control" id="timp3">
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="form-group">
+                    <label> Glicemia la ora 11: </label>
+                    <input type="number" class="form-control" id="timp4">
+                  </div>
+                </td>
+                <td>
+                  <div class="form-group">
+                    <label> Glicemia înainte de pranz, ora 13 : </label>
+                    <input type="number" class="form-control" id="timp5">
+                  </div>
+                </td>
+                <td>
+                  <div class="form-group">
+                    <label> Glicemia la prânz, ora 14 : </label>
+                    <input type="number" class="form-control" id="timp6">
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="form-group">
+                    <label> Glicemia după prânz, ora 15 : </label>
+                    <input type="number" class="form-control" id="timp7">
+                  </div>
+                </td>
+                <td>
+                  <div class="form-group">
+                    <label> Glicemia la ora 17 : </label>
+                    <input type="number" class="form-control" id="timp8">
+                  </div>
+                </td>
+                <td>
+                  <div class="form-group">
+                    <label> Glicemia înainte de cină, ora 19 : </label>
+                    <input type="number" class="form-control" id="timp9">
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="form-group">
+                    <label> Glicemia la cină, ora 20 : </label>
+                    <input type="number" class="form-control" id="timp10">
+                  </div>
+                </td>
+                <td>
+                  <div class="form-group">
+                    <label> Glicemia după cină, ora 21: </label>
+                    <input type="number" class="form-control" id="timp11">
+                  </div>
+                </td>
+                <td>
+                  <div class="form-group">
+                    <label> Glicemia înainte de culcare, ora 22: </label>
+                    <input type="number" class="form-control" id="timp12">
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>
+                    <button type="button"  class="btn btn-outline-success my-2 my-sm-4"  class="form-group" onclick= "Calculeaza();">Calculează</button>
+                </td>
+                <td></td>
+              </tr>
+            </table>
+            <!--<form>
               <button type="button"  class="btn btn-outline-success my-2 my-sm-4"  class="form-group" onclick= "Calculeaza();">Calculeaza</button>
-            </form>
+            </form>-->
           </div>
         </div>
 

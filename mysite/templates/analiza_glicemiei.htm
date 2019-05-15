@@ -45,16 +45,22 @@
               <li class="nav-item">
                 <a class="nav-link" href="calculator_diabet.htm">Calculator diabet</a>
               </li>
+              {% if logged %}
+              {% else %}
+                <li class="nav-item">
+                  <a class="btn btn-outline-success my-2 my-sm-2 mr-2" href="autentificare.htm">Autentificare</a>
+                </li>
+                <li class="nav-item">
+                  <a class="btn btn-outline-success my-2 my-sm-2 mr" href="inregistrare.htm">Inregistrare</a>
+                </li>
+              {% endif %}
             </ul>
             
-            <form class="form-inline my-2 my-lg-0">
             {% if logged %}
-              <p class = "text-success h4 border">Bun venit, {{username}}</p>
-              &nbsp&nbsp&nbsp&nbsp
-              <button class="btn btn-outline-success my-2 my-sm-0" onclick="logout()">Delogare</button>
-            {% else %}
-              <a class="btn btn-outline-success my-2 my-sm-0 mr-3" href="autentificare.htm">Autentificare</a>
-              <a class="btn btn-outline-success my-2 my-sm-0" href="inregistrare.htm">Inregistrare</a>
+              <form class="form-inline my-2 my-lg-0">
+                <p class = "text-success h4 border">Bun venit, {{username}}</p>
+                <button class="btn btn-outline-success my-2 my-sm-0 ml-4"" onclick="logout()">Delogare</button>
+              </form>
             {% endif %}
             </form>
           </div>
