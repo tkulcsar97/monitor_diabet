@@ -26,3 +26,6 @@ def calculator_hipoglicemic(request):
 
 def calculator_diabet(request):
 	return render(request, 'calculator_diabet.htm', {'logged': logged, 'username': username})
+
+def siMS(request):
+	return render(request, 'siMS.htm', {'logged': logged, 'username': username})

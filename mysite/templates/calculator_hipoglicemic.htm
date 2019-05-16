@@ -87,7 +87,7 @@
               <li class="nav-item">
                 <a class="nav-link" href="index.htm">Algoritm diagnostic</a>
               </li>
-              <li class="nav-item active">
+              <li class="nav-item">
                 <a class="nav-link" href="analiza_glicemiei.htm">Analiza glicemiei</a>
               </li>
               <li class="nav-item">
@@ -96,13 +96,16 @@
               <li class="nav-item">
                 <a class="nav-link" href="reprezentarea_glicemiei.htm">Reprezentarea glicemiei</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item active">
                 <a class="nav-link" href="#">Calculator Hipoglicemic <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="calculator_diabet.htm">Calculator diabet</a>
-							</li>
-							{% if logged %}
+			</li>
+				<li class="nav-item">
+                <a class="nav-link" href="siMS.htm">siMS</a>
+              </li>
+					{% if logged %}
               {% else %}
                 <li class="nav-item">
                   <a class="btn btn-outline-success my-2 my-sm-2 mr-2" href="autentificare.htm">Autentificare</a>
@@ -115,7 +118,7 @@
             {% if logged %}
               <form class="form-inline my-2 my-lg-0">
                 <p class = "text-success h4 border">Bun venit, {{username}}</p>
-                <button class="btn btn-outline-success my-2 my-sm-0 ml-4"" onclick="logout()">Delogare</button>
+                <button class="btn btn-outline-success my-2 my-sm-0 ml-4" onclick="logout()">Delogare</button>
               </form>
             {% endif %}
           </div>
