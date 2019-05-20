@@ -68,11 +68,19 @@
         </nav>
           <div class="p-1 mb-4 bg-white"></div>
           <div class="row justify-content-md-center">
+
             <style type="text/css">
               td {
                 padding:0 40px 0 40px;
               }
+              .rezultat { 
+                border: 2px solid red;
+                 }
+              input[type="number"]{
+                width:50%;
+              }
             </style>
+
              <table>
               <tr>
                 <td>
@@ -92,10 +100,10 @@
                   <div class="form-group">
                     <div class="btn-group-toggle" id="male_female_buttons1" data-toggle="buttons">
                       <label class="btn btn-outline-success my-2 my-sm-4">
-                      <input  type="radio" name="options1" id="scor_male_ref" autocomplete="off"> Male
+                      <input  type="radio" name="options1" id="scor_male" autocomplete="off"> Male
                       </label>
                       <label class="btn btn-outline-success my-2 my-sm-4">
-                     <input type="radio" name="options1" id="scor_female_ref" autocomplete="off"> Female
+                     <input type="radio" name="options1" id="scor_female" autocomplete="off"> Female
                      </label>
                     </div>
                   </div>
@@ -109,10 +117,10 @@
                   <div class="form-group">
                     <div class="btn-group-toggle" id="male_female_buttons2" data-toggle="buttons">
                       <label class="btn btn-outline-success my-2 my-sm-4">
-                      <input type="radio" name="options2" id="scor_male" autocomplete="off"> Male
+                      <input type="radio" name="options2" id="scor_male_pacient" autocomplete="off"> Male
                       </label>
                       <label class="btn btn-outline-success my-2 my-sm-4">
-                     <input type="radio" name="options2" id="scor_female" autocomplete="off"> Female
+                     <input type="radio" name="options2" id="scor_female_pacient" autocomplete="off"> Female
                      </label>
                     </div>
                   </div>
@@ -128,10 +136,10 @@
                   <div class="form-group">
                     <div class="btn-group btn-group-toggle" id="family_buttons1" data-toggle="buttons">
                       <label class="btn btn-outline-success my-2 my-sm-4">
-                      <input type="radio" name="options3" id="scor_ref_family+" autocomplete="off"> +
+                      <input type="radio" name="options3" id="family+" autocomplete="off"> +
                       </label>
                       <label class="btn btn-outline-success my-2 my-sm-4">
-                     <input type="radio" name="options3" id="scor_ref_family-" autocomplete="off"> -
+                     <input type="radio" name="options3" id="family-" autocomplete="off"> -
                      </label>
                     </div>
                   </div>
@@ -140,10 +148,10 @@
                   <div class="form-group">
                     <div class="btn-group btn-group-toggle" id="family_buttons2" data-toggle="buttons">
                       <label class="btn btn-outline-success my-2 my-sm-4">
-                      <input type="radio" name="options4" id="family+" autocomplete="off"> +
+                      <input type="radio" name="options4" id="pacient_family+" autocomplete="off"> +
                       </label>
                       <label class="btn btn-outline-success my-2 my-sm-4">
-                     <input type="radio" name="options4" id="family-" autocomplete="off"> -
+                     <input type="radio" name="options4" id="pacient_family-" autocomplete="off"> -
                      </label>
                     </div>
                   </div>
@@ -157,12 +165,12 @@
                 </td>
                 <td>
                   <div class="form-group">
-                    <input type="number" class="form-control" id="height1" style="width:50%">
+                    <input type="number" class="form-control" id="height1">
                   </div>
                 </td>
                 <td>
                   <div class="form-group">
-                    <input type="number" class="form-control" id="height2" style="width:50%">
+                    <input type="number" class="form-control" id="height2">
                   </div>
                 </td>
               </tr>
@@ -174,12 +182,12 @@
                 </td>
                 <td>
                   <div class="form-group">
-                    <input type="number" class="form-control" id="age1" style="width:50%">
+                    <input type="number" class="form-control" id="age1">
                   </div>
                 </td>
                 <td>
                   <div class="form-group">
-                     <input type="number" class="form-control" id="age2" style="width:50%">
+                     <input type="number" class="form-control" id="age2">
                   </div>
                 </td>
               </tr>
@@ -191,12 +199,12 @@
                 </td>
                 <td>
                   <div class="form-group">
-                     <input type="number" class="form-control" id="waist1" value="102" readonly style="width:50%">
+                     <input type="number" class="form-control" id="waist1" value="102" readonly>
                   </div>
                 </td>
                 <td>
                   <div class="form-group">
-                     <input type="number" class="form-control" id="waist2" style="width:50%">
+                     <input type="number" class="form-control" id="waist2">
                   </div>
                 </td>
               </tr>
@@ -208,12 +216,12 @@
                 </td>
                 <td>
                   <div class="form-group">
-                     <input type="number" class="form-control" id="glycemia1" value="5.6" readonly style="width:50%">
+                     <input type="number" class="form-control" id="glycemia1" value="5.6" readonly>
                   </div>
                 </td>
                 <td>
                   <div class="form-group">
-                     <input type="number" class="form-control" id="glycemia2" style="width:50%">
+                     <input type="number" class="form-control" id="glycemia2">
                   </div>
                 </td>
               </tr>
@@ -225,12 +233,12 @@
                 </td>
                 <td>
                   <div class="form-group">
-                     <input type="number" class="form-control" id="triglycerides1" value="1.7" readonly style="width:50%">
+                     <input type="number" class="form-control" id="triglycerides1" value="1.7" readonly>
                   </div>
                 </td>
                 <td>
                   <div class="form-group">
-                     <input type="number" class="form-control" id="triglycerides2" style="width:50%">
+                     <input type="number" class="form-control" id="triglycerides2">
                   </div>
                 </td>
               </tr>
@@ -242,12 +250,12 @@
                 </td>
                 <td>
                   <div class="form-group">
-                     <input type="number" class="form-control" id="TA_systolic1" value="130" readonly style="width:50%">
+                     <input type="number" class="form-control" id="TA_systolic1" value="130" readonly>
                   </div>
                 </td>
                 <td>
                   <div class="form-group">
-                     <input type="number" class="form-control" id="TA_systolic2" style="width:50%">
+                     <input type="number" class="form-control" id="TA_systolic2">
                   </div>
                 </td>
               </tr>
@@ -259,12 +267,12 @@
                 </td>
                 <td>
                   <div class="form-group">
-                     <input type="number" class="form-control" id="hdl1" value="1.02" readonly style="width:50%">
+                     <input type="number" class="form-control" id="hdl1" value="1.02" readonly>
                   </div>
                 </td>
                 <td>
                   <div class="form-group">
-                     <input type="number" class="form-control" id="hdl2" style="width:50%">
+                     <input type="number" class="form-control" id="hdl2">
                   </div>
                 </td>
               </tr>
@@ -276,12 +284,12 @@
                 </td>
                 <td>
                   <div class="form-group">
-                     <input type="number" class="form-control" id="scor_ref_siMS" readonly style="width:50%">
+                     <input type="number" class="form-control rezultat" id="scor_ref_siMS" readonly>
                   </div>
                 </td>
                 <td>
                   <div class="form-group">
-                     <input type="number" class="form-control" id="scor_pacient_siMS" readonly style="width:50%">
+                     <input type="number" class="form-control rezultat" id="scor_pacient_siMS" readonly>
                   </div>
                 </td>
               </tr>
@@ -293,23 +301,44 @@
                 </td>
                 <td>
                   <div class="form-group">
-                     <input type="number" class="form-control" id="scor_ref_siMS_risk" readonly style="width:50%">
+                     <input type="number" class="form-control rezultat" id="scor_ref_siMS_risk" readonly>
                   </div>
                 </td>
                 <td>
                   <div class="form-group">
-                     <input type="number" class="form-control" id="scor_pacient_siMS_risk" readonly style="width:50%">
+                     <input type="number" class="form-control rezultat" id="scor_pacient_siMS_risk" readonly>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="form-group">
+                    <label> PsiMS score </label>
+                  </div>
+                </td>
+                <td>
+                </td>
+                <td>
+                  <div class="form-group">
+                     <input type="number" class="form-control rezultat" id="scor_pacient_PsiMS" readonly>
                   </div>
                 </td>
               </tr>
               <tr>
                 <td></td>
                 <td>
-               <button type="button"  class="btn btn-outline-success my-2 my-sm-4"  class="form-group" onclick= "Calculeaza();">Calculează</button>
+               <button type="button"  class="btn btn-outline-success my-2 my-sm-4"  class="form-group" onclick= "CalculeazaScorReferinta();">Calculeaza scor referinta</button>
                 </td>
+                <td>
+                   <button type="button"  class="btn btn-outline-success my-2 my-sm-4"  class="form-group" onclick= "CalculeazaScorPacient();">Calculeaza scor pacient</button>
+                </td>
+              </tr>
+              <tr>
+                <td></td>
                 <td>
                   <p id="verdict"></p>
                 </td>
+                <td></td>
               </tr>
             </table>
           </div>

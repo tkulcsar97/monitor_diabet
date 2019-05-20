@@ -4,8 +4,8 @@ var gender=age=waist=height=glycemia=triglycerides=TA_systolic=hdl=family=null;
 
 //1. clicked button from the second male/female buttons + change values for waist/hdl
 $(document).ready(function(){
-    $("#male_female_buttons2 :input").change(function() {
-     document.getElementById(this.id+"_ref").click(); 
+    $("#male_female_buttons1 :input").change(function() {
+     document.getElementById(this.id+"_pacient").click(); 
 
     changeHdlAndWaist(this.id);
     });
@@ -13,45 +13,45 @@ $(document).ready(function(){
 
 //2. change waist/hdl (value) if user clicks on first male/female buttons
 $(document).ready(function(){
-    $("#male_female_buttons1 :input").change(function() {
+    $("#male_female_buttons2 :input").change(function() {
     changeHdlAndWaist(this.id);
     });
 });
 
 //3. same as "1" but for family history + change values for family
 $(document).ready(function(){
-    $("#family_buttons2 :input").change(function() {
-     document.getElementById("scor_ref_"+this.id).click(); 
+    $("#family_buttons1 :input").change(function() {
+     document.getElementById("pacient_"+this.id).click(); 
     changeFamily(this.id);
     });
 });
 
 //4. change family (value) if user clicks on first family buttons
 $(document).ready(function(){
-    $("#family_buttons1 :input").change(function() {
+    $("#family_buttons2 :input").change(function() {
     changeFamily(this.id);
     });
 });
 
-document.getElementById("age2").addEventListener("change", function(){
-  document.getElementById("age1").value = this.value;
+document.getElementById("age1").addEventListener("change", function(){
+  document.getElementById("age2").value = this.value;
 });
 
-document.getElementById("height2").addEventListener("change", function(){
-  document.getElementById("height1").value = this.value;
+document.getElementById("height1").addEventListener("change", function(){
+  document.getElementById("height2").value = this.value;
 });
 
 
 
 function changeHdlAndWaist(id)
 {
-	 if(id=="scor_male" || id=="scor_male_ref")
+	 if(id=="scor_male" || id=="scor_male_pacient")
 	{
 		document.getElementById("waist1").value=102;
 		document.getElementById("hdl1").value=1.02;
 
 	}
-	if(id=="scor_female" || id=="scor_female_ref") 
+	if(id=="scor_female" || id=="scor_female_pacient") 
 	{
 		document.getElementById("waist1").value=88;
 		document.getElementById("hdl1").value=1.28;
@@ -60,11 +60,11 @@ function changeHdlAndWaist(id)
 
 function changeFamily(id)
 {
-	 if(id=="family+" || id=="scor_ref_family+")
+	 if(id=="family+" || id=="pacient_family+")
 	{
 		family=1.2;
 	}
-	if(id=="family-" || id=="scor_ref_family-") 
+	if(id=="family-" || id=="pacient_family-") 
 	{
 		family=1;
 	}
@@ -116,15 +116,29 @@ function sims_risk_score(id)
 	return result.toFixed(2);
 }
 
-function Calculeaza()
+function psiMS_score()
 {
-var scor_ref_siMS=sims_score(1);
+	getValues(2);
+	
+	var result=((2*waist)/height) + glycemia/5.6 + triglycerides/1.7 + TA_systolic/130 - hdl/1.02;
+	return result.toFixed(2);
+}
+
+var scor_ref_siMS; //variabila globala pentru a compara scorurile
+function CalculeazaScorReferinta()
+{
+scor_ref_siMS=sims_score(1);
 document.getElementById("scor_ref_siMS").value=scor_ref_siMS;
+document.getElementById("scor_ref_siMS_risk").value=sims_risk_score(1);
+
+}
+
+function CalculeazaScorPacient()
+{
 var scor_pacient_siMS=sims_score(2);
 document.getElementById("scor_pacient_siMS").value=scor_pacient_siMS;
-
-document.getElementById("scor_ref_siMS_risk").value=sims_risk_score(1);
 document.getElementById("scor_pacient_siMS_risk").value=sims_risk_score(2);
+document.getElementById("scor_pacient_PsiMS").value=psiMS_score();
 
 if(scor_ref_siMS < scor_pacient_siMS)
 	document.getElementById("verdict").innerHTML = "Rezultat: Sindrom metabolic.";
