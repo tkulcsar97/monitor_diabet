@@ -105,7 +105,7 @@ def preluare_date_analiza(request):
     return JsonResponse(data)
 
 def setare_date_reprezentare(request):
-    date = request.GET.get('date')#de modificat in functie de ce e in form
+    date = datetime.datetime.strptime(request.GET.get('date'), "%Y-%m-%dT%H:%M:%S.%fZ")
     value = request.GET.get('valoare')
     moment = request.GET.get('moment')#de modificat in functie de ce e in form
     try:
@@ -113,28 +113,28 @@ def setare_date_reprezentare(request):
     except IntegrityError:
         data = {'successful': False}
     else:
-        reprezentare_glicemie = Reprezentare_Glicemie(id=user)
-        temp_date = datetime.strptime(date, '%Y-%m-%d').date()
+        reprezentare_glicemie = Reprezentare_Glicemie(user=user)
+        #temp_date = datetime.strptime(date, '%Y-%m-%d').date()
         reprezentare_glicemie.valoare_glicemie = value
-        reprezentare_glicemie.data = temp_date
+        reprezentare_glicemie.data = date
         reprezentare_glicemie.moment_al_zilei = moment
         reprezentare_glicemie.save()
-        {'successful': True}
+        data = {'successful': True}
     return JsonResponse(data)
 
 def preluare_date_reprezentare(request):
-    date = request.GET.get('zi_valoare')
+    date = datetime.datetime.strptime(request.GET.get('zi_valoare'), "%Y-%m-%dT%H:%M:%S.%fZ")
     user = User.objects.get(username=views.username)
-    temp_date = datetime.strptime(date, '%Y-%m-%d').date()
+    #temp_date = datetime.strptime(date, '%Y-%m-%d').date()
     data = {}
     count = 0
-    inregistrari_grafic = Variabilitate_Glicemie.objects.all()
+    inregistrari_grafic = Reprezentare_Glicemie.objects.all()
     for inregistrare_grafic in inregistrari_grafic:
         if(inregistrare_grafic.user == user):
-            if(inregistrare_grafic.data == temp_date):
+            print(inregistrare_grafic.data, date.date())
+            if(inregistrare_grafic.data == date.date()):
                 count=count+1
-                data['inreg'+str(count)] = {'date'+str(count): inregistrare_grafic.data, 'value'+str(count):
-                inregistrare_grafic.value}
+                data[inregistrare_grafic.moment_al_zilei] = inregistrare_grafic.valoare_glicemie
     return JsonResponse(data)
 
 

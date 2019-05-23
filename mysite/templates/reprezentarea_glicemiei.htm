@@ -87,9 +87,12 @@
           {% if logged %}
           <div id="initial_state">
             <div class="row justify-content-md-center">
-              <button class="btn btn-outline-success my-2 my-sm-4" onclick="renderRG_addValue()">Adaugă valoare</button>
-              &nbsp&nbsp&nbsp&nbsp&nbsp
-              <button class="btn btn-outline-success my-2 my-sm-4" onclick="renderRG_showValues()">Afișează grafic</button>
+              <from>
+                <label class = "text-success" style="display: block" id="message"></label>
+                <button class="btn btn-outline-success my-2 my-sm-4" onclick="renderRG_addValue()">Adaugă valoare</button>
+                &nbsp&nbsp&nbsp&nbsp&nbsp
+                <button class="btn btn-outline-success my-2 my-sm-4" onclick="renderRG_showValues()">Afișează grafic</button>
+              </from>
             </div>
           </div>
           <div id="view_addValue" style="display: none">
@@ -106,6 +109,7 @@
                     <option>La micul dejun, ora 8</option>
                     <option>După micul dejun, ora 9</option>
                     <option>La ora 11</option>
+                    <option>Glicemia înainte de pranz, ora 13</option>
                     <option>La prânz, ora 14</option>
                     <option>După prânz, ora 15</option>
                     <option>La ora 17</option>
@@ -119,7 +123,7 @@
                   <label> Introduceți valoarea </label>
                   <input type="number" class="form-control" id="valoare">
                 </div>
-                <button class="btn btn-outline-success my-2 my-sm-4" onclick="add_RG()">Adaugă</button>
+                <button type="button" class="btn btn-outline-success my-2 my-sm-4" onclick="add_RG()">Adaugă</button>
                 &nbsp&nbsp&nbsp&nbsp
                 <button type="button" class="btn btn-outline-success my-2 my-sm-4" onclick="renderRG_initState()">Înapoi</button>
               </form>
@@ -130,12 +134,13 @@
               <form>
                 <div class="form-group">
                   <label> Introduceți ziua </label>
-                  <input type="date" class="form-control" id="data_valoare">
+                  <input type="date" class="form-control" id="zi_valoare">
                 </div>
-                <button class="btn btn-outline-success my-2 my-sm-4" onclick="show_RG()">Afișează</button>
+                <button type = "button" class="btn btn-outline-success my-2 my-sm-4" onclick="show_RG()">Afișează</button>
                 &nbsp&nbsp&nbsp&nbsp
                 <button type="button" class="btn btn-outline-success my-2 my-sm-4" onclick="renderRG_initState()">Înapoi</button>
               </form>
+              <div id="chart_div" align="justify-content-md-center"></div>
             </div>
           </div>
           {% else %}

@@ -143,11 +143,45 @@ function preia_glicemie(){
 }
 
 function add_RG(){
+    var data_valoare = new Date(document.getElementById("data_valoare").value);
+    var moment_valoare = document.getElementById("moment").value;
+    var valoare = document.getElementById("valoare").value;
 
+    var flag = moment_valoare.search("ora");
+    moment_valoare = moment_valoare.substr(flag, moment_valoare.length);
+
+    var url = "http://localhost:8000/setare_date_reprezentare/";
+    var data_to_send = {
+        "date": data_valoare.toJSON(),
+        "valoare": valoare,
+        "moment": moment_valoare
+    }
+
+    f = function(data_recived){
+        if (data_recived.successful == true)
+            renderRG_initState("Valoarea a fost adaugată cu succes!");
+        else
+            renderRG_initState("A apărut o eroare, incearcă din nou!");
+    }
+
+    ajax_request(url, data_to_send, f);
 }
 
 function show_RG(){
+    var date = new Date(document.getElementById("zi_valoare").value);
 
+    var url = "http://localhost:8000/get_reprezentare/";
+    var data_to_send = {
+        "zi_valoare": date.toJSON(),
+    }
+
+    f = function(data_recived){
+        console.log(data_recived);
+
+        show(data_recived);
+    }
+
+    ajax_request(url, data_to_send, f);
 }
 
 function ajax_request(url,data,f){

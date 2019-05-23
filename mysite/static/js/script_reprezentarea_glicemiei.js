@@ -2,7 +2,7 @@ google.charts.load('current', {callback: drawChart, packages: ['corechart']});
 
 
 var size=12;
-var tabel=new Array(size);
+var tabel=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 function getValues()
 {
@@ -12,18 +12,41 @@ for(var i=0;i<size;i++)
     tabel[i]=Math.abs(parseInt(document.getElementById('timp'+(i+1)).value));
     else tabel[i]=0;
   }
+
+  console.log(tabel);
 }
 
+function init_tabel(valori){
+
+  var i = 0;
+
+  var momente = ["ora 7", "ora 8", "ora 9", "ora 11", "ora 13", "ora 14", "ora 15", "ora 17", "ora 19", "ora 20", "ora 21", "ora 22"];
+
+  for(var key in valori){
+    if (momente[i] == key){
+      tabel[i] = parseInt(valori[key]);
+    }
+    else
+      tabel[i] = 0;
+    i++;
+  }
+
+  console.log(tabel);
+}
 
 function Calculeaza()
 {
-
   getValues();
   drawChart();
-}    
+}
+
+function show(valori){
+  init_tabel(valori);
+  drawChart();
+}
   
-function drawChart() {
-   getValues(); 
+function drawChart(param) {
+    
 
      var data = google.visualization.arrayToDataTable([
      
