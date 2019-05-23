@@ -69,7 +69,7 @@ function drawChart(param) {
 
       var options = {
         curveType: 'function',
-        width: 1200,
+        width: 1000,
         height: 800,
 
         hAxis: {
@@ -94,7 +94,7 @@ function drawChart(param) {
           title: 'Concentratia glicemiei (mg/dl)',
           ticks: [0,20,40,60,80,100,120,140,160,180] 
         },
-        curveType: 'function'
+        curveType: 'function',
       };
 
       var chart = new google.visualization.LineChart(document.getElementById('chart_div'));

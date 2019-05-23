@@ -15,41 +15,49 @@
     <title></title>
   </head>
   <body>
-      <div class="p-1 mb-2 bg-white"></div>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <a class="navbar-brand" href="#">Monitor Diabet</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-        
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item">
-                <a class="nav-link" href="index.htm">Algoritm diagnostic</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Analiza glicemiei</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="stadializarea_nefropatiei_diabetice.htm">Stadializarea nefropatiei diabetice</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="reprezentarea_glicemiei.htm">Reprezentarea glicemiei</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="calculator_hipoglicemic.htm">Calculator Hipoglicemic</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="calculator_diabet.htm">Calculator diabet</a>
-              </li>
-            </ul>
-            
-            <form class="form-inline my-2 my-lg-0">
-            <a class="btn btn-outline-success my-2 my-sm-0" href="inregistrare.htm">Inregistrare</a>
-            </form>
-          </div>
-        </nav>
-        <div class="p-1 mb-5 bg-white"></div>
+    <style>
+      .navbar-fixed-left{
+        position: fixed;
+        height: 100%;
+      }
+      .con{
+        padding-top: 2%;
+        padding-left: 15%;
+      }
+    </style>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-left">
+        <ul class="navbar-nav flex-column mb-auto">
+          <li class="nav-item mt-3">
+            <a class="navbar-brand" href="#">Monitor Diabet</a>
+          </li>
+          <li class="nav-item mt-3">
+            <a class="nav-link" href="index.htm">Algoritm diagnostic</a>
+          </li>
+          <li class="nav-item mt-2">
+            <a class="nav-link" href="analiza_glicemiei.htm">Analiza glicemiei</a>
+          </li>
+          <li class="nav-item mt-2">
+            <a class="nav-link" href="stadializarea_nefropatiei_diabetice.htm">Stadializarea nefropatiei diabetice</a>
+          </li>
+          <li class="nav-item mt-2">
+            <a class="nav-link" href="reprezentarea_glicemiei.htm">Reprezentarea glicemiei</a>
+          </li>
+          <li class="nav-item mt-2">
+            <a class="nav-link" href="calculator_hipoglicemic.htm">Calculator Hipoglicemic</a>
+          </li>
+          <li class="nav-item mt-2">
+            <a class="nav-link" href="calculator_diabet.htm">Calculator diabet</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="siMS.htm">siMS</a>
+          </li>
+          <li class="nav-item mt-5">
+            <a class="btn btn-outline-success my-2 my-sm-2 mr" href="inregistrare.htm">Inregistrare</a>
+          </li>
+
+        </ul>
+      </nav>
+
         <div class="container">
             <div class="row justify-content-md-center">
               <form>
@@ -57,7 +65,7 @@
               </form>
             </div>
         </div>
-        <div class="container">
+        <div class="container con">
           <div class="row justify-content-md-center">
             <form>
               <div class="form-group">

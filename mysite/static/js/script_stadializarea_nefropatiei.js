@@ -163,7 +163,7 @@ function drawChart()
 
         title: 'Rata de filtrare glomerulară (ml/min/1,73 m^2), descriere, stadii și intervale de valori' 
     			},
-    	chartArea:{left:"21.6%",top:0,width:"60%",height:"40%"},
+    	chartArea:{left:"21.6%",top:0,width:"40%",height:"50%"},
     	enableInteractivity: false, // sau tooltip: { trigger: 'none'},		
         legend: { position:'right', alignment:'center'},
         bar: { groupWidth: '75%' },

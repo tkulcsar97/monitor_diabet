@@ -17,74 +17,96 @@
     <title></title>
   </head>
   <body onload="init();">
-      <div class="p-1 mb-2 bg-white"></div>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <a class="navbar-brand" href="#">Monitor Diabet</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-        
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item">
-                <a class="nav-link" href="index.htm">Algoritm diagnostic</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="analiza_glicemiei.htm">Analiza glicemiei</a>
-              </li>
-              <li class="nav-item active">
-                <a class="nav-link" href="#">Stadializarea nefropatiei diabetice <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="reprezentarea_glicemiei.htm">Reprezentarea glicemiei</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="calculator_hipoglicemic.htm">Calculator Hipoglicemic</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="calculator_diabet.htm">Calculator diabet</a>
-              </li>
-              {% if logged %}
-              {% else %}
-                <li class="nav-item">
-                  <a class="btn btn-outline-success my-2 my-sm-2 mr-2" href="autentificare.htm">Autentificare</a>
-                </li>
-                <li class="nav-item">
-                  <a class="btn btn-outline-success my-2 my-sm-2 mr" href="inregistrare.htm">Inregistrare</a>
-                </li>
-              {% endif %}
-            </ul>
-
+      <style>
+          .navbar-fixed-left{
+            position: fixed;
+            height: 100%;
+          }
+          .con{
+            padding-top: 2%;
+            padding-left: 15%;
+          }
+        </style>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-left">
+          <ul class="navbar-nav flex-column mb-auto">
+            <li class="nav-item mt-3">
+              <a class="navbar-brand" href="#">Monitor Diabet</a>
+            </li>
+            <li class="nav-item mt-3">
+              <a class="nav-link" href="index.htm">Algoritm diagnostic</a>
+            </li>
+            <li class="nav-item mt-2">
+              <a class="nav-link" href="analiza_glicemiei.htm">Analiza glicemiei</a>
+            </li>
+            <li class="nav-item active mt-2">
+              <a class="nav-link" href="#">Stadializarea nefropatiei diabetice<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item mt-2">
+              <a class="nav-link" href="reprezentarea_glicemiei.htm">Reprezentarea glicemiei</a>
+            </li>
+            <li class="nav-item mt-2">
+              <a class="nav-link" href="calculator_hipoglicemic.htm">Calculator Hipoglicemic</a>
+            </li>
+            <li class="nav-item mt-2">
+              <a class="nav-link" href="calculator_diabet.htm">Calculator diabet</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="siMS.htm">siMS</a>
+            </li>
             {% if logged %}
-              <form class="form-inline my-2 my-lg-0">
+              <li class="nav-item mt-5">
                 <p class = "text-success h4 border">Bun venit, {{username}}</p>
-                <button class="btn btn-outline-success my-2 my-sm-0 ml-4"" onclick="logout()">Delogare</button>
-              </form>
+              </li>
+              <li class="nav-item mt-3">
+                <button class="btn btn-outline-success my-2 my-sm-0 ml-4" onclick="logout()">Delogare</button>
+              </li>
+            {% else %}
+              <li class="nav-item mt-5">
+                <a class="btn btn-outline-success my-2 my-sm-2 mr-2" href="autentificare.htm">Autentificare</a>
+              </li>
+              <li class="nav-item mt-3">
+                <a class="btn btn-outline-success my-2 my-sm-2 mr" href="inregistrare.htm">Inregistrare</a>
+              </li>
             {% endif %}
-            </form>
-          </div>
+          </ul>
         </nav>
-        <div class="p-1 mb-5 bg-white"></div>
-        <div class="container">
-          <p>Această aplicatie vă permite să vă calculați stadiul și prognosticul nefropatiei cronice diabetice sub 
-            forma unei diagrame colorate, conform ultimelor ghiduri clinice (1). Stadiul bolii dvs. va fi evidențiat 
-            prin îngroșarea chenarului corespunzător. Aveți nevoie de rezultatele a două analize, una de sânge și una 
-            de urină: - creatinina serică cu ajutorul cărei veți calcula rata de filtrare glomerulară, exprimată în 
-            ml/min/1,73 m2); - albuminuria, exprimată în mg/g sau mg/mmol; 
-          </p>
-          <p>
-              Rata de filtrare glomerulară se calculează <a href="http://www.nephron.com/cgi-bin/CGSI.cgi">aici</a> și trebuie să 
-              aveți pregătite datele privind creatinina serică. Trebuie să completați greutatea, vârsta și sexul 
-              dumneavoastră. 
-          </p>
-          <p>
-              ATENȚIE! Acest calcul al ratei de filtrare glomerulară nu se aplică persoanelor cu masă musculară crescută 
-              (culturiști de pildă) sau scăzută (afecțiuni musculare degenerative), obezilor, malnutriților, 
-              vegetarienilor, precum și celor care-și suplimentează dieta cu creatină. De asemenea, calculul nu se aplică 
-              dacă vârsta dumneavoastră este <18 ani sau >75 de ani. În aceste cazuri trebui să obțineți valoarea ratei de 
-              filtrare glomerulară printr-o altă metodă.
-          </p>
-          <p>*ND = Nefropatia Diabetica</p>
+
+        <div class="container con">
+          <div id="accordion">
+              <div class="card">
+                <div class="card-header" id="headingOne">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      Descriere
+                    </button>
+                  </h5>
+                </div>
+                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                  <div class="card-body">
+                    <p>Această aplicatie vă permite să vă calculați stadiul și prognosticul nefropatiei cronice diabetice sub 
+                        forma unei diagrame colorate, conform ultimelor ghiduri clinice (1). Stadiul bolii dvs. va fi evidențiat 
+                        prin îngroșarea chenarului corespunzător. Aveți nevoie de rezultatele a două analize, una de sânge și una 
+                        de urină: - creatinina serică cu ajutorul cărei veți calcula rata de filtrare glomerulară, exprimată în 
+                        ml/min/1,73 m2); - albuminuria, exprimată în mg/g sau mg/mmol; 
+                      </p>
+                      <p>
+                          Rata de filtrare glomerulară se calculează <a href="http://www.nephron.com/cgi-bin/CGSI.cgi">aici</a> și trebuie să 
+                          aveți pregătite datele privind creatinina serică. Trebuie să completați greutatea, vârsta și sexul 
+                          dumneavoastră. 
+                      </p>
+                      <p>
+                          ATENȚIE! Acest calcul al ratei de filtrare glomerulară nu se aplică persoanelor cu masă musculară crescută 
+                          (culturiști de pildă) sau scăzută (afecțiuni musculare degenerative), obezilor, malnutriților, 
+                          vegetarienilor, precum și celor care-și suplimentează dieta cu creatină. De asemenea, calculul nu se aplică 
+                          dacă vârsta dumneavoastră este <18 ani sau >75 de ani. În aceste cazuri trebui să obțineți valoarea ratei de 
+                          filtrare glomerulară printr-o altă metodă.
+                      </p>
+                      <p>*ND = Nefropatia Diabetica</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+        
           <div class="p-1 mb-5 bg-white"></div>
           <div class="row justify-content-md-center">
             <form>
@@ -105,60 +127,64 @@
         </div>
         
 
-<style>
-table.center {
-    margin-left:auto; 
-    margin-right:auto;
-  }
- th, td {
-    text-align: center; 
-    padding : 7px;  
-}
-.clearfix:before,
-.clearfix:after {
-  content: '\0020';
-  display: block;
-  overflow: hidden;
-  visibility: hidden;
-  width: 0;
-  height: 0; }
-.clearfix:after {
-  clear: both; }
-.clearfix {
-  zoom: 1; }
+        <style>
+          table.center {
+              margin-left:auto; 
+              margin-right:auto;
+            }
+          th, td {
+              text-align: center; 
+              padding : 7px;  
+          }
+          .clearfix:before,
+          .clearfix:after {
+            content: '\0020';
+            display: block;
+            overflow: hidden;
+            visibility: hidden;
+            width: 0;
+            height: 0; }
+          .clearfix:after {
+            clear: both; }
+          .clearfix {
+            zoom: 1; }
+        </style>
 
-
-</style>
-
-  <table id="tabel1" class="center" border="1" class="clearfix">
-  <tr>
-    <th colspan="3">Albuminuria, descriere, stadii și intervale de valori</th>   
-  </tr>
-  <tr>
-    <td>A1</td>
-    <td>A2</td>
-    <td>A3</td>
-  </tr>
-  <tr>
-    <td>Normală sau ușor crescută</td>
-    <td>Moderat crescută</td>
-	<td>Sever crescută</td>
-  </tr>
-  <tr>
-    <td><30 mg/g sau <3 mg/mmol </td>
-    <td>30-300 mg/g sau 3-30 mg/mmol</td>
-	  <td>300 mg/g sau >30 mg/mmol</td>
-  </tr>
-</table>
-
+        <table id="tabel1" class="center" border="1" class="clearfix">
+          <tr>
+            <th colspan="3">Albuminuria, descriere, stadii și intervale de valori</th>   
+          </tr>
+          <tr>
+            <td>A1</td>
+            <td>A2</td>
+            <td>A3</td>
+          </tr>
+          <tr>
+            <td>Normală sau ușor crescută</td>
+            <td>Moderat crescută</td>
+          <td>Sever crescută</td>
+          </tr>
+          <tr>
+            <td><30 mg/g sau <3 mg/mmol </td>
+            <td>30-300 mg/g sau 3-30 mg/mmol</td>
+            <td>300 mg/g sau >30 mg/mmol</td>
+          </tr>
+        </table>
+      
+        <style>
+          .pos-chart{
+            padding-left: 22%;
+            padding-top: 3%;
+          }
+        </style>
 	
-   <div id="chart_div" align="center" class="clearfix"></div>
+      <div id="chart_div" class="clearfix pos-chart"></div>
   
  
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+      <!-- Optional JavaScript -->
+      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </body>
 </html>

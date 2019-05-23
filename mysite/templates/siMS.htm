@@ -1,0 +1,357 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <script type="text/javascript" src="{% static 'js/render(A).js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery-3.3.1.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/server_requests(A).js' %}"></script>
+
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title></title>
+  </head>
+  <body>
+    <style>
+      .navbar-fixed-left{
+        position: fixed;
+        height: 100%;
+      }
+      .con{
+        padding-top: 2%;
+        padding-left: 30%;
+      }
+    </style>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-left">
+        <ul class="navbar-nav flex-column mb-auto">
+          <li class="nav-item mt-3">
+            <a class="navbar-brand" href="#">Monitor Diabet</a>
+          </li>
+          <li class="nav-item mt-3">
+            <a class="nav-link" href="index.htm">Algoritm diagnostic</a>
+          </li>
+          <li class="nav-item active mt-2">
+            <a class="nav-link" href="#">Analiza glicemiei<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item mt-2">
+            <a class="nav-link" href="stadializarea_nefropatiei_diabetice.htm">Stadializarea nefropatiei diabetice</a>
+          </li>
+          <li class="nav-item mt-2">
+            <a class="nav-link" href="reprezentarea_glicemiei.htm">Reprezentarea glicemiei</a>
+          </li>
+          <li class="nav-item mt-2">
+            <a class="nav-link" href="calculator_hipoglicemic.htm">Calculator Hipoglicemic</a>
+          </li>
+          <li class="nav-item mt-2">
+            <a class="nav-link" href="calculator_diabet.htm">Calculator diabet</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="siMS.htm">siMS</a>
+          </li>
+          {% if logged %}
+            <li class="nav-item mt-5">
+              <p class = "text-success h4 border">Bun venit, {{username}}</p>
+            </li>
+            <li class="nav-item mt-3">
+              <button class="btn btn-outline-success my-2 my-sm-0 ml-4" onclick="logout()">Delogare</button>
+            </li>
+          {% else %}
+            <li class="nav-item mt-5">
+              <a class="btn btn-outline-success my-2 my-sm-2 mr-2" href="autentificare.htm">Autentificare</a>
+            </li>
+            <li class="nav-item mt-3">
+              <a class="btn btn-outline-success my-2 my-sm-2 mr" href="inregistrare.htm">Inregistrare</a>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+      <div class="containter con">
+
+        <style type="text/css">
+          td {
+            padding:0 40px 0 40px;
+          }
+          .rezultat { 
+            border: 2px solid red;
+              }
+          input[type="number"]{
+            width:50%;
+          }
+        </style>
+
+          <table>
+          <tr>
+            <td>
+              <div class="form-group">
+                <label> <!-- empty space --> </label>
+              </div>
+
+              <div class="form-group">
+                <label> Male/female</label>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                <label> Scorul de referinta </label>
+              </div>
+
+              <div class="form-group">
+                <div class="btn-group-toggle" id="male_female_buttons1" data-toggle="buttons">
+                  <label class="btn btn-outline-success my-2 my-sm-4">
+                  <input  type="radio" name="options1" id="scor_male" autocomplete="off"> Male
+                  </label>
+                  <label class="btn btn-outline-success my-2 my-sm-4">
+                  <input type="radio" name="options1" id="scor_female" autocomplete="off"> Female
+                  </label>
+                </div>
+              </div>
+
+            </td>
+            <td>
+              <div class="form-group">
+                <label> Scorul pacientului </label>
+              </div>
+
+              <div class="form-group">
+                <div class="btn-group-toggle" id="male_female_buttons2" data-toggle="buttons">
+                  <label class="btn btn-outline-success my-2 my-sm-4">
+                  <input type="radio" name="options2" id="scor_male_pacient" autocomplete="off"> Male
+                  </label>
+                  <label class="btn btn-outline-success my-2 my-sm-4">
+                  <input type="radio" name="options2" id="scor_female_pacient" autocomplete="off"> Female
+                  </label>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="form-group">
+                <label> Family history </label>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                <div class="btn-group btn-group-toggle" id="family_buttons1" data-toggle="buttons">
+                  <label class="btn btn-outline-success my-2 my-sm-4">
+                  <input type="radio" name="options3" id="family+" autocomplete="off"> +
+                  </label>
+                  <label class="btn btn-outline-success my-2 my-sm-4">
+                  <input type="radio" name="options3" id="family-" autocomplete="off"> -
+                  </label>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                <div class="btn-group btn-group-toggle" id="family_buttons2" data-toggle="buttons">
+                  <label class="btn btn-outline-success my-2 my-sm-4">
+                  <input type="radio" name="options4" id="pacient_family+" autocomplete="off"> +
+                  </label>
+                  <label class="btn btn-outline-success my-2 my-sm-4">
+                  <input type="radio" name="options4" id="pacient_family-" autocomplete="off"> -
+                  </label>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="form-group">
+                <label> Height </label>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                <input type="number" class="form-control" id="height1">
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                <input type="number" class="form-control" id="height2">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="form-group">
+                <label> Age </label>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                <input type="number" class="form-control" id="age1">
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                  <input type="number" class="form-control" id="age2">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="form-group">
+                <label> Waist </label>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                  <input type="number" class="form-control" id="waist1" value="102" readonly>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                  <input type="number" class="form-control" id="waist2">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="form-group">
+                <label> Glycemia </label>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                  <input type="number" class="form-control" id="glycemia1" value="5.6" readonly>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                  <input type="number" class="form-control" id="glycemia2">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="form-group">
+                <label> Triglycerides </label>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                  <input type="number" class="form-control" id="triglycerides1" value="1.7" readonly>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                  <input type="number" class="form-control" id="triglycerides2">
+              </div>
+            </td>
+          </tr>
+              <tr>
+            <td>
+              <div class="form-group">
+                <label> TA systolic </label>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                  <input type="number" class="form-control" id="TA_systolic1" value="130" readonly>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                  <input type="number" class="form-control" id="TA_systolic2">
+              </div>
+            </td>
+          </tr>
+              <tr>
+            <td>
+              <div class="form-group">
+                <label> HDL </label>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                  <input type="number" class="form-control" id="hdl1" value="1.02" readonly>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                  <input type="number" class="form-control" id="hdl2">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="form-group">
+                <label> siMS score </label>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                  <input type="number" class="form-control rezultat" id="scor_ref_siMS" readonly>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                  <input type="number" class="form-control rezultat" id="scor_pacient_siMS" readonly>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="form-group">
+                <label> siMS risk score </label>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                  <input type="number" class="form-control rezultat" id="scor_ref_siMS_risk" readonly>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                  <input type="number" class="form-control rezultat" id="scor_pacient_siMS_risk" readonly>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="form-group">
+                <label> PsiMS score </label>
+              </div>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="form-group">
+                  <input type="number" class="form-control rezultat" id="scor_pacient_PsiMS" readonly>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            
+            <td>
+            <button type="button"  class="btn btn-outline-success my-2 my-sm-4"  class="form-group" onclick= "CalculeazaScorReferinta();">Calculeaza scor referinta</button>
+            </td>
+            <td>
+                <button type="button"  class="btn btn-outline-success my-2 my-sm-4"  class="form-group" onclick= "CalculeazaScorPacient();">Calculeaza scor pacient</button>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <p id="verdict"></p>
+            </td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="{% static 'js/script_siMS.js' %}"></script>
+  </body>
+</html>
