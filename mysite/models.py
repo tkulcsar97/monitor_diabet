@@ -5,8 +5,9 @@ from django.contrib.auth.models import User
 import datetime
 
 class Rol(models.Model):
-	id_rol = models.IntegerField(primary_key = True)
-	nume_rol = models.CharField(max_length=10)
+	#id_r = models.AutoField(primary_key=True)
+	user = models.OneToOneField(User, on_delete=models.CASCADE)
+	id_rol = models.IntegerField(null=True)
 	
 	class Meta: 
 		verbose_name = "Rol"
@@ -15,9 +16,18 @@ class Rol(models.Model):
 	def __unicode__(self):
 		return self.nume_rol
 	
-class Utilizator(models.Model):
+class Medic(models.Model):
+	#id_m = models.AutoField(primary_key=True)
+	medic = models.OneToOneField(User, on_delete=models.CASCADE)
+	clinica = models.CharField(max_length=50, default='', blank=True)
+
+	class Meta: 
+		verbose_name = "Medic"
+		verbose_name_plural = "Medici"
+
+class Pacient(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
-	id_rol = models.ForeignKey(Rol, on_delete=models.DO_NOTHING, null=True)
+	#id_rol = models.ForeignKey(Rol, on_delete=models.DO_NOTHING, null=True)
 	data_nastere = models.DateField(null=True)
 	anticorpi = models.BooleanField(default=False)
 	varsta_debut = models.IntegerField(null=True)
@@ -27,10 +37,11 @@ class Utilizator(models.Model):
 	HOMA2_Beta = models.FloatField(null=True)
 	HOMA2_IR = models.FloatField(null=True)
 	cluster = models.CharField(max_length=50, default='', blank=True)
+	medic = models.ForeignKey(Medic, to_field='medic_id', blank=True, null=True, on_delete = models.CASCADE, default="")
 	
 	class Meta: 
-		verbose_name = "Utilizator"
-		verbose_name_plural = "Utilizatori"
+		verbose_name = "Pacient"
+		verbose_name_plural = "Pacienti"
 	
 class Nefropatie(models.Model):
 	id_nefropatie = models.AutoField(primary_key=True)

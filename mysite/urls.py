@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url
 from django.contrib.auth.models import User
-from .models import Utilizator, Variabilitate_Glicemie
+from .models import Pacient, Variabilitate_Glicemie
 import datetime
 
 from . import views
@@ -43,5 +43,6 @@ urlpatterns = [
     url(r'set_analiza/$', requests.setare_date_analiza),
     url(r'get_analiza/$', requests.preluare_date_analiza),
     url(r'setare_date_reprezentare/$', requests.setare_date_reprezentare),
-    url(r'get_reprezentare/$', requests.preluare_date_reprezentare)
+    url(r'get_reprezentare/$', requests.preluare_date_reprezentare),
+    url(r'cautare_pacient/$', requests.cautare_pacient)
 ]

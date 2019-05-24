@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import User
 from django.db import IntegrityError
-from .models import Utilizator, Variabilitate_Glicemie, Reprezentare_Glicemie
+from .models import Pacient, Variabilitate_Glicemie, Reprezentare_Glicemie, Rol
 from . import views
 import datetime
 
@@ -25,6 +25,10 @@ def login(request):
         views.logged = True
         views.username = username
         views.password = password
+        user_for_role = User.objects.get(username=username)
+        role = Rol.objects.get(user=user_for_role)
+        views.role = role.id_rol
+        print("ROLLLLLLLLLLLLL", views.role)
         data = {'successful': True}
     else:
         data = {'successful': False}
@@ -50,11 +54,14 @@ def create_account(request):
         print(e)
         data = {'successful': False}
     else:
-        utilizator = Utilizator(user=user)
+        utilizator = Pacient(user=user)
         utilizator.data_nastere = birth_date
         utilizator.anticorpi = antibodies
         utilizator.varsta_debut = onset_age
         utilizator.save()
+        rol = Rol(user=user)
+        rol.id_rol = 1 # 1 -> pacient
+        rol.save()
         data = {'successful': True}   
     return JsonResponse(data)
 
@@ -62,6 +69,7 @@ def logout(request):
     print("se delogheaza")
     views.logged = False
     views.username = ''
+    views.role = None
     return JsonResponse({'data': None})
 
 def setare_date_analiza(request):
@@ -137,6 +145,14 @@ def preluare_date_reprezentare(request):
                 data[inregistrare_grafic.moment_al_zilei] = inregistrare_grafic.valoare_glicemie
     return JsonResponse(data)
 
+def cautare_pacient(request):
+    searched_patient = request.GET.get('pacient')
+    if(User.objects.filter(username=searched_patient).exists()):
+        views.patient = searched_patient
+        #data = {'successful': True}
+    else:
+        data = {'successful': False}
+    return JsonResponse(data)
 
     
     
