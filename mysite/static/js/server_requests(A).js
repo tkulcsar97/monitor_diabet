@@ -184,6 +184,30 @@ function show_RG(){
     ajax_request(url, data_to_send, f);
 }
 
+function cauta_pacient(){
+    var pacient = document.getElementById("pacient").value;
+    var url = "http://localhost:8000/cautare_pacient/";
+    var data_to_send = {
+        "pacient": pacient
+    }
+    f = function(data_recived){
+        if (data_recived.successful == false)
+            renderCP_error("Pacientul nu a fost gasit!");
+        else
+            location.reload();
+    }
+
+    ajax_request(url, data_to_send, f);
+}
+
+function deselectare_pacient(){
+    var url = "http://localhost:8000/deselectare_pacient/"
+    data_to_send = {"data": null}
+    f = function(data_recived){ location.reload() }
+
+    ajax_request(url, data_to_send, f);
+}
+
 function ajax_request(url,data,f){
     $(document).ready(function(){
         $.ajax({

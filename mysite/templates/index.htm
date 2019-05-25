@@ -54,7 +54,12 @@
           <li class="nav-item">
             <a class="nav-link" href="siMS.htm">siMS</a>
           </li>
-          {% if logged %}
+          {% if role > 0 %}
+            {% if role == 2 %}
+              <li class="nav-item mt-2">
+                <a class="nav-link" href="cauta_pacient.htm">Caută pacient</a>
+              </li>
+            {% endif %}
             <li class="nav-item mt-5">
               <p class = "text-success h4 border">Bun venit, {{username}}</p>
             </li>

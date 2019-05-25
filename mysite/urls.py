@@ -35,6 +35,7 @@ urlpatterns = [
     path('calculator_hipoglicemic.htm', views.calculator_hipoglicemic),
     path('calculator_diabet.htm', views.calculator_diabet),
     path('siMS.htm', views.siMS),
+    path('cauta_pacient.htm', views.cauta_pacient),
 
     url(r'analiza_glicemiei/$', requests.analiza_glicemiei),
     url(r'login/$', requests.login),
@@ -44,5 +45,6 @@ urlpatterns = [
     url(r'get_analiza/$', requests.preluare_date_analiza),
     url(r'setare_date_reprezentare/$', requests.setare_date_reprezentare),
     url(r'get_reprezentare/$', requests.preluare_date_reprezentare),
-    url(r'cautare_pacient/$', requests.cautare_pacient)
+    url(r'cautare_pacient/$', requests.cautare_pacient),
+    url(r'deselectare_pacient/$', requests.deselect_patient)
 ]

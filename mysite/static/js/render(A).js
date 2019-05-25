@@ -164,3 +164,7 @@ function renderRG_initState(message){
         document.getElementById("message").style.display = 'block';
     }
 }
+
+function renderCP_error(message){
+    document.getElementById("message1").innerHTML = message
+}

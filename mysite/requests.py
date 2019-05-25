@@ -66,10 +66,9 @@ def create_account(request):
     return JsonResponse(data)
 
 def logout(request):
-    print("se delogheaza")
     views.logged = False
     views.username = ''
-    views.role = None
+    views.role = 0
     return JsonResponse({'data': None})
 
 def setare_date_analiza(request):
@@ -149,11 +148,14 @@ def cautare_pacient(request):
     searched_patient = request.GET.get('pacient')
     if(User.objects.filter(username=searched_patient).exists()):
         views.patient = searched_patient
-        #data = {'successful': True}
+        data = {'successful': True}
     else:
         data = {'successful': False}
     return JsonResponse(data)
 
+def deselect_patient(request):
+    views.patient = ''
+    return JsonResponse({'data': None})
     
     
 

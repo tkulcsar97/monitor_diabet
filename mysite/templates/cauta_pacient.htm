@@ -1,0 +1,103 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+        <script type="text/javascript" src="{% static 'js/render(A).js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/jquery-3.3.1.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/server_requests(A).js' %}"></script>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    </head>
+    <body>
+        <style>
+            .navbar-fixed-left{
+                position: fixed;
+                height: 100%;
+            }
+            .con{
+                padding-top: 2%;
+                padding-left: 15%;
+            }
+            .top-dis{
+                padding-top: 15%;
+            }
+        </style>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-left">
+            <ul class="navbar-nav flex-column mb-auto">
+                <li class="nav-item mt-3">
+                    <a class="navbar-brand" href="#">Monitor Diabet</a>
+                </li>
+                <li class="nav-item mt-3">
+                    <a class="nav-link" href="index.htm">Algoritm diagnostic</a>
+                </li>
+                <li class="nav-item mt-2">
+                    <a class="nav-link" href="analiza_glicemiei.htm">Analiza glicemiei</a>
+                </li>
+                <li class="nav-item mt-2">
+                    <a class="nav-link" href="stadializarea_nefropatiei_diabetice.htm">Stadializarea nefropatiei diabetice</a>
+                </li>
+                <li class="nav-item active mt-2">
+                    <a class="nav-link" href="#">Reprezentarea glicemiei<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item mt-2">
+                    <a class="nav-link" href="calculator_hipoglicemic.htm">Calculator Hipoglicemic</a>
+                </li>
+                <li class="nav-item mt-2">
+                    <a class="nav-link" href="calculator_diabet.htm">Calculator diabet</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="siMS.htm">siMS</a>
+                </li>
+                {% if role > 0 %}
+                    {% if role == 2 %}
+                        <li class="nav-item mt-2">
+                            <a class="nav-link" href="cauta_pacient.htm">Caută pacient</a>
+                        </li>
+                    {% endif %}
+                <li class="nav-item mt-5">
+                    <p class = "text-success h4 border">Bun venit, {{username}}</p>
+                </li>
+                <li class="nav-item mt-3">
+                    <button class="btn btn-outline-success my-2 my-sm-0 ml-4" onclick="logout()">Delogare</button>
+                </li>
+                {% else %}
+                <li class="nav-item mt-5">
+                    <a class="btn btn-outline-success my-2 my-sm-2 mr-2" href="autentificare.htm">Autentificare</a>
+                </li>
+                <li class="nav-item mt-3">
+                    <a class="btn btn-outline-success my-2 my-sm-2 mr" href="inregistrare.htm">Inregistrare</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        <div class="container con">
+            <div class="row justify-content-md-center top-dis">     
+                <form>
+                    {% if patient == '' %}
+                        <div class="form-group">
+                            <h4 id = "message1"></h4>
+                        </div>
+                        <div class="form-group mt-5">
+                            <input id="pacient" class="form-control mr-sm-2" type="search" placeholder="Nume de utilizator" aria-label="Search">
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-outline-success" type="button" onclick="cauta_pacient()">Caută pacient</button>
+                        </div>
+                    {% else %}
+                    <div class="form-group">
+                        <h4 id = "message2">Ai selectat pacientul: {{ patient }}</h4>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-outline-success" type="button" onclick="deselectare_pacient()">Deselectează pacient</button>
+                    </div>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+</html>
