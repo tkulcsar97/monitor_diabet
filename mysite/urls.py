@@ -48,5 +48,5 @@ urlpatterns = [
     url(r'setare_nefropatie/$', requests.setare_date_nefropatie),
     url(r'set_risc_hipoglicemie/$', requests.setare_date_risc_hipoglicemie),
     url(r'set_risc_diabet/$', requests.setare_date_risc_diabet),
-   # url(r'set_indice_siMS/$', requests.setare_date_indice_siMS)
+    url(r'set_indice_siMS/$', requests.setare_date_indice_siMS)
 ]

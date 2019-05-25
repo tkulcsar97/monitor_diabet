@@ -3,7 +3,7 @@ from django.shortcuts import render
 username = ''
 role = 2 # 0, 1, 2
 patient = ''
-# age = 0
+age = 0
 
 def index(request):
 	return render(request, 'index.htm', {'role': role, 'username': username})
