@@ -77,7 +77,14 @@
         </nav>
 
         <div class="container con">
-          <div id="accordion">
+          <div class = "d-flex justify-content-center">
+            {% if patient == '' %}
+              <h4>Nu ai selectat niciun pacient!</h4>
+            {% else %}
+              <h4>Ai selectat pacientul: {{patient}}</h4>
+            {% endif %}
+          </div>
+          <div class="mt-5" id="accordion">
               <div class="card">
                 <div class="card-header" id="headingOne">
                   <h5 class="mb-0">
@@ -123,10 +130,13 @@
                   <label> Albuminuria: </label>
                   <input style="width:50%" type="number" class="form-control" id="albuminuria"><br>
                   <label>Selectați unitatea de măsură a albuminuriei</label><br>
-                  <input type="radio" name="masura" value="0" id="mg/g"> mg/g<br>
-                  <input type="radio" name="masura" value="1" id="mg/mmol"> mg/mmol
+                  <input type="radio" id="g" value="mg/g" id="mg/g">mg/g<br>
+                  <input type="radio" id="mmol" value="mg/mmol" id="mg/mmol">mg/mmol
                 </div>
                 <button type="button"  id="b1" class="btn btn-outline-success my-2 my-sm-4" onclick="Calculeaza();">Calculează</button>
+                {% if role == 2 and patient != '' %}
+                  <button type="button"  id="b1" class="btn btn-outline-success" onclick="adauga_np();">Memorează</button>
+                {% endif %}
             </form>
           </div>
         </div>
@@ -181,10 +191,12 @@
             padding-left: 22%;
             padding-top: 3%;
           }
+          .mem-button{
+            padding-left: 50%;
+          }
         </style>
 	
       <div id="chart_div" class="clearfix pos-chart"></div>
-  
  
       <!-- Optional JavaScript -->
       <!-- jQuery first, then Popper.js, then Bootstrap JS -->

@@ -16,6 +16,8 @@ var tabel_cols=2;
 var culori=new Array(size);
 var mesaj=new Array(size);
 
+var rezultat;
+
 function init()
 {
 for(var i=0;i<size;i++)
@@ -46,7 +48,7 @@ if(!validNr(albuminuria) && !validNr(filtrare))
   location.reload();
    }
 
-if(document.getElementById("mg/g").checked)
+if(document.getElementById("g").checked)
     tabel=[
           [90,30],[90,301],[90,999],
           [60,30],[60,301],[60,999],
@@ -55,7 +57,7 @@ if(document.getElementById("mg/g").checked)
           [15,30],[15,301],[15,999],
           [0,30],[0,301],[0,999]
           ];
-else if(document.getElementById("mg/mmol").checked) 
+else if(document.getElementById("mmol").checked) 
      tabel=[
           [91,3],[91,31],[91,999],
           [60,3],[60,31],[60,999],
@@ -85,11 +87,12 @@ function Calculeaza()
           { 
             switch(culori[i]) 
             {
-              case green  : mesaj[i]="Risc scăzut de ND";break;
+              case green  : mesaj[i]="Risc scăzut de ND"; break;
               case yellow : mesaj[i]="Risc moderat de ND";break;
               case orange : mesaj[i]="Risc crescut de ND";break;
               case red    : mesaj[i]="Risc foarte crescut de ND";break;
             }
+            rezultat = mesaj[i];
             culori[i]=culori[i].split("stroke-width:1; fill-opacity: 0.6;")+"stroke-width:3;";
     		    succes=true;
           }
@@ -98,8 +101,9 @@ function Calculeaza()
       if(succes==true) break;
 
     }
-      drawChart();
-      init();  
+
+    drawChart();
+    init();  
 }    
   
 

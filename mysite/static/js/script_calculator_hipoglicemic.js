@@ -1,3 +1,5 @@
+var rezultat;
+
 function isSelected(name)
 {
 	var element = document.getElementById(name);
@@ -7,6 +9,7 @@ function isSelected(name)
 
 function setColour2(name1,name2,colour)
 {
+	rezultat = name2;
 	var element1 = document.getElementById(name1).style.backgroundColor=colour;
 	var element2 = document.getElementById(name2).style.backgroundColor=colour;
 }

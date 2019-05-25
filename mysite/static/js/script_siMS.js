@@ -1,5 +1,12 @@
 var gender=age=waist=height=glycemia=triglycerides=TA_systolic=hdl=family=null;
 
+var score_ref = null;
+var risk_score_ref = null;
+
+var score_patient = null;
+var risk_score_patient = null;
+
+var psiMS = null;
 //events
 
 //1. clicked button from the second male/female buttons + change values for waist/hdl
@@ -127,15 +134,19 @@ function psiMS_score()
 var scor_ref_siMS; //variabila globala pentru a compara scorurile
 function CalculeazaScorReferinta()
 {
-scor_ref_siMS=sims_score(1);
+scor_ref = scor_ref_siMS = sims_score(1);
+risk_score_ref = sims_risk_score(1);
 document.getElementById("scor_ref_siMS").value=scor_ref_siMS;
-document.getElementById("scor_ref_siMS_risk").value=sims_risk_score(1);
+document.getElementById("scor_ref_siMS_risk").value = sims_risk_score(1);
 
 }
 
 function CalculeazaScorPacient()
 {
-var scor_pacient_siMS=sims_score(2);
+scor_patient = scor_pacient_siMS=sims_score(2);
+risk_score_patient = sims_risk_score(2);
+psiMS = psiMS_score();
+
 document.getElementById("scor_pacient_siMS").value=scor_pacient_siMS;
 document.getElementById("scor_pacient_siMS_risk").value=sims_risk_score(2);
 document.getElementById("scor_pacient_PsiMS").value=psiMS_score();

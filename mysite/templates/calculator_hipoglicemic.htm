@@ -3,7 +3,8 @@
 <html lang="en">
   <head>
     <script type="text/javascript" src="{% static 'js/render(A).js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/jquery-3.3.1.js' %}"></script>
+		<script type="text/javascript" src="{% static 'js/jquery-3.3.1.js' %}"></script>
+		<script type="text/javascript" src="{% static 'js/script_calculator_hipoglicemic.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/server_requests(A).js' %}"></script>
 
 
@@ -135,7 +136,14 @@
 	</nav>
         
   <div class="container con">
-		<table id="inputs" onchange="Output();">
+		<div class = "d-flex justify-content-center">
+			{% if patient == '' %}
+				<h4>Nu ai selectat niciun pacient!</h4>
+			{% else %}
+				<h4>Ai selectat pacientul: {{patient}}</h4>
+			{% endif %}
+		</div>
+		<table class = "mt-5" id="inputs" onchange="Output();">
 			<tbody>
 			<tr>
 				<td>
@@ -291,7 +299,10 @@
 			</tr>
 			</tbody>
 		</table>
+		{% if role == 2 and patient != '' %}
+			<button type="button" id="b1" class="btn btn-outline-success mt-3" onclick="adauga_risc_hipo();">Memorează</button>
+		{% endif %}
+		<br><br>
 	</div>
 </body>
-<script type="text/javascript" src="{% static 'js/script_calculator_hipoglicemic.js' %}"></script>
 </html>

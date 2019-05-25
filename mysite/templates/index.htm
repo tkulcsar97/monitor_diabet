@@ -77,7 +77,14 @@
         </ul>
       </nav>
       <div class="container con">
-        <div id="accordion">
+        <div class = "d-flex justify-content-center">
+          {% if patient == '' %}
+            <h4>Nu ai selectat niciun pacient!</h4>
+          {% else %}
+            <h4>Ai selectat pacientul: {{patient}}</h4>
+          {% endif %}
+        </div>
+        <div class = "mt-5" id="accordion">
             <div class="card">
               <div class="card-header" id="headingOne">
                 <h5 class="mb-0">

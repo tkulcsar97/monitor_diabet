@@ -1,3 +1,15 @@
+var data_to_send = {
+	colesterol: 'False',
+	glicemie_doua_ore: 'False',
+	glicemie_nemancate: 'False',
+	hiperlipidemie: 'False',
+	hipertensiune: 'False',
+	talie: 'False'
+};
+
+var CMDSTotal = 0;
+var ModifiedCMDSTotal = 0;
+
 window.onload = function () {
 	var SELECTED_COLOR = 'red';
 	var cmdsFields = document.querySelectorAll('.cmds-input-table .cmds');
@@ -5,9 +17,6 @@ window.onload = function () {
 
 	var CMDS_SELECTED_FEIDLS = [];
 	var MODIFIED_CMDS_SELECTED_FEIDLS = [];
-
-	var CMDSTotal = null;
-	var ModifiedCMDSTotal = null;
 
 	var groups = {
 		10: 'group-1',
@@ -105,7 +114,8 @@ window.onload = function () {
 		var isCMDS = !(target.className.indexOf('modified-cmds') > -1);
 
 		var isSelected = target.bgColor === SELECTED_COLOR;
-		console.log('value is selected: ', isSelected);
+
+		data_to_send[document.getElementById(this.getAttribute("id")[0]).title] = !isSelected ? 'True' : 'False';
 
 		if (isSelected && value) {
 			if (isCMDS) {

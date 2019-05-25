@@ -201,11 +201,132 @@ function cauta_pacient(){
 }
 
 function deselectare_pacient(){
-    var url = "http://localhost:8000/deselectare_pacient/"
+    var url = "http://localhost:8000/deselectare_pacient/";
     data_to_send = {"data": null}
     f = function(data_recived){ location.reload() }
 
     ajax_request(url, data_to_send, f);
+}
+
+function adauga_np(){
+    var filtrare_glomerulara = document.getElementById("filtrare_glomerulara").value;
+    var albuminurie = document.getElementById("albuminuria").value;
+    var unitate_masura = null;
+    if (document.getElementById("g").checked);
+        unitate_masura = document.getElementById("g").value;
+    if (document.getElementById("mmol").checked);
+        unitate_masura = document.getElementById("mmol").value;
+
+    var url = "http://localhost:8000/setare_nefropatie/";
+    var data_to_send = {
+      "rata_filtrare_glomerulara": filtrare_glomerulara,
+      "albuminurie": albuminurie,
+      "unitate_masura": unitate_masura,
+      "rezultat": rezultat
+    }
+    f = function(data_recived){
+        if (data_recived.successful == true)
+            alert("succes");
+        else
+            alert("erroare");
+    }
+    ajax_request(url, data_to_send, f);
+}
+
+function adauga_risc_hipo(){
+    var c1,c2,c3,c4,c5,c6;
+
+    if (isSelected("C1_niciodata")) c1 = document.getElementById("c1_niciodata").value;
+    if (isSelected("C1_sub2")) c1 = document.getElementById("C1_sub2").value;
+    if (isSelected("C1_3plus")) c1 = document.getElementById("C1_3plus").value;
+
+    if (isSelected("C2_sub2")) c2 = document.getElementById("C2_sub2").value;
+    if (isSelected("C2_2plus")) c2 = document.getElementById("C2_2plus").value;
+
+    if (isSelected("C3_insulina_da")) c3 = document.getElementById("C3_insulina_da").value;
+    if (isSelected("C3_insulina_nu")) c3 = document.getElementById("C3_insulina_nu").value;
+
+    if (isSelected("C4_sulfoniluree_da")) c4 = document.getElementById("C4_sulfoniluree_da").value;
+    if (isSelected("C4_sulfoniluree_nu")) c4 = document.getElementById("C4_sulfoniluree_nu").value;
+
+    if (isSelected("C5_insuficienta_renala_da")) c5 = document.getElementById("C5_insuficienta_renala_da").value;
+    if (isSelected("C5_insuficienta_renala_nu")) c5 = document.getElementById("C5_insuficienta_renala_nu").value;
+
+    if (isSelected("C6_varsta_sub_77_da")) c6 = document.getElementById("C6_varsta_sub_77_da").value;
+    if (isSelected("C6_varsta_sub_77_nu")) c6 = document.getElementById("C6_varsta_sub_77_nu").value;
+
+    var url = "http://localhost:8000/set_risc_hipoglicemie/";
+    var data_to_send = {
+      "urgente_hipo": c1,
+      "urgente": c2,
+      "insulina": stringToBoolean(c3),
+      "sulfoniluree": stringToBoolean(c4),
+      "insuficienta_renala": stringToBoolean(c5),
+      "varsta_sub_77": stringToBoolean(c6),
+      "rezultat": rezultat
+    }
+
+    f = function(data_recived){
+        if (data_recived.successful == true)
+            alert("succes");
+        else
+            alert("erroare");
+    }
+
+    ajax_request(url, data_to_send, f);
+}
+
+function adauga_risc_diabet(){
+
+    if (CMDSTotal > 0  && ModifiedCMDSTotal > 0)
+        alert("Nu se pot memora ambele variante")
+    else{
+        data_to_send["cmds"] = CMDSTotal;
+        data_to_send["cmds_modificat"] = ModifiedCMDSTotal;
+
+        url = "http://localhost:8000/set_risc_diabet/"
+
+        f = function(data_recived){
+            if (data_recived.successful == true)
+                alert("succes");
+            else
+                alert("erroare");
+        }
+        ajax_request(url, data_to_send, f);
+    }
+}
+
+function adauga_ssims(){
+    console.log("aici")
+    if (scor_ref == null || scor_patient == null)
+        alert("Este nevoie de ambele scoruri");
+    else{
+        var data_to_send = {
+            'sex': gender,
+            'diabet_familie': family,
+            'inaltime': height,
+            'talie': waist,
+            'glicemia': glycemia,
+            'trigliceride': triglycerides,
+            'tensiune_sistolica': TA_systolic,
+            'colesterol': hdl,
+            'siMS_scor': score_patient,
+            'siMS_scor_risc': risk_score_patient,
+            'PsiMS_scor': psiMS,
+            'siMS_scor_ref': score_ref,
+            'siMS_scor_risc_ref': risk_score_ref
+        }
+        var url = "http://localhost:8000/set_indice_siMS/";
+
+        f = function(data_recived){
+            if (data_recived.successful == true)
+                alert("succes");
+            else
+                alert("erroare");
+        }
+        ajax_request(url, data_to_send, f);
+
+    }
 }
 
 function ajax_request(url,data,f){
@@ -217,4 +338,11 @@ function ajax_request(url,data,f){
             success: f
         });
     });
+}
+
+function stringToBoolean(string){
+    if (string == "da")
+        return 'True';
+    else
+        return 'False';
 }

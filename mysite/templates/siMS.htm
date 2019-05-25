@@ -6,6 +6,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="{% static 'js/script_siMS.js' %}"></script>
+
     <script type="text/javascript" src="{% static 'js/render(A).js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery-3.3.1.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/server_requests(A).js' %}"></script>
@@ -75,7 +80,13 @@
         </ul>
       </nav>
       <div class="containter con">
-
+        <div class = "d-flex justify-content-center">
+          {% if patient == '' %}
+            <h4>Nu ai selectat niciun pacient!</h4>
+          {% else %}
+            <h4>Ai selectat pacientul: {{patient}}</h4>
+          {% endif %}
+        </div>
         <style type="text/css">
           td {
             padding:0 40px 0 40px;
@@ -88,7 +99,7 @@
           }
         </style>
 
-          <table>
+          <table class = "mt-5">
           <tr>
             <td>
               <div class="form-group">
@@ -334,11 +345,16 @@
           <tr>
             
             <td>
-            <button type="button"  class="btn btn-outline-success my-2 my-sm-4"  class="form-group" onclick= "CalculeazaScorReferinta();">Calculeaza scor referinta</button>
+              <button type="button"  class="btn btn-outline-success my-2 my-sm-4"  class="form-group" onclick= "CalculeazaScorReferinta();">Calculeaza scor referinta</button>
             </td>
             <td>
                 <button type="button"  class="btn btn-outline-success my-2 my-sm-4"  class="form-group" onclick= "CalculeazaScorPacient();">Calculeaza scor pacient</button>
             </td>
+            {% if role == 2 and patient != '' %}
+              <td>
+                <button type="button" id="b1" class="btn btn-outline-success mt-3" onclick="adauga_ssims();">Memorează</button>
+              </td>
+            {% endif %}
           </tr>
           <tr>
             <td></td>
@@ -354,9 +370,5 @@
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-    <script type="text/javascript" src="{% static 'js/script_siMS.js' %}"></script>
   </body>
 </html>
