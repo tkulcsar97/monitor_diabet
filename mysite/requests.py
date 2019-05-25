@@ -283,6 +283,86 @@ def setare_date_indice_siMS(request): #MEDIC
         data = {'successful': True}
     return JsonResponse(data)  
 
+def preluare_date_nefropatie(request):
+    user = User.objects.get(username=views.username)
+    array_nefropatie = []
+    inregistrari_nefropatie = Nefropatie.objects.filter(user=user)
+    for inregistrare_nefropatie in inregistrari_nefropatie:
+        array_nefropatie.append({
+            'zi': inregistrare_nefropatie.data,
+            'rata_filtrare_glomerulara': inregistrare_nefropatie.rata_filtrare_glomerulara,
+            'albuminuria': inregistrare_nefropatie.albuminuria,
+            'unitate_masura': inregistrare_nefropatie.unitate_masura,
+            'rezultat': inregistrare_nefropatie.rezultat
+        })
+    data = {'array': array_nefropatie}             
+    return JsonResponse(data)
+
+def preluare_date_risc_hipoglicemie(request):
+    user = User.objects.get(username=views.username)
+    array_hipoglicemie = []
+    inregistrari_hipoglicemie = Risc_Hipoglicemie.objects.filter(user=user)
+    for inregistrare_hipoglicemie in inregistrari_hipoglicemie:
+        array_hipoglicemie.append({
+            'zi': inregistrare_hipoglicemie.data,
+            'urgente_hipo': inregistrare_hipoglicemie.urgente_hipoglicemie,
+            'urgente': inregistrare_hipoglicemie.urgente,
+            'insulina': inregistrare_hipoglicemie.insulina,
+            'derivate_sulfoniluree': inregistrare_hipoglicemie.derivate_sulfoniluree,
+            'insuficienta_renala': inregistrare_hipoglicemie.irc_severa_terminala,
+            'varsta_sub_77': inregistrare_hipoglicemie.varsta_sub_77,
+            'rezultat': inregistrare_hipoglicemie.rezultat
+        })
+    data = {'array': array_hipoglicemie}             
+    return JsonResponse(data)
+
+def preluare_date_risc_diabet(request):
+    user = User.objects.get(username=views.username)
+    array_diabet = []
+    inregistrari_diabet = Risc_Diabet.objects.filter(user=user)
+    for inregistrare_diabet in inregistrari_diabet:
+        array_diabet.append({
+            'zi': inregistrare_diabet.data,
+            'glicemie_nemancate': inregistrare_diabet.conditie_glicemie_pe_nemancate,
+            'glicemie_doua_ore': inregistrare_diabet.conditie_glicemie_la_doua_ore,
+            'talie': inregistrare_diabet.conditie_circumferinta_talie,
+            'hipertensiune': inregistrare_diabet.conditie_hipertensiune,
+            'colesterol': inregistrare_diabet.conditie_colesterol,
+            'hiperlipidemie': inregistrare_diabet.conditie_hiperlipidemie,
+            'scor_cmds': inregistrare_diabet.scor_cmds,
+            'scor_cmds_modificat': inregistrare_diabet.scor_cmds_modificat   
+        })
+    data = {'array': array_diabet}             
+    return JsonResponse(data)
+
+def preluare_date_indice_siMS(request):
+    user = User.objects.get(username=views.username)
+    array_siMS = []
+    inregistrari_siMS = Indice_SiMS.objects.filter(user=user)
+    for inregistrare_siMS in inregistrari_siMS:
+        array_diabet.append({
+            'zi': inregistrare_siMS.data,
+            'sex': inregistrare_siMS.sex,
+            'diabet_familie': inregistrare_siMS.diabet_in_familie,
+            'inaltime': inregistrare_siMS.inaltime,
+            'varsta': inregistrare_siMS.varsta,
+            'talie': inregistrare_siMS.talie,
+            'glicemia': inregistrare_siMS.glicemia,
+            'trigliceride': inregistrare_siMS.trigliceride,
+            'tensiune_sistolica': inregistrare_siMS.tensiune_sistolica,
+            'colesterol': inregistrare_siMS.colesterol,
+            'siMS_scor': inregistrare_siMS.siMS_scor,
+            'siMS_scor_risc': inregistrare_siMS.siMS_scor_risc,
+            'PsiMS_scor': inregistrare_siMS.PsiMS_scor,
+            'siMS_scor_ref': inregistrare_siMS.siMS_scor_ref,
+            'siMS_scor_risc_ref': inregistrare_siMS.siMS_scor_risc_ref
+            
+        })
+    data = {'array': array_siMS}             
+    return JsonResponse(data)
+
+
+
 
     
     
