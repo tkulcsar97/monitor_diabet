@@ -103,6 +103,8 @@ function getValues(id)
 	 TA_systolic=document.getElementById("TA_systolic2").value;
 	 hdl=document.getElementById("hdl2").value;	
 	}
+
+	console.log(family);
 }
 
 function sims_score(id)
@@ -134,7 +136,7 @@ function psiMS_score()
 var scor_ref_siMS; //variabila globala pentru a compara scorurile
 function CalculeazaScorReferinta()
 {
-scor_ref = scor_ref_siMS = sims_score(1);
+score_ref = scor_ref_siMS = sims_score(1);
 risk_score_ref = sims_risk_score(1);
 document.getElementById("scor_ref_siMS").value=scor_ref_siMS;
 document.getElementById("scor_ref_siMS_risk").value = sims_risk_score(1);
@@ -143,7 +145,7 @@ document.getElementById("scor_ref_siMS_risk").value = sims_risk_score(1);
 
 function CalculeazaScorPacient()
 {
-scor_patient = scor_pacient_siMS=sims_score(2);
+score_patient = scor_pacient_siMS=sims_score(2);
 risk_score_patient = sims_risk_score(2);
 psiMS = psiMS_score();
 
