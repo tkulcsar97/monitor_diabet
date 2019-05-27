@@ -9,6 +9,7 @@ from . import urls
 import datetime
 import json 
 
+
 payload = json.dumps({"on":True})
 
 # def analiza_glicemiei(request):
@@ -18,20 +19,6 @@ payload = json.dumps({"on":True})
 #     }
 #     print(data)
 #     return JsonResponse(data)
-
-
-def preluare_medici():
-    medici = Medic.objects.all()
-    for medic in medici:
-        medic_user = User.objects.get(id=medic.medic_id)
-        views.doctors.append({
-            'username': medic_user.username,
-            'first_name': medic_user.first_name,
-            'last_name': medic_user.last_name
-        })
-    print(views.doctors)
-
-preluare_medici()
 
 def login(request):
     print ('AICI, IN LOGIN')
@@ -71,7 +58,7 @@ def create_account(request):
     try:
         user = User.objects.create_user(username=username
                 ,password=password)
-        medic = User.objects.get(username=doctor)
+        #medic = User.objects.get(username=doctor)
     except IntegrityError as e:
         print(e)
         data = {'successful': False}
@@ -80,7 +67,7 @@ def create_account(request):
         utilizator.data_nastere = birth_date
         utilizator.anticorpi = antibodies
         utilizator.varsta_debut = onset_age
-        utilizator.medic = medic.medic_id
+        #utilizator.medic = medic.medic_id
         utilizator.save()
         rol = Rol(user=user)
         rol.id_rol = 1 # 1 -> pacient
@@ -174,7 +161,8 @@ def cautare_pacient(request):
     date = datetime.date.today() 
     u = User.objects.get(username=searched_patient)
     m = User.objects.get(username=views.username)
-    p = Pacient.objects.get(user=u, medic=m.medic_id)
+    medic = Medic.objects.get(medic = m) 
+    p = Pacient.objects.get(user=u, medic=medic.medic_id)
     if(p.exists()):
         views.patient = searched_patient
         user = User.objects.get(username=views.patient)
@@ -415,9 +403,18 @@ def preluare_date_tabel_reprezentare(): #MEDIC
     data = {'array': array_reprezentare} 
     return JsonResponse(data)
 
+def preluare_medici():
+    medici = Medic.objects.all()
+    for medic in medici:
+        medic_user = User.objects.get(id=medic.medic_id)
+        views.doctors.append({
+            'username': medic_user.username,
+            'first_name': medic_user.first_name,
+            'last_name': medic_user.last_name
+        })
+    print(views.doctors)
 
-
-
+preluare_medici()
 
     
     
