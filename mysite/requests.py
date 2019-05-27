@@ -97,18 +97,14 @@ def setare_date_analiza(request):
 
 def preluare_date_analiza(request):
     temp_start = datetime.datetime.strptime(request.GET.get('start_date'), "%Y-%m-%dT%H:%M:%S.%fZ")
-    temp_end = datetime.datetime.strptime(request.GET.get('end_date'), "%Y-%m-%dT%H:%M:%S.%fZ")
-    
-    # temp_start = datetime.strptime(start_date, '%Y-%m-%d %H:%M:%S')#aici vine si cu time?
-    # temp_end = datetime.strptime(end_date, '%Y-%m-%d %H:%M:%S')
-    
+    temp_end = datetime.datetime.strptime(request.GET.get('end_date'), "%Y-%m-%dT%H:%M:%S.%fZ") 
     user = User.objects.get(username=views.username)
     data = {}
     count = 0
     inregistrari_glicemie = Variabilitate_Glicemie.objects.all()
     for inregistrare_glicemie in inregistrari_glicemie:
         if(inregistrare_glicemie.user == user):
-            if(inregistrare_glicemie.data_ora.replace(tzinfo=None) > temp_start and inregistrare_glicemie.data_ora.replace(tzinfo=None) < temp_end):
+            if(inregistrare_glicemie.data_ora.date() >= temp_start.date() and inregistrare_glicemie.data_ora.date() <= temp_end.date()):
                 count=count+1
                 data['inreg'+str(count)] = {'date': inregistrare_glicemie.data_ora, 'value':
                 inregistrare_glicemie.valoare_glicemie}
@@ -118,7 +114,7 @@ def preluare_date_analiza(request):
 def setare_date_reprezentare(request):
     date = datetime.datetime.strptime(request.GET.get('date'), "%Y-%m-%dT%H:%M:%S.%fZ")
     value = request.GET.get('valoare')
-    moment = request.GET.get('moment')#de modificat in functie de ce e in form
+    moment = request.GET.get('moment')
     try:
         user = User.objects.get(username=views.username)
     except IntegrityError:
@@ -127,7 +123,7 @@ def setare_date_reprezentare(request):
         reprezentare_glicemie = Reprezentare_Glicemie(user=user)
         #temp_date = datetime.strptime(date, '%Y-%m-%d').date()
         reprezentare_glicemie.valoare_glicemie = value
-        reprezentare_glicemie.data = date
+        reprezentare_glicemie.data = date.date()
         reprezentare_glicemie.moment_al_zilei = moment
         reprezentare_glicemie.save()
         data = {'successful': True}

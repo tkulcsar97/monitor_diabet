@@ -1,22 +1,50 @@
-google.charts.load('current', {callback: drawChart, packages: ['corechart']});
-
-
 var size=12;
-var tabel=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+var tabelInput=new Array(size);
+var tabelValNormale=new Array(size);
+
+
+function init()
+{
+//init tabels input & valori normale
+for(var i=0; i<size;i++)
+  {
+    tabelValNormale[i]=0;
+    tabelInput[i]=0;
+  }
+ParseJson();
+google.charts.load('current', {callback: drawChart, packages: ['corechart']});
+}
+
+
+function ParseJson()
+{
+$(document).ready(function () {
+  var i=0;
+  $.getJSON(path, function (data) {
+    $.each(data.Valori_normale, function () {
+            tabelValNormale[i]=parseInt(this);
+            i++;
+        });
+
+    
+  });
+});
+}
+
 
 function getValues()
 {
 for(var i=0;i<size;i++)
   {
-    if(!isNaN(tabel[i])) 
-    tabel[i]=Math.abs(parseInt(document.getElementById('timp'+(i+1)).value));
-    else tabel[i]=0;
+    if(!isNaN(tabelInput[i])) 
+    tabelInput[i]=Math.abs(parseInt(document.getElementById('timp'+(i+1)).value));
+    else tabelInput[i]=0;
   }
 
-  console.log(tabel);
+  console.log(tabelInput);
 }
 
-function init_tabel(valori){
+function init_tabelInput(valori){
 
   var i = 0;
 
@@ -24,14 +52,14 @@ function init_tabel(valori){
 
   for(var key in valori){
     if (momente[i] == key){
-      tabel[i] = parseInt(valori[key]);
+      tabelInput[i] = parseInt(valori[key]);
     }
     else
-      tabel[i] = 0;
+      tabelInput[i] = 0;
     i++;
   }
 
-  console.log(tabel);
+  console.log(tabelInput);
 }
 
 function Calculeaza()
@@ -41,29 +69,28 @@ function Calculeaza()
 }
 
 function show(valori){
-  init_tabel(valori);
+  init_tabelInput(valori);
   drawChart();
 }
   
 function drawChart(param) {
-    
-
+  
      var data = google.visualization.arrayToDataTable([
      
 
        ['X','Glicemia normala','Glicemia pacientului'],
-       [0, 88, tabel[0]],    
-       [1, 90, tabel[1]],  
-       [2, 93, tabel[2]], 
-       [3, 92,tabel[3]],
-       [4, 106, tabel[4]],
-       [5, 108, tabel[5]],
-       [6, 115, tabel[6]], 
-       [7, 86,tabel[7]],
-       [8, 106, tabel[8]], 
-       [9, 90, tabel[9]], 
-       [10, 80, tabel[10]], 
-       [11, 86, tabel[11]]
+       [0, tabelValNormale[0], tabelInput[0]],    
+       [1, tabelValNormale[1], tabelInput[1]],  
+       [2, tabelValNormale[2], tabelInput[2]], 
+       [3, tabelValNormale[3],tabelInput[3]],
+       [4,  tabelValNormale[4], tabelInput[4]],
+       [5,  tabelValNormale[5], tabelInput[5]],
+       [6,  tabelValNormale[6], tabelInput[6]], 
+       [7, tabelValNormale[7],tabelInput[7]],
+       [8,  tabelValNormale[8], tabelInput[8]], 
+       [9, tabelValNormale[9], tabelInput[9]], 
+       [10, tabelValNormale[10], tabelInput[10]], 
+       [11, tabelValNormale[11], tabelInput[11]]
        
       ]);
 
