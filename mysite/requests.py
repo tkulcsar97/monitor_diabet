@@ -161,9 +161,8 @@ def cautare_pacient(request):
     date = datetime.date.today() 
     u = User.objects.get(username=searched_patient)
     m = User.objects.get(username=views.username)
-    medic = Medic.objects.get(medic = m) 
-    p = Pacient.objects.get(user=u, medic=medic.medic_id)
-    if(p.exists()):
+    medic = Medic.objects.get(medic = m)  
+    if(Pacient.objects.filter(user=u, medic=medic.medic_id).exists()):
         views.patient = searched_patient
         user = User.objects.get(username=views.patient)
         pacient = Pacient.objects.get(user=user)
