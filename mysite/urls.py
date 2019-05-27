@@ -37,7 +37,7 @@ urlpatterns = [
     path('siMS.htm', views.siMS),
     path('cauta_pacient.htm', views.cauta_pacient),
 
-    url(r'analiza_glicemiei/$', requests.analiza_glicemiei),
+    #url(r'analiza_glicemiei/$', requests.analiza_glicemiei),
     url(r'login/$', requests.login),
     url(r'register/$', requests.create_account),
     url(r'logout/$', requests.logout),
@@ -55,5 +55,7 @@ urlpatterns = [
     url(r'get_risc_hipoglicemie/$', requests.preluare_date_risc_hipoglicemie),
     url(r'get_risc_diabet/$', requests.preluare_date_risc_diabet),
     url(r'get_indice_siMS/$', requests.preluare_date_indice_siMS),
+    url(r'get_analiza_table/$', requests.preluare_date_tabel_analiza),
+    url(r'get_reprezentare_table/$', requests.preluare_date_tabel_reprezentare),
 
 ]
