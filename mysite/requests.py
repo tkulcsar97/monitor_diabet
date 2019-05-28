@@ -3,20 +3,22 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import User
 from django.db import IntegrityError
-from .models import Pacient, Variabilitate_Glicemie, Reprezentare_Glicemie, Rol, Risc_Hipoglicemie, Risc_Diabet, Nefropatie, Indice_SiMS
+from .models import Pacient, Variabilitate_Glicemie, Reprezentare_Glicemie, Rol, Risc_Hipoglicemie, Risc_Diabet, Nefropatie, Indice_SiMS, Medic
 from . import views
+from . import urls
 import datetime
 import json 
 
+
 payload = json.dumps({"on":True})
 
-def analiza_glicemiei(request):
-    text = request.GET.get('text')
-    data = {
-        'text': 'am primit:' + text
-    }
-    print(data)
-    return JsonResponse(data)
+# def analiza_glicemiei(request):
+#     text = request.GET.get('text')
+#     data = {
+#         'text': 'am primit:' + text
+#     }
+#     print(data)
+#     return JsonResponse(data)
 
 def login(request):
     print ('AICI, IN LOGIN')
@@ -46,6 +48,7 @@ def create_account(request):
     birth_date = request.GET.get('birth_date')
     #antibodies = request.GET.get('antibodies')
     onset_age = request.GET.get('onset_age')
+    doctor = request.GET.get('doctor') 
 
     antibodies = True
 
@@ -55,6 +58,7 @@ def create_account(request):
     try:
         user = User.objects.create_user(username=username
                 ,password=password)
+        #medic = User.objects.get(username=doctor)
     except IntegrityError as e:
         print(e)
         data = {'successful': False}
@@ -63,6 +67,7 @@ def create_account(request):
         utilizator.data_nastere = birth_date
         utilizator.anticorpi = antibodies
         utilizator.varsta_debut = onset_age
+        #utilizator.medic = medic.medic_id
         utilizator.save()
         rol = Rol(user=user)
         rol.id_rol = 1 # 1 -> pacient
@@ -98,12 +103,16 @@ def setare_date_analiza(request):
 def preluare_date_analiza(request):
     temp_start = datetime.datetime.strptime(request.GET.get('start_date'), "%Y-%m-%dT%H:%M:%S.%fZ")
     temp_end = datetime.datetime.strptime(request.GET.get('end_date'), "%Y-%m-%dT%H:%M:%S.%fZ") 
-    user = User.objects.get(username=views.username)
+    if(request.GET.get('username') != ''):
+        user = User.objects.get(username = views.username) # request de catre pacient
+    else:
+        user = User.objects.get(username = views.patient) # request de catre medic
     data = {}
     count = 0
     inregistrari_glicemie = Variabilitate_Glicemie.objects.all()
     for inregistrare_glicemie in inregistrari_glicemie:
         if(inregistrare_glicemie.user == user):
+            #if(inregistrare_glicemie.data_ora.replace(tzinfo=None) > temp_start and inregistrare_glicemie.data_ora.replace(tzinfo=None) < temp_end):
             if(inregistrare_glicemie.data_ora.date() >= temp_start.date() and inregistrare_glicemie.data_ora.date() <= temp_end.date()):
                 count=count+1
                 data['inreg'+str(count)] = {'date': inregistrare_glicemie.data_ora, 'value':
@@ -131,7 +140,10 @@ def setare_date_reprezentare(request):
 
 def preluare_date_reprezentare(request):
     date = datetime.datetime.strptime(request.GET.get('zi_valoare'), "%Y-%m-%dT%H:%M:%S.%fZ")
-    user = User.objects.get(username=views.username)
+    if(request.GET.get('username') != ''):
+        user = User.objects.get(username = views.username) # request de catre pacient
+    else:
+        user = User.objects.get(username = views.patient) # request de catre medic
     #temp_date = datetime.strptime(date, '%Y-%m-%d').date()
     data = {}
     count = 0
@@ -147,7 +159,10 @@ def preluare_date_reprezentare(request):
 def cautare_pacient(request):
     searched_patient = request.GET.get('pacient')
     date = datetime.date.today() 
-    if(User.objects.filter(username=searched_patient).exists()):
+    u = User.objects.get(username=searched_patient)
+    m = User.objects.get(username=views.username)
+    medic = Medic.objects.get(medic = m)  
+    if(Pacient.objects.filter(user=u, medic=medic.medic_id).exists()):
         views.patient = searched_patient
         user = User.objects.get(username=views.patient)
         pacient = Pacient.objects.get(user=user)
@@ -181,7 +196,6 @@ def setare_date_nefropatie(request): #MEDIC
         nefropatie.save()
         data = {'successful': True}
     return JsonResponse(data)
-
 
 def setare_date_risc_hipoglicemie(request): #MEDIC
     zi = datetime.date.today()  
@@ -279,7 +293,7 @@ def setare_date_indice_siMS(request): #MEDIC
         data = {'successful': True}
     return JsonResponse(data)  
 
-def preluare_date_nefropatie(request):
+def preluare_date_nefropatie(request): #MEDIC
     user = User.objects.get(username=views.username)
     array_nefropatie = []
     inregistrari_nefropatie = Nefropatie.objects.filter(user=user)
@@ -294,7 +308,7 @@ def preluare_date_nefropatie(request):
     data = {'array': array_nefropatie}             
     return JsonResponse(data)
 
-def preluare_date_risc_hipoglicemie(request):
+def preluare_date_risc_hipoglicemie(request): #MEDIC
     user = User.objects.get(username=views.username)
     array_hipoglicemie = []
     inregistrari_hipoglicemie = Risc_Hipoglicemie.objects.filter(user=user)
@@ -312,7 +326,7 @@ def preluare_date_risc_hipoglicemie(request):
     data = {'array': array_hipoglicemie}             
     return JsonResponse(data)
 
-def preluare_date_risc_diabet(request):
+def preluare_date_risc_diabet(request): #MEDIC
     user = User.objects.get(username=views.username)
     array_diabet = []
     inregistrari_diabet = Risc_Diabet.objects.filter(user=user)
@@ -331,7 +345,7 @@ def preluare_date_risc_diabet(request):
     data = {'array': array_diabet}             
     return JsonResponse(data)
 
-def preluare_date_indice_siMS(request):
+def preluare_date_indice_siMS(request): #MEDIC
     user = User.objects.get(username=views.username)
     array_siMS = []
     inregistrari_siMS = Indice_SiMS.objects.filter(user=user)
@@ -357,8 +371,49 @@ def preluare_date_indice_siMS(request):
     data = {'array': array_siMS}             
     return JsonResponse(data)
 
+def preluare_date_tabel_analiza(request): #MEDIC
+    temp_start = datetime.datetime.strptime(request.GET.get('start_date'), "%Y-%m-%dT%H:%M:%S.%fZ")
+    temp_end = datetime.datetime.strptime(request.GET.get('end_date'), "%Y-%m-%dT%H:%M:%S.%fZ") 
+    user = User.objects.get(username=views.patient)
+    array_analiza = []
+    inregistrari_analiza = Variabilitate_Glicemie.objects.filter(user=user).order_by('data_ora')
+    for inregistrare_analiza in inregistrari_analiza:
+        if(inregistrare_glicemie.data_ora.date() >= temp_start.date() and inregistrare_glicemie.data_ora.date() <= temp_end.date()):
+            array_analiza.append({
+                'data_ora': inregistrare_analiza.data_ora.replace(tzinfo=None),
+                'valoare': inregistrare_analiza.valoare_glicemie
+            })
+    data = {'array': array_analiza}         
+    return JsonResponse(data)
 
+def preluare_date_tabel_reprezentare(): #MEDIC
+    temp_start = datetime.datetime.strptime(request.GET.get('start_date'), "%Y-%m-%dT%H:%M:%S.%fZ")
+    temp_end = datetime.datetime.strptime(request.GET.get('end_date'), "%Y-%m-%dT%H:%M:%S.%fZ")
+    user = User.objects.get(username = views.patient)
+    array_reprezentare = []
+    inregistrari_grafic = Reprezentare_Glicemie.objects.filter(user=user).order_by('data', 'moment_al_zilei')
+    for inregistrare_grafic in inregistrari_grafic:
+        if(inregistrare_grafic.data >= temp_start.date() and inregistrare_grafic.data <= temp_end.date()):
+            array_reprezentare.append({
+                'data': inregistrare_grafic.data,
+                'moment': inregistrare_grafic.moment_al_zilei,
+                'valoare': inregistrare_grafic.valoare_glicemie
+            })
+    data = {'array': array_reprezentare} 
+    return JsonResponse(data)
 
+def preluare_medici():
+    medici = Medic.objects.all()
+    for medic in medici:
+        medic_user = User.objects.get(id=medic.medic_id)
+        views.doctors.append({
+            'username': medic_user.username,
+            'first_name': medic_user.first_name,
+            'last_name': medic_user.last_name
+        })
+    print(views.doctors)
+
+preluare_medici()
 
     
     

@@ -4,6 +4,7 @@ username = ''
 role = 0 # 0, 1, 2
 patient = ''
 age = 0
+doctors = []
 
 def index(request):
 	return render(request, 'index.htm', {'role': role, 'username': username, 'patient': patient})

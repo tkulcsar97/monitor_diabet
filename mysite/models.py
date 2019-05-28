@@ -13,9 +13,7 @@ class Rol(models.Model):
 		verbose_name = "Rol"
 		verbose_name_plural = "Roluri"
 		
-	def __unicode__(self):
-		return self.nume_rol
-	
+
 class Medic(models.Model):
 	#id_m = models.AutoField(primary_key=True)
 	medic = models.OneToOneField(User, on_delete=models.CASCADE)

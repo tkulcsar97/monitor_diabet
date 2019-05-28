@@ -298,24 +298,26 @@ function adauga_risc_diabet(){
 
 function adauga_ssims(){
     console.log("aici")
-    if (scor_ref == null || scor_patient == null)
+    if (score_ref == null || score_patient == null)
         alert("Este nevoie de ambele scoruri");
     else{
         var data_to_send = {
-            'sex': gender,
-            'diabet_familie': family,
+            'sex': gender == 1.02 ? 'male' : 'female',
+            'diabet_familie': family == 1.2 ? 'True' : 'False',
             'inaltime': height,
-            'talie': waist,
-            'glicemia': glycemia,
-            'trigliceride': triglycerides,
-            'tensiune_sistolica': TA_systolic,
-            'colesterol': hdl,
-            'siMS_scor': score_patient,
-            'siMS_scor_risc': risk_score_patient,
-            'PsiMS_scor': psiMS,
-            'siMS_scor_ref': score_ref,
-            'siMS_scor_risc_ref': risk_score_ref
+            'talie': parseFloat(waist),
+            'glicemia': parseFloat(glycemia),
+            'trigliceride': parseFloat(triglycerides),
+            'tensiune_sistolica': parseFloat(TA_systolic),
+            'colesterol': parseFloat(hdl),
+            'siMS_scor': parseFloat(score_patient),
+            'siMS_scor_risc': parseFloat(risk_score_patient),
+            'PsiMS_scor': parseFloat(psiMS),
+            'siMS_scor_ref': parseFloat(score_ref),
+            'siMS_scor_risc_ref': parseFloat(risk_score_ref)
         }
+
+        console.log(data_to_send)
         var url = "http://localhost:8000/set_indice_siMS/";
 
         f = function(data_recived){
