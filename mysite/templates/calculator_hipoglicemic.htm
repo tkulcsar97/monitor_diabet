@@ -75,7 +75,7 @@
 		}
 	</style>
 </head>
-<body onload="preia_date_hipoglicemie()">
+<body {% if role > 2 %}onload="preia_date_hipoglicemie()" {% endif %}>
 
 	<style>
 		.navbar-fixed-left{

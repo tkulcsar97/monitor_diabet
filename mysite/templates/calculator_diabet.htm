@@ -24,7 +24,7 @@
 		}
 	</style>
 </head>
-<body onload = "preia_date_calculator_diabet()">
+<body {% if role > 2 %} onload = "preia_date_calculator_diabet()" {% endif %}>
 	<style>
 		.navbar-fixed-left{
 			position: fixed;
