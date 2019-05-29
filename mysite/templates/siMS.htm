@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title></title>
   </head>
-  <body>
+  <body onload = "preia_date_ssims()">
     <style>
       .navbar-fixed-left{
         position: fixed;
@@ -25,7 +25,7 @@
       }
       .con{
         padding-top: 2%;
-        padding-left: 30%;
+        padding-left: 22%;
       }
     </style>
       <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-left">
@@ -36,8 +36,8 @@
           <li class="nav-item mt-3">
             <a class="nav-link" href="index.htm">Algoritm diagnostic</a>
           </li>
-          <li class="nav-item active mt-2">
-            <a class="nav-link" href="#">Analiza glicemiei<span class="sr-only">(current)</span></a>
+          <li class="nav-item mt-2">
+            <a class="nav-link" href="#">Analiza glicemiei</a>
           </li>
           <li class="nav-item mt-2">
             <a class="nav-link" href="stadializarea_nefropatiei_diabetice.htm">Stadializarea nefropatiei diabetice</a>
@@ -51,8 +51,8 @@
           <li class="nav-item mt-2">
             <a class="nav-link" href="calculator_diabet.htm">Calculator diabet</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="siMS.htm">siMS</a>
+          <li class="nav-item active">
+            <a class="nav-link" href="siMS.htm">siMS<span class="sr-only">(current)</span></a>
           </li>
           {% if role > 0 %}
             {% if role == 2 %}
@@ -77,11 +77,23 @@
         </ul>
       </nav>
       <div class="containter con">
-        <div class = "d-flex justify-content-center">
-          {% if patient == '' %}
+        <div class = "d-flex justify-content-center mt-1">
+          {% if patient == '' and role == 2 %}
             <h4>Nu ai selectat niciun pacient!</h4>
           {% else %}
-            <h4>Ai selectat pacientul: {{patient}}</h4>
+          <div class = "d-flex flex-column">
+            {% if role == 2 %}
+              <h4 class="text-center">Ai selectat pacientul: {{patient}}</h4>
+            {% endif %}
+            <a class="btn btn-primary mt-4" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Vezi date despre {% if role == 2 %} pacient {% else %} tine {% endif %}</a>
+            <div class="collapse" id="collapseExample">
+              <div class="card card-body">
+                <table id = "date-pacient">
+                
+                </table>
+              </div>
+            </div>
+          </div>
           {% endif %}
         </div>
         <style type="text/css">

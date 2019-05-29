@@ -24,7 +24,7 @@
 		}
 	</style>
 </head>
-<body>
+<body onload = "preia_date_calculator_diabet()">
 	<style>
 		.navbar-fixed-left{
 			position: fixed;
@@ -85,11 +85,23 @@
 		</nav>
 
 		<div class="container con">
-				<div class = "d-flex justify-content-center">
-					{% if patient == '' %}
+				<div class = "d-flex justify-content-center mt-1">
+					{% if patient == '' and role == 2%}
 						<h4>Nu ai selectat niciun pacient!</h4>
 					{% else %}
-						<h4>Ai selectat pacientul: {{patient}}</h4>
+					<div class = "d-flex flex-column">
+						{% if role == 2 %}
+							<h4 class="text-center">Ai selectat pacientul: {{patient}}</h4>
+						{% endif %}
+						<a class="btn btn-primary mt-4" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Vezi date despre {% if role == 2 %} pacient {% else %} tine {% endif %}</a>
+						<div class="collapse" id="collapseExample">
+							<div class="card card-body">
+								<table id = "date-pacient">
+								
+								</table>
+							</div>
+						</div>
+					</div>
 					{% endif %}
 				</div>
 				<h2 class = "mt-5">Table 1</h2>
@@ -199,6 +211,7 @@
 					<button type="button" id="b1" class="btn btn-outline-success mt-3" onclick="adauga_risc_diabet();">Memorează</button>
 				{% endif %}
 			</div>
-
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>

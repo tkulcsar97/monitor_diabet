@@ -18,18 +18,18 @@ var mesaj=new Array(size);
 
 var rezultat;
 
-function init()
-{
-for(var i=0;i<size;i++)
+function init(){
+  for(var i=0;i<size;i++)
   {
-    mesaj[i]=' ';
-    if(i==0 || i==3) culori[i]=green;
-    else if(i==1 || i==4 || i==6) culori[i]=yellow;
-    else if(i==2 || i==5 || i==7 || i==9) culori[i]=orange;
-    else culori[i]=red;
+      mesaj[i]=' ';
+      if(i==0 || i==3) culori[i]=green;
+      else if(i==1 || i==4 || i==6) culori[i]=yellow;
+      else if(i==2 || i==5 || i==7 || i==9) culori[i]=orange;
+      else culori[i]=red;
   }
-} 
+}
 
+init();
 
 function validNr(a)
 {

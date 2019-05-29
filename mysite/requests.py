@@ -78,6 +78,9 @@ def create_account(request):
 def logout(request):
     views.username = ''
     views.role = 0
+    views.patient = ''
+    views.age = 0
+    views.dotors = []
     return JsonResponse({'data': None})
 
 def setare_date_analiza(request):
@@ -294,10 +297,16 @@ def setare_date_indice_siMS(request): #MEDIC
     return JsonResponse(data)  
 
 def preluare_date_nefropatie(request): #MEDIC
-    user = User.objects.get(username=views.username)
+
+    if views.role == 1:
+        user = User.objects.get(username = views.username) # request de catre pacient
+    else:
+        user = User.objects.get(username = views.patient) # request de catre medic
+
     array_nefropatie = []
     inregistrari_nefropatie = Nefropatie.objects.filter(user=user)
     for inregistrare_nefropatie in inregistrari_nefropatie:
+        print("y")
         array_nefropatie.append({
             'zi': inregistrare_nefropatie.data,
             'rata_filtrare_glomerulara': inregistrare_nefropatie.rata_filtrare_glomerulara,
@@ -309,7 +318,11 @@ def preluare_date_nefropatie(request): #MEDIC
     return JsonResponse(data)
 
 def preluare_date_risc_hipoglicemie(request): #MEDIC
-    user = User.objects.get(username=views.username)
+    if views.role == 1:
+        user = User.objects.get(username = views.username) # request de catre pacient
+    else:
+        user = User.objects.get(username = views.patient) # request de catre medic
+
     array_hipoglicemie = []
     inregistrari_hipoglicemie = Risc_Hipoglicemie.objects.filter(user=user)
     for inregistrare_hipoglicemie in inregistrari_hipoglicemie:
@@ -327,7 +340,11 @@ def preluare_date_risc_hipoglicemie(request): #MEDIC
     return JsonResponse(data)
 
 def preluare_date_risc_diabet(request): #MEDIC
-    user = User.objects.get(username=views.username)
+    if views.role == 1:
+        user = User.objects.get(username = views.username) # request de catre pacient
+    else:
+        user = User.objects.get(username = views.patient) # request de catre medic
+
     array_diabet = []
     inregistrari_diabet = Risc_Diabet.objects.filter(user=user)
     for inregistrare_diabet in inregistrari_diabet:
@@ -346,11 +363,15 @@ def preluare_date_risc_diabet(request): #MEDIC
     return JsonResponse(data)
 
 def preluare_date_indice_siMS(request): #MEDIC
-    user = User.objects.get(username=views.username)
+    if views.role == 1:
+        user = User.objects.get(username = views.username) # request de catre pacient
+    else:
+        user = User.objects.get(username = views.patient) # request de catre medic
+        
     array_siMS = []
     inregistrari_siMS = Indice_SiMS.objects.filter(user=user)
     for inregistrare_siMS in inregistrari_siMS:
-        array_diabet.append({
+        array_siMS.append({
             'zi': inregistrare_siMS.data,
             'sex': inregistrare_siMS.sex,
             'diabet_familie': inregistrare_siMS.diabet_in_familie,

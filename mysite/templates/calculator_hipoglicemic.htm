@@ -4,6 +4,7 @@
   <head>
     <script type="text/javascript" src="{% static 'js/render(A).js' %}"></script>
 		<script type="text/javascript" src="{% static 'js/jquery-3.3.1.js' %}"></script>
+		<script type="text/javascript" src="{% static 'js/render(A).js' %}"></script>
 		<script type="text/javascript" src="{% static 'js/script_calculator_hipoglicemic.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/server_requests(A).js' %}"></script>
 
@@ -74,7 +75,7 @@
 		}
 	</style>
 </head>
-<body>
+<body onload="preia_date_hipoglicemie()">
 
 	<style>
 		.navbar-fixed-left{
@@ -136,11 +137,23 @@
 	</nav>
         
   <div class="container con">
-		<div class = "d-flex justify-content-center">
-			{% if patient == '' %}
+		<div class = "d-flex justify-content-center mt-1">
+			{% if patient == '' and role == 2 %}
 				<h4>Nu ai selectat niciun pacient!</h4>
 			{% else %}
-				<h4>Ai selectat pacientul: {{patient}}</h4>
+			<div class = "d-flex flex-column">
+				{% if role == 2 %}
+					<h4 class="text-center">Ai selectat pacientul: {{patient}}</h4>
+				{% endif %}
+				<a class="btn btn-primary mt-4" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Vezi date despre {% if role == 2 %} pacient {% else %} tine {% endif %}</a>
+				<div class="collapse" id="collapseExample">
+					<div class="card card-body">
+						<table id = "date-pacient">
+						
+						</table>
+					</div>
+				</div>
+			</div>
 			{% endif %}
 		</div>
 		<table class = "mt-5 table table-bordered" id="inputs" onchange="Output();">
@@ -304,5 +317,7 @@
 		{% endif %}
 		<br><br>
 	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>

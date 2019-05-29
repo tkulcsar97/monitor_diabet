@@ -6,6 +6,7 @@
     <script type="text/javascript" src="{% static 'js/jquery-3.3.1.js' %}"></script>
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="{% static 'js/render(A).js' %}"></script>
     <script type="text/javascript" src="{% static 'js/script_stadializarea_nefropatiei.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/server_requests(A).js' %}"></script>
 
@@ -16,7 +17,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title></title>
   </head>
-  <body onload="init();">
+  <body onload="preia_date_nefripatie()">
       <style>
           .navbar-fixed-left{
             position: fixed;
@@ -77,15 +78,7 @@
         </nav>
 
         <div class="container con">
-          <div class = "d-flex justify-content-center">
-            {% if patient == '' %}
-              <h4>Nu ai selectat niciun pacient!</h4>
-            {% else %}
-              <h4>Ai selectat pacientul: {{patient}}</h4>
-              <a class="btn btn-outline-success my-2 my-sm-2 mr" href="inregistrare.htm">Vezi date despre pacient</a>
-            {% endif %}
-          </div>
-          <div class="mt-5" id="accordion">
+          <div class="mt-1" id="accordion">
               <div class="card">
                 <div class="card-header" id="headingOne">
                   <h5 class="mb-0">
@@ -118,6 +111,25 @@
                   </div>
                 </div>
               </div>
+            </div>
+            <div class = "d-flex justify-content-center mt-5">
+              {% if patient == '' and role == 2 %}
+                <h4>Nu ai selectat niciun pacient!</h4>
+              {% else %}
+              <div class = "d-flex flex-column">
+                {% if role == 2 %}
+                <h4 class="text-center">Ai selectat pacientul: {{patient}}</h4>
+                {% endif %}
+                <a class="btn btn-primary mt-4" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Vezi date despre {% if role == 2 %} pacient {% else %} tine {% endif %}</a>
+                <div class="collapse" id="collapseExample">
+                  <div class="card card-body">
+                    <table id = "date-pacient">
+                      
+                    </table>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
             </div>
         
           <div class="p-1 mb-5 bg-white"></div>
