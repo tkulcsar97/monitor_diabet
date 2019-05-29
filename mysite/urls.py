@@ -57,5 +57,9 @@ urlpatterns = [
     url(r'get_indice_siMS/$', requests.preluare_date_indice_siMS),
     url(r'get_analiza_table/$', requests.preluare_date_tabel_analiza),
     url(r'get_reprezentare_table/$', requests.preluare_date_tabel_reprezentare),
+    url(r'statistics_nefropatie/$', requests.statistica_nefropatie),
+    url(r'statistics_risc_hipoglicemie/$', requests.statistica_hipoglicemie),
+    url(r'statistics_risc_diabet/$', requests.statistica_diabet),
+    url(r'statistics_indice_siMS/$', requests.statistica_indice_siMS),
 
 ]

@@ -43,7 +43,7 @@ class Pacient(models.Model):
 	
 class Nefropatie(models.Model):
 	id_nefropatie = models.AutoField(primary_key=True)
-	data = models.DateField()
+	data = models.DateField(null=True)
 	rata_filtrare_glomerulara = models.FloatField(null=True)
 	albuminuria = models.FloatField(null=True)
 	unitate_masura = models.CharField(max_length=20, default='', blank=True)
@@ -56,7 +56,7 @@ class Nefropatie(models.Model):
 	
 class Variabilitate_Glicemie(models.Model):
 	id_variabilitate = models.AutoField(primary_key=True)
-	data_ora = models.DateTimeField()
+	data_ora = models.DateTimeField(null=True)
 	valoare_glicemie = models.FloatField()
 	user = models.ForeignKey(User, on_delete = models.CASCADE, default="")
 	
@@ -66,7 +66,7 @@ class Variabilitate_Glicemie(models.Model):
 	
 class Reprezentare_Glicemie(models.Model):
 	id_reprezentare = models.AutoField(primary_key=True)
-	data = models.DateField()
+	data = models.DateField(null=True)
 	moment_al_zilei = models.CharField(max_length=50, default='', blank=True)
 	valoare_glicemie = models.IntegerField()
 	user = models.ForeignKey(User, on_delete = models.CASCADE, default="")
@@ -77,7 +77,7 @@ class Reprezentare_Glicemie(models.Model):
 
 class Risc_Hipoglicemie(models.Model):
 	id_hipoglicemie = models.AutoField(primary_key=True)
-	data = models.DateField()
+	data = models.DateField(null=True)
 	urgente_hipoglicemie = models.CharField(max_length=20, default="", blank=True)
 	urgente = models.CharField(max_length=20, default="", blank=True)
 	insulina = models.BooleanField(default=False)
@@ -93,7 +93,7 @@ class Risc_Hipoglicemie(models.Model):
 
 class Risc_Diabet(models.Model):
 	id_risc_diabet = models.AutoField(primary_key=True)
-	data = models.DateField()
+	data = models.DateField(null=True)
 	conditie_glicemie_pe_nemancate = models.BooleanField(default=False, null=True)
 	conditie_glicemie_la_doua_ore = models.BooleanField(default=False, null=True)
 	conditie_circumferinta_talie = models.BooleanField(default=False, null=True)
@@ -102,6 +102,8 @@ class Risc_Diabet(models.Model):
 	conditie_hiperlipidemie = models.BooleanField(default=False, null=True)
 	scor_cmds = models.IntegerField(null=True)
 	scor_cmds_modificat = models.IntegerField(null=True)
+	risc_cmds = models.CharField(max_length=20, default="", blank=True)
+	risc_cmds_modificat = models.CharField(max_length=20, default="", blank=True)
 	user = models.ForeignKey(User, on_delete = models.CASCADE, default="")
 
 	class Meta: 
@@ -110,7 +112,7 @@ class Risc_Diabet(models.Model):
 
 class Indice_SiMS(models.Model):
 	id_sims = models.AutoField(primary_key=True)
-	data = models.DateField()
+	data = models.DateField(null=True)
 	sex = models.CharField(max_length=20, default="", blank=True)
 	diabet_in_familie = models.BooleanField(default=False)
 	inaltime = models.FloatField()
@@ -125,6 +127,7 @@ class Indice_SiMS(models.Model):
 	PsiMS_scor = models.FloatField(null=True)
 	siMS_scor_ref = models.FloatField(null=True)
 	siMS_scor_risc_ref = models.FloatField(null=True)
+	rezultat = models.CharField(max_length=50, default="", blank=True)
 	user = models.ForeignKey(User, on_delete=models.CASCADE, default="")
 
 	class Meta: 
