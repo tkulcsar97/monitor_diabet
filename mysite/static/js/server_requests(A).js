@@ -330,7 +330,7 @@ function adauga_ssims(){
     }
 }
 
-function preia_date_nefripatie(){
+function preia_date_nefropatie(){
     var url = "http://localhost:8000/get_nefropatie/"
     data_to_send = {"data": null}
     f = function(data_recived){ 

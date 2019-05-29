@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title></title>
   </head>
-  <body {% if role > 2 %} onload="preia_date_nefripatie()" {% endif %}>
+  <body {% if role > 0 %} onload="preia_date_nefropatie()" {% endif %}>
       <style>
           .navbar-fixed-left{
             position: fixed;
@@ -116,19 +116,21 @@
               {% if patient == '' and role == 2 %}
                 <h4>Nu ai selectat niciun pacient!</h4>
               {% else %}
-              <div class = "d-flex flex-column">
-                {% if role == 2 %}
-                <h4 class="text-center">Ai selectat pacientul: {{patient}}</h4>
-                {% endif %}
-                <a class="btn btn-primary mt-4" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Vezi date despre {% if role == 2 %} pacient {% else %} tine {% endif %}</a>
-                <div class="collapse" id="collapseExample">
-                  <div class="card card-body">
-                    <table id = "date-pacient">
-                      
-                    </table>
+                {% if role > 0 %}
+                  <div class = "d-flex flex-column">
+                    {% if role == 2 %}
+                    <h4 class="text-center">Ai selectat pacientul: {{patient}}</h4>
+                    {% endif %}
+                    <a class="btn btn-primary mt-4" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Vezi date despre {% if role == 2 %} pacient {% else %} tine {% endif %}</a>
+                    <div class="collapse" id="collapseExample">
+                      <div class="card card-body">
+                        <table id = "date-pacient">
+                          
+                        </table>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
+                {% endif %}
               {% endif %}
             </div>
         
