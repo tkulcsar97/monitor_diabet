@@ -297,7 +297,6 @@ function adauga_risc_diabet(){
 }
 
 function adauga_ssims(){
-    console.log("aici")
     if (score_ref == null || score_patient == null)
         alert("Este nevoie de ambele scoruri");
     else{
@@ -329,6 +328,46 @@ function adauga_ssims(){
         ajax_request(url, data_to_send, f);
 
     }
+}
+
+function preia_date_nefropatie(){
+    var url = "http://localhost:8000/get_nefropatie/"
+    data_to_send = {"data": null}
+    f = function(data_recived){ 
+        render_date_nefropatie(data_recived);
+    }
+
+    ajax_request(url, data_to_send, f);
+}
+
+function preia_date_hipoglicemie(){
+    var url = "http://localhost:8000/get_risc_hipoglicemie/"
+    data_to_send = {"data": null}
+    f = function(data_recived){ 
+        render_date_hipoglicemie(data_recived);
+    }
+
+    ajax_request(url, data_to_send, f);
+}
+
+function preia_date_calculator_diabet(){
+    var url = "http://localhost:8000/get_risc_diabet/"
+    data_to_send = {"data": null}
+    f = function(data_recived){
+        render_date_calculator_diabet(data_recived);
+    }
+
+    ajax_request(url, data_to_send, f);
+}
+
+function preia_date_ssims(){
+    var url = "http://localhost:8000/get_indice_siMS/"
+    data_to_send = {"data": null}
+    f = function(data_recived){
+        render_date_ssims(data_recived);
+    }
+
+    ajax_request(url, data_to_send, f);
 }
 
 function ajax_request(url,data,f){

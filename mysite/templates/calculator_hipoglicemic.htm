@@ -4,6 +4,7 @@
   <head>
     <script type="text/javascript" src="{% static 'js/render(A).js' %}"></script>
 		<script type="text/javascript" src="{% static 'js/jquery-3.3.1.js' %}"></script>
+		<script type="text/javascript" src="{% static 'js/render(A).js' %}"></script>
 		<script type="text/javascript" src="{% static 'js/script_calculator_hipoglicemic.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/server_requests(A).js' %}"></script>
 
@@ -74,7 +75,7 @@
 		}
 	</style>
 </head>
-<body>
+<body {% if role > 0 %}onload="preia_date_hipoglicemie()" {% endif %}>
 
 	<style>
 		.navbar-fixed-left{
@@ -136,173 +137,191 @@
 	</nav>
         
   <div class="container con">
-		<div class = "d-flex justify-content-center">
-			{% if patient == '' %}
+		<div class = "d-flex justify-content-center mt-1">
+			{% if patient == '' and role == 2 %}
 				<h4>Nu ai selectat niciun pacient!</h4>
 			{% else %}
-				<h4>Ai selectat pacientul: {{patient}}</h4>
+				{% if role > 0 %}
+					<div class = "d-flex flex-column">
+						{% if role == 2 %}
+							<h4 class="text-center">Ai selectat pacientul: {{patient}}</h4>
+						{% endif %}
+						<a class="btn btn-primary mt-4" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Vezi date despre {% if role == 2 %} pacient {% else %} tine {% endif %}</a>
+						<div class="collapse" id="collapseExample">
+							<div class="card card-body">
+								<table id = "date-pacient">
+								
+								</table>
+							</div>
+						</div>
+					</div>
+				{% endif %}
 			{% endif %}
 		</div>
-		<table class = "mt-5 table table-bordered" id="inputs" onchange="Output();">
-			<tbody>
-			<tr>
-				<td>
-					De cate ori ai ajuns in ultimele 12 luni la unitatea de primiri urgente e cu diagnostic primar/principal de
-					hipoglicemie?
-				</td>
-				<td>
-					<ul>
-						<li>
-							<!-- C1 = choice 1 -->
-							<input type="radio" id="C1_niciodata" name="diag-principal-hipoglicemie" value="niciodata">
-							<label for="C1_niciodata">Niciodata</label>
-						</li>
-						<li>
-							<input type="radio" id="C1_sub2" name="diag-principal-hipoglicemie" value="sub2">
-							<label for="C1_sub2"><2 ori</label>
-						</li>
-						<li>
-							<input type="radio" id="C1_3plus" name="diag-principal-hipoglicemie" value="3plus">
-							<label for="C1_3plus">&ge;3 ori</label>
-						</li>
-					</ul>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					De cate ori ai ajuns la unitatea de primiri urgente petru orice alt motiv de sanatate in ultimele 12 luni?
-				</td>
-				<td>
-					<ul>
-						<li>
-							<input type="radio" id="C2_sub2" name="alt-motiv" value="sub2">
-							<label for="C2_sub2"><2 ori</label>
-						</li>
-						<li>
-							<input type="radio" id="C2_2plus" name="alt-motiv" value="2plus">
-							<label for="C2_2plus">&ge;2 ori</label>
-						</li>
-					</ul>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					Folosesti insulina sau nu?
-				</td>
-				<td>
-					<ul>
-						<li>
-							<input type="radio" id="C3_insulina_da" name="insulina" value="da">
-							<label for="C3_insulina_da">Da</label>
-						</li>
-						<li>
-							<input type="radio" id="C3_insulina_nu" name="insulina" value="nu">
-							<label for="C3_insulina_nu">Nu</label>
-						</li>
-					</ul>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					Folosesti derivate de sulfoniluree?
-				</td>
-				<td>
-					<ul>
-						<li>
-							<input type="radio" id="C4_sulfoniluree_da" name="sulfoniluree" value="da">
-							<label for="C4_sulfoniluree_da">Da</label>
-						</li>
-						<li>
-							<input type="radio" id="C4_sulfoniluree_nu" name="sulfoniluree" value="nu">
-							<label for="C4_sulfoniluree_nu">Nu</label>
-						</li>
-					</ul>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					Aveti insuficienta renala cronica stadiul 4 sau 5?
-				</td>
-				<td>
-					<ul>
-						<li>
-							<input type="radio" id="C5_insuficienta_renala_da" name="insuficienta-renala" value="da">
-							<label for="C5_insuficienta_renala_da">Da</label>
-						</li>
-						<li>
-							<input type="radio" id="C5_insuficienta_renala_nu" name="insuficienta-renala" value="nu">
-							<label for="C5_insuficienta_renala_nu">Nu</label>
-						</li>
-					</ul>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					Aveti varsta mai mica de 77 de ani?
-				</td>
-				<td>
-					<ul>
-						<li>
-							<input type="radio" id="C6_varsta_sub_77_da" name="varsta-sub-77" value="da">
-							<label for="C6_varsta_sub_77_da">Da</label>
-						</li>
-						<li>
-							<input type="radio" id="C6_varsta_sub_77_nu" name="varsta-sub-77" value="nu">
-							<label for="C6_varsta_sub_77_nu">Nu</label>
-						</li>
-					</ul>
-				</td>
-			</tr>
-			</tbody>
-		</table>
+		<div {% if role > 0 %}class = "mt-5" {% endif %}>
+			<table class = "table table-bordered" id="inputs" onchange="Output();">
+				<tbody>
+				<tr>
+					<td>
+						De cate ori ai ajuns in ultimele 12 luni la unitatea de primiri urgente e cu diagnostic primar/principal de
+						hipoglicemie?
+					</td>
+					<td>
+						<ul>
+							<li>
+								<!-- C1 = choice 1 -->
+								<input type="radio" id="C1_niciodata" name="diag-principal-hipoglicemie" value="niciodata">
+								<label for="C1_niciodata">Niciodata</label>
+							</li>
+							<li>
+								<input type="radio" id="C1_sub2" name="diag-principal-hipoglicemie" value="sub2">
+								<label for="C1_sub2"><2 ori</label>
+							</li>
+							<li>
+								<input type="radio" id="C1_3plus" name="diag-principal-hipoglicemie" value="3plus">
+								<label for="C1_3plus">&ge;3 ori</label>
+							</li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						De cate ori ai ajuns la unitatea de primiri urgente petru orice alt motiv de sanatate in ultimele 12 luni?
+					</td>
+					<td>
+						<ul>
+							<li>
+								<input type="radio" id="C2_sub2" name="alt-motiv" value="sub2">
+								<label for="C2_sub2"><2 ori</label>
+							</li>
+							<li>
+								<input type="radio" id="C2_2plus" name="alt-motiv" value="2plus">
+								<label for="C2_2plus">&ge;2 ori</label>
+							</li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Folosesti insulina sau nu?
+					</td>
+					<td>
+						<ul>
+							<li>
+								<input type="radio" id="C3_insulina_da" name="insulina" value="da">
+								<label for="C3_insulina_da">Da</label>
+							</li>
+							<li>
+								<input type="radio" id="C3_insulina_nu" name="insulina" value="nu">
+								<label for="C3_insulina_nu">Nu</label>
+							</li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Folosesti derivate de sulfoniluree?
+					</td>
+					<td>
+						<ul>
+							<li>
+								<input type="radio" id="C4_sulfoniluree_da" name="sulfoniluree" value="da">
+								<label for="C4_sulfoniluree_da">Da</label>
+							</li>
+							<li>
+								<input type="radio" id="C4_sulfoniluree_nu" name="sulfoniluree" value="nu">
+								<label for="C4_sulfoniluree_nu">Nu</label>
+							</li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Aveti insuficienta renala cronica stadiul 4 sau 5?
+					</td>
+					<td>
+						<ul>
+							<li>
+								<input type="radio" id="C5_insuficienta_renala_da" name="insuficienta-renala" value="da">
+								<label for="C5_insuficienta_renala_da">Da</label>
+							</li>
+							<li>
+								<input type="radio" id="C5_insuficienta_renala_nu" name="insuficienta-renala" value="nu">
+								<label for="C5_insuficienta_renala_nu">Nu</label>
+							</li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Aveti varsta mai mica de 77 de ani?
+					</td>
+					<td>
+						<ul>
+							<li>
+								<input type="radio" id="C6_varsta_sub_77_da" name="varsta-sub-77" value="da">
+								<label for="C6_varsta_sub_77_da">Da</label>
+							</li>
+							<li>
+								<input type="radio" id="C6_varsta_sub_77_nu" name="varsta-sub-77" value="nu">
+								<label for="C6_varsta_sub_77_nu">Nu</label>
+							</li>
+						</ul>
+					</td>
+				</tr>
+				</tbody>
+			</table>
 
-		<table id="results" class="table table-bordered">
-			<tbody>
-			<tr>
-				<td id="risc-ridicat-1">
-					&ge;3 vizite la spital in precedentele 12 luni, cu sau fara diagnostic primar/principal de hipoglicemie.
-				</td>
-				<td rowspan="2" id="risc-ridicat">
-					Risc ridicat (>5%)
-				</td>
-			</tr>
-			<tr>
-				<td id="risc-ridicat-2">
-					1-2 vizite la spital cu diagnostic de hipoglicemie sau orice alt diagnostic si folosirea insulinei
-				</td>
-			</tr>
-			<tr>
-				<td id="risc-scazut-1">
-					Fara vizite la spital (pentru hipoglicemie) in ultimele 12 luni si nu utilizeaza insuina si nu utiizeaza derivati de sulfoniluree
-				</td>
-				<td rowspan="3" id="risc-scazut">
-					Risc scazut(<1%)
-				</td>
-			</tr>
-			<tr>
-				<td id="risc-scazut-2">
-					Fara vizite la spital (pentru hipoglicemie) in ultimele 12 luni si nu utilizeaza insuina si utiizeaza derivati de sulfoniluree, cu varsta <77 ani si nu are insuficienta renala cronica severa sau terminala
-				</td>
-			</tr>
-			<tr>
-				<td id="risc-scazut-3">
-					Fara vizite la spital (pentru hipoglicemie) in ultimele 12 luni si utilizeaza insuina, cu varsta <77 ani si <2 vizite la spital (de alta cauza) in cele 12 luni anterioare
-				</td>
-			</tr>
-			<tr>
-				<td id="risc-interm-1">
-					Toate celalate combinatii de factori
-				</td>
-				<td id="risc-interm">
-					Risc intermediar (1% - 5%)
-				</td>
-			</tr>
-			</tbody>
-		</table>
-		{% if role == 2 and patient != '' %}
-			<button type="button" id="b1" class="btn btn-outline-success mt-3" onclick="adauga_risc_hipo();">Memorează</button>
-		{% endif %}
-		<br><br>
+			<table id="results" class="table table-bordered">
+				<tbody>
+				<tr>
+					<td id="risc-ridicat-1">
+						&ge;3 vizite la spital in precedentele 12 luni, cu sau fara diagnostic primar/principal de hipoglicemie.
+					</td>
+					<td rowspan="2" id="risc-ridicat">
+						Risc ridicat (>5%)
+					</td>
+				</tr>
+				<tr>
+					<td id="risc-ridicat-2">
+						1-2 vizite la spital cu diagnostic de hipoglicemie sau orice alt diagnostic si folosirea insulinei
+					</td>
+				</tr>
+				<tr>
+					<td id="risc-scazut-1">
+						Fara vizite la spital (pentru hipoglicemie) in ultimele 12 luni si nu utilizeaza insuina si nu utiizeaza derivati de sulfoniluree
+					</td>
+					<td rowspan="3" id="risc-scazut">
+						Risc scazut(<1%)
+					</td>
+				</tr>
+				<tr>
+					<td id="risc-scazut-2">
+						Fara vizite la spital (pentru hipoglicemie) in ultimele 12 luni si nu utilizeaza insuina si utiizeaza derivati de sulfoniluree, cu varsta <77 ani si nu are insuficienta renala cronica severa sau terminala
+					</td>
+				</tr>
+				<tr>
+					<td id="risc-scazut-3">
+						Fara vizite la spital (pentru hipoglicemie) in ultimele 12 luni si utilizeaza insuina, cu varsta <77 ani si <2 vizite la spital (de alta cauza) in cele 12 luni anterioare
+					</td>
+				</tr>
+				<tr>
+					<td id="risc-interm-1">
+						Toate celalate combinatii de factori
+					</td>
+					<td id="risc-interm">
+						Risc intermediar (1% - 5%)
+					</td>
+				</tr>
+				</tbody>
+			</table>
+			{% if role == 2 and patient != '' %}
+				<button type="button" id="b1" class="btn btn-outline-success mt-3" onclick="adauga_risc_hipo();">Memorează</button>
+			{% endif %}
+			<br><br>
+		</div>
 	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>
