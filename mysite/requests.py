@@ -81,7 +81,7 @@ def logout(request):
     views.role = 0
     views.patient = ''
     views.age = 0
-    views.dotors = []
+    views.doctors = []
     return JsonResponse({'data': None})
 
 def setare_date_analiza(request):
