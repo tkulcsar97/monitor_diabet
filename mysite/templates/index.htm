@@ -4,10 +4,10 @@
   <head>
     <!-- Scripts-->
     <script type="text/javascript" src="{% static 'js/jquery-3.3.1.js' %}"></script>
-  
-    <script type="text/javascript" src="{% static 'js/jquery-3.3.1.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/data.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/server_requests(A).js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'js/script_algoritm_diagnostic.js' %}"></script>
 
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -148,9 +148,6 @@
                     </ul>
                   </p>
                   <p>
-                    Indicele masei corporale se poate calcula în multe locuri: <a href="http://www.doctor.info.ro/calculator_imc.html">aici </a> sau <a href="https://chirurgie-drfodor.ro/utile/calculator-indice-masa-corporala"> aici</a>
-                  </p>
-                  <p>
                     HOMA-2B și HOMA2-IR pot fi calculate cu ajutorul unui freeware, care poate fi descărcat de <a href="https://www.dtu.ox.ac.uk/homacalculator/">aici</a>. Pentru calculul acestor doi parametri este nevoie de valorile glicemiei și insulinei plasmatice.
                   </p>
                 </div>
@@ -166,8 +163,12 @@
                 <input type="number" class="form-control" id="varsta_debut">
               </div>
               <div class="form-group">
-                <label> Indicele de masa corporala: </label>
-                <input type="number" class="form-control" id="indice_masa">
+                <label> Inaltimea: </label>
+                <input type="number" class="form-control" id="inaltime">
+              </div>
+              <div class="form-group">
+                <label> Greutatea: </label>
+                <input type="number" class="form-control" id="greutate">
               </div>
               <div class="form-group">
                 <label> Nivelul hemoglobinei glicozilate: </label>
@@ -193,7 +194,7 @@
                   Anticorpi anti-GADA absenti
                 </label>
               </div>
-              <button type="submit" class="btn btn-outline-success my-2 my-sm-4">Calculeaza</button>
+              <button type="button" class="btn btn-outline-success my-2 my-sm-4" onclick= "Output();">Calculeaza</button>
             </form>
         </div>
       </div>

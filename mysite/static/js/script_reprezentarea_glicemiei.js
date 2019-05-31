@@ -1,11 +1,12 @@
 var size=12;
 var tabelInput=new Array(size);
 var tabelValNormale=new Array(size);
-
+var prag;
 
 function init()
 {
-//init tabels input & valori normale
+//init tabels input & valori normale & prag
+prag=0;
 for(var i=0; i<size;i++)
   {
     tabelValNormale[i]=0;
@@ -19,14 +20,17 @@ google.charts.load('current', {callback: drawChart, packages: ['corechart']});
 function ParseJson()
 {
 $(document).ready(function () {
+  //get values for valori normale from json
   var i=0;
   $.getJSON(path, function (data) {
+    
     $.each(data.Valori_normale, function () {
             tabelValNormale[i]=parseFloat(this);
             i++;
         });
 
-    
+    //get values for Prag from json
+    prag=parseInt(data.Prag);
   });
 });
 }
@@ -42,11 +46,20 @@ for(var i=0;i<size;i++)
   }
 }
 
+function giveVerdict()
+{
+  var nrOre=0;
 
+  for(var i=0;i<size;i++)
+    if(tabelInput[i]>prag) nrOre++;
+  
+  document.getElementById("verdict").innerHTML = "Numar de ore deasupra pragului ~ " + nrOre;
+}
 function Calculeaza()
 {
   getInputValues();
   drawChart();
+  giveVerdict();
 }
 
 
@@ -55,19 +68,19 @@ function drawChart(param) {
      var data = google.visualization.arrayToDataTable([
      
 
-       ['X','Glicemia normala','Glicemia pacientului'],
-       [0, tabelValNormale[0], tabelInput[0]],    
-       [1, tabelValNormale[1], tabelInput[1]],  
-       [2, tabelValNormale[2], tabelInput[2]], 
-       [3, tabelValNormale[3],tabelInput[3]],
-       [4,  tabelValNormale[4], tabelInput[4]],
-       [5,  tabelValNormale[5], tabelInput[5]],
-       [6,  tabelValNormale[6], tabelInput[6]], 
-       [7, tabelValNormale[7],tabelInput[7]],
-       [8,  tabelValNormale[8], tabelInput[8]], 
-       [9, tabelValNormale[9], tabelInput[9]], 
-       [10, tabelValNormale[10], tabelInput[10]], 
-       [11, tabelValNormale[11], tabelInput[11]]
+       ['X','Glicemia normala','Glicemia pacientului', 'Prag'],
+       [0, tabelValNormale[0],  tabelInput[0], prag ],    
+       [1, tabelValNormale[1],  tabelInput[1], prag ],  
+       [2, tabelValNormale[2],  tabelInput[2], prag ], 
+       [3, tabelValNormale[3],  tabelInput[3], prag ],
+       [4,  tabelValNormale[4], tabelInput[4], prag ],
+       [5,  tabelValNormale[5], tabelInput[5], prag ],
+       [6,  tabelValNormale[6], tabelInput[6], prag ], 
+       [7, tabelValNormale[7],  tabelInput[7], prag ],
+       [8,  tabelValNormale[8], tabelInput[8], prag ], 
+       [9, tabelValNormale[9],  tabelInput[9], prag ], 
+       [10, tabelValNormale[10],tabelInput[10],prag ], 
+       [11, tabelValNormale[11],tabelInput[11],prag ]
        
       ]);
 
@@ -104,7 +117,7 @@ function drawChart(param) {
           ticks: [0,20,40,60,80,100,120,140,160,180] 
         },
         curveType: 'function',
-
+         colors:['blue','green','black']
 
       };
 
