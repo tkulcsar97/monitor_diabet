@@ -107,7 +107,7 @@ def setare_date_analiza(request):
 def preluare_date_analiza(request):
     temp_start = datetime.datetime.strptime(request.GET.get('start_date'), "%Y-%m-%dT%H:%M:%S.%fZ")
     temp_end = datetime.datetime.strptime(request.GET.get('end_date'), "%Y-%m-%dT%H:%M:%S.%fZ") 
-    if(request.GET.get('username') != ''):
+    if views.role == 1:
         user = User.objects.get(username = views.username) # request de catre pacient
     else:
         user = User.objects.get(username = views.patient) # request de catre medic
@@ -399,11 +399,14 @@ def preluare_date_indice_siMS(request): #MEDIC
 def preluare_date_tabel_analiza(request): #MEDIC
     temp_start = datetime.datetime.strptime(request.GET.get('start_date'), "%Y-%m-%dT%H:%M:%S.%fZ")
     temp_end = datetime.datetime.strptime(request.GET.get('end_date'), "%Y-%m-%dT%H:%M:%S.%fZ") 
-    user = User.objects.get(username=views.patient)
+    if views.role == 1:
+        user = User.objects.get(username = views.username) # request de catre pacient
+    else:
+        user = User.objects.get(username = views.patient) # request de catre medic
     array_analiza = []
     inregistrari_analiza = Variabilitate_Glicemie.objects.filter(user=user).order_by('data_ora')
     for inregistrare_analiza in inregistrari_analiza:
-        if(inregistrare_glicemie.data_ora.date() >= temp_start.date() and inregistrare_glicemie.data_ora.date() <= temp_end.date()):
+        if(inregistrare_analiza.data_ora.date() >= temp_start.date() and inregistrare_analiza.data_ora.date() <= temp_end.date()):
             array_analiza.append({
                 'data_ora': inregistrare_analiza.data_ora.replace(tzinfo=None),
                 'valoare': inregistrare_analiza.valoare_glicemie
@@ -414,7 +417,10 @@ def preluare_date_tabel_analiza(request): #MEDIC
 def preluare_date_tabel_reprezentare(request): #MEDIC
     temp_start = datetime.datetime.strptime(request.GET.get('start_date'), "%Y-%m-%dT%H:%M:%S.%fZ")
     temp_end = datetime.datetime.strptime(request.GET.get('end_date'), "%Y-%m-%dT%H:%M:%S.%fZ")
-    user = User.objects.get(username = views.patient)
+    if views.role == 1:
+        user = User.objects.get(username = views.username) # request de catre pacient
+    else:
+        user = User.objects.get(username = views.patient) # request de catre medic
     array_reprezentare = []
     inregistrari_grafic = Reprezentare_Glicemie.objects.filter(user=user).order_by('data', 'moment_al_zilei')
     for inregistrare_grafic in inregistrari_grafic:

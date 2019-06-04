@@ -391,8 +391,6 @@ function render_date_ssims(data){
     var table = document.getElementById("date-pacient");
     var tbody = document.createElement("tbody");
 
-    console.log(data)
-
     var th = document.createElement("th");
     th.appendChild(document.createTextNode("Data"));
     tbody.appendChild(th);
@@ -523,4 +521,158 @@ function render_date_ssims(data){
     }
 
     table.appendChild(tbody);
+}
+
+var date_analiza, limita_stanga = 0, limita_dreapta = 9;
+
+function render_date_analiza(){
+
+    console.log(date_analiza)
+
+    var tbody_old = document.getElementsByTagName("tbody");
+
+    document.getElementById("mod_introducere").style.display = "none";
+    document.getElementById("mod_afisare").style.display = "block";
+
+    var table = document.getElementById("date-pacient");
+    var tbody = document.createElement("tbody");
+
+    var th = document.createElement("th");
+    th.appendChild(document.createTextNode("Data"));
+    tbody.appendChild(th);
+
+    var th = document.createElement("th");
+    th.appendChild(document.createTextNode("Ora"));
+    tbody.appendChild(th);
+
+    var th = document.createElement("th");
+    th.appendChild(document.createTextNode("Valoarea"));
+    tbody.appendChild(th);
+
+
+    for (var i=limita_stanga; i<limita_dreapta && i < date_analiza.array.length ; i++){
+        console.log("i:", i);
+        var tr = document.createElement("tr");
+
+        var td;
+
+        var data_ora = date_analiza.array[i].data_ora.split("T");
+
+        td = document.createElement("td");
+        td.appendChild(document.createTextNode(data_ora[0]));
+        tr.appendChild(td);
+
+        td = document.createElement("td");
+        td.appendChild(document.createTextNode(data_ora[1]));
+        tr.appendChild(td);
+
+        td = document.createElement("td");
+        td.appendChild(document.createTextNode(date_analiza.array[i].valoare));
+        tr.appendChild(td);
+
+
+        tbody.appendChild(tr);
+
+    }
+    console.log(tbody_old)
+    if (tbody_old.length === 0) 
+        table.appendChild(tbody);     
+    else
+        table.replaceChild(tbody,tbody_old[0]);
+
+}
+
+function der_inapoi_analiza(){
+    if (limita_stanga != 0 && limita_dreapta != 9){
+        limita_stanga = limita_stanga - 10;
+        limita_dreapta = limita_dreapta - 10;
+        render_date_analiza()
+    }
+}
+
+function der_inainte_analiza(){
+    console.log(limita_dreapta, date_analiza.array.length)
+    if (limita_dreapta <= date_analiza.array.length){
+        console.log("yy")
+        limita_stanga = limita_stanga + 10;
+        limita_dreapta = limita_dreapta + 10;
+        render_date_analiza()
+    }
+}
+
+
+var date_reprezentare;
+function render_date_reprezentare(){
+    console.log(date_reprezentare);
+
+    var tbody_old = document.getElementsByTagName("tbody");
+
+    document.getElementById("mod_introducere").style.display = "none";
+    document.getElementById("mod_afisare").style.display = "block";
+
+    var table = document.getElementById("date-pacient");
+    var tbody = document.createElement("tbody");
+
+    var th = document.createElement("th");
+    th.appendChild(document.createTextNode("Data"));
+    tbody.appendChild(th);
+
+    var th = document.createElement("th");
+    th.appendChild(document.createTextNode("Ora"));
+    tbody.appendChild(th);
+
+    var th = document.createElement("th");
+    th.appendChild(document.createTextNode("Valoarea"));
+    tbody.appendChild(th);
+
+
+    for (var i=limita_stanga; i<limita_dreapta && i < date_reprezentare.array.length ; i++){
+        console.log("i:", i);
+        var tr = document.createElement("tr");
+
+        var td;
+
+        td = document.createElement("td");
+        td.appendChild(document.createTextNode(date_reprezentare.array[i].data));
+        tr.appendChild(td);
+
+        td = document.createElement("td");
+        td.appendChild(document.createTextNode(date_reprezentare.array[i].moment));
+        tr.appendChild(td);
+
+        td = document.createElement("td");
+        td.appendChild(document.createTextNode(date_reprezentare.array[i].valoare));
+        tr.appendChild(td);
+
+
+        tbody.appendChild(tr);
+
+    }
+    console.log(tbody_old)
+    if (tbody_old.length === 1) 
+        table.appendChild(tbody);     
+    else
+        table.replaceChild(tbody,tbody_old[0]);
+}
+
+function der_inapoi_reprezentare(){
+    if (limita_stanga != 0 && limita_dreapta != 9){
+        limita_stanga = limita_stanga - 10;
+        limita_dreapta = limita_dreapta - 10;
+        render_date_reprezentare()
+    }
+}
+
+function der_inainte_reprezentare(){
+    console.log(limita_dreapta, date_reprezentare.array.length)
+    if (limita_dreapta <= date_reprezentare.array.length){
+        limita_stanga = limita_stanga + 10;
+        limita_dreapta = limita_dreapta + 10;
+        render_date_reprezentare()
+    }
+}
+
+function render_stare_intr_date(){
+    document.getElementById("mod_introducere").style.display = "block";
+    document.getElementById("mod_afisare").style.display = "none";
 }

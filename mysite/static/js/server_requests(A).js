@@ -370,6 +370,43 @@ function preia_date_ssims(){
     ajax_request(url, data_to_send, f);
 }
 
+function preluare_tabel_analiza(){
+    var url = "http://localhost:8000/get_analiza_table/"
+
+    var start_date = new Date(document.getElementById("data_inceput_valoare").value);
+    var end_date = new Date(document.getElementById("data_sfarsit_valoare").value);
+    data_to_send = {
+        "start_date": start_date.toJSON(),
+        "end_date": end_date.toJSON()
+    }
+
+    f = function(data_recived){
+        date_analiza = data_recived;
+        render_date_analiza();
+    }
+
+    ajax_request(url, data_to_send, f);
+}
+
+function preluare_tabel_reprezentare(){
+    var url = "http://localhost:8000/get_reprezentare_table/"
+
+    var start_date = new Date(document.getElementById("data_inceput_valoare").value);
+    var end_date = new Date(document.getElementById("data_sfarsit_valoare").value);
+
+    data_to_send = {
+        "start_date": start_date.toJSON(),
+        "end_date": end_date.toJSON()
+    }
+
+    f = function(data_recived){
+        date_reprezentare = data_recived;
+        render_date_reprezentare();
+    }
+
+    ajax_request(url, data_to_send, f);
+}
+
 function ajax_request(url,data,f){
     $(document).ready(function(){
         $.ajax({

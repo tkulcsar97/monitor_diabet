@@ -81,10 +81,12 @@
         <div class="container con">
           <div class = "d-flex justify-content-center">
 
-            {% if patient == '' %}
-              <h4>Nu ai selectat niciun pacient!</h4>
-            {% else %}
-              <h4>Ai selectat pacientul: {{patient}}</h4>
+            {% if role == 2 %}
+              {% if patient == '' %}
+                <h4>Nu ai selectat niciun pacient!</h4>
+              {% else %}
+                <h4>Ai selectat pacientul: {{patient}}</h4>
+              {% endif %}
             {% endif %}
 
           </div>
@@ -92,7 +94,7 @@
             <div class="card">
               <div class="card-header" id="headingOne">
                 <h5 class="mb-0">
-                  <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                     Descriere
                   </button>
                 </h5>
@@ -120,6 +122,38 @@
           </div>
 
           {% if role > 0 %}
+            <div id="valori_stocate" class = "mt-2">
+              <div class="card">
+                <div class="card-header" id="headingTwo">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                      Ce valori sunt deja stocate?
+                    </button>
+                  </h5>
+                </div>
+                <div id="collapseTwo" id = "mod_introducere" class="collapse" aria-labelledby="headingTwo" data-parent="#valori_stocate">
+                  <div class="card-body">
+                    <div id = "mod_introducere" style="display: block">
+                      <label class = "d-flex justify-content-center"> Introduceți data de inceput </label>
+                      <input type="date" class="form-control" id="data_inceput_valoare">
+                      <label class = "d-flex justify-content-center mt-2"> Introduceți data de sfarsit </label>
+                      <input type="date" class="form-control" id="data_sfarsit_valoare">
+                      <div class = "d-flex justify-content-center"> <button type="button" class="btn btn-primary mt-3" onclick = "preluare_tabel_analiza()">Afisează</button> </div>
+                    </div>
+                    <div id = "mod_afisare" style="display: none">
+                      <table id = "date-pacient" cellpadding="20" class = "d-flex justify-content-center">
+                          
+                      </table> 
+                      <div class = "d-flex justify-content-center">
+                        <button type="button" class="btn btn-primary mt-3 ml" onclick = "der_inapoi_analiza()"><</button> 
+                        <button type="button" class="btn btn-primary mt-3 ml-5" onclick = "der_inainte_analiza()">></button>
+                      </div>
+                      <button type="button" class="btn btn-primary mt-3" onclick = "render_stare_intr_date()">Înapoi</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div id = "initial_state">
               <div class="row justify-content-md-center">
                 <form>
