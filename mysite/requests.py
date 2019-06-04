@@ -574,15 +574,15 @@ def statistica_indice_siMS(request):
 
 # getTotalPacienti()
 
-def preluare_medici():
-    medici = Medic.objects.all()
-    for medic in medici:
-        medic_user = User.objects.get(id=medic.medic_id)
-        views.doctors.append({
-            'username': medic_user.username,
-            'first_name': medic_user.first_name,
-            'last_name': medic_user.last_name
-        })
-    print(views.doctors)
+#def preluare_medici():
+ #   medici = Medic.objects.all()
+  #  for medic in medici:
+   #     medic_user = User.objects.get(id=medic.medic_id)
+    #    views.doctors.append({
+     #       'username': medic_user.username,
+      #      'first_name': medic_user.first_name,
+       #     'last_name': medic_user.last_name
+        #})
+    #print(views.doctors)
 
-preluare_medici()
+#preluare_medici()
