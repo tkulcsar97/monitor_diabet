@@ -223,12 +223,12 @@
           {% else %}
 
           <div align="center">
-            <label>Adaugati un fisier de tip .csv</label>
+            <label>Adăugați un fisier de tip .csv</label>
             <input type="file"  id="upload" class="btn btn-outline-success my-2 my-sm-4" onchange="addFile();"></input>
           </div>
           <div align="center">
-            <label>Descarcati varianta curenta a tabelului (fisier de tip .csv)</label>
-              <button type="button" class="btn btn-outline-success my-2 my-sm-4" onclick="makeCsvFile();">Download</button>
+            <label>Descărcați varianta curenta a tabelului (fisier de tip .csv)</label>
+              <button type="button" class="btn btn-outline-success my-2 my-sm-4" onclick="makeCsvFile();">Descarcă</button>
           </div>
 
           <!-- tabel -->
@@ -257,6 +257,9 @@
               top: 50%;
           }
 
+          input[type="number"]{
+            width:75%;
+          }
 
           /* hide increment-decrement arrows for <input> value : */
           input::-webkit-outer-spin-button,
@@ -289,140 +292,140 @@
               <tbody>
               <tr>
             <th>Înainte de micul dejun</th>
-            <td><input style="width:75%" type="number" id="val1day1"> </td>
-            <td><input style="width:75%" type="number" id="val1day2"> </br></td>
-            <td><input style="width:75%" type="number" id="val1day3"> </br></td>
-            <td><input style="width:75%" type="number" id="val1day4"> </br></td>
-            <td><input style="width:75%" type="number" id="val1day5"> </br></td>
-            <td><input style="width:75%" type="number" id="val1day6"> </br></td>
-            <td><input style="width:75%" type="number" id="val1day7"> </br></td>
+            <td><input  type="number" id="val1day1"> </td>
+            <td><input  type="number" id="val1day2"> </br></td>
+            <td><input  type="number" id="val1day3"> </br></td>
+            <td><input  type="number" id="val1day4"> </br></td>
+            <td><input  type="number" id="val1day5"> </br></td>
+            <td><input  type="number" id="val1day6"> </br></td>
+            <td><input  type="number" id="val1day7"> </br></td>
             </tr>
 
             <tr>
             <th>După micul dejun</th>
-            <td><input style="width:75%" type="number" id="val2day1"> </td>
-            <td><input style="width:75%" type="number" id="val2day2"> </br></td>
-            <td><input style="width:75%" type="number" id="val2day3"> </br></td>
-            <td><input style="width:75%" type="number" id="val2day4"> </br></td>
-            <td><input style="width:75%" type="number" id="val2day5"> </br></td>
-            <td><input style="width:75%" type="number" id="val2day6"> </br></td>
-            <td><input style="width:75%" type="number" id="val2day7"> </br></td>
+            <td><input  type="number" id="val2day1"> </td>
+            <td><input  type="number" id="val2day2"> </br></td>
+            <td><input  type="number" id="val2day3"> </br></td>
+            <td><input  type="number" id="val2day4"> </br></td>
+            <td><input  type="number" id="val2day5"> </br></td>
+            <td><input  type="number" id="val2day6"> </br></td>
+            <td><input  type="number" id="val2day7"> </br></td>
             </tr>
 
             <tr>
             <th>Înainte de prânz</th>
-            <td><input style="width:75%" type="number" id="val3day1"> </td>
-            <td><input style="width:75%" type="number" id="val3day2"> </br></td>
-            <td><input style="width:75%" type="number" id="val3day3"> </br></td>
-            <td><input style="width:75%" type="number" id="val3day4"> </br></td>
-            <td><input style="width:75%" type="number" id="val3day5"> </br></td>
-            <td><input style="width:75%" type="number" id="val3day6"> </br></td>
-            <td><input style="width:75%" type="number" id="val3day7"> </br></td>
+            <td><input  type="number" id="val3day1"> </td>
+            <td><input  type="number" id="val3day2"> </br></td>
+            <td><input  type="number" id="val3day3"> </br></td>
+            <td><input  type="number" id="val3day4"> </br></td>
+            <td><input  type="number" id="val3day5"> </br></td>
+            <td><input  type="number" id="val3day6"> </br></td>
+            <td><input  type="number" id="val3day7"> </br></td>
             </tr>
 
             <tr>
             <th>După prânz</th>
-            <td><input style="width:75%" type="number" id="val4day1"> </td>
-            <td><input style="width:75%" type="number" id="val4day2"> </br></td>
-            <td><input style="width:75%" type="number" id="val4day3"> </br></td>
-            <td><input style="width:75%" type="number" id="val4day4"> </br></td>
-            <td><input style="width:75%" type="number" id="val4day5"> </br></td>
-            <td><input style="width:75%" type="number" id="val4day6"> </br></td>
-            <td><input style="width:75%" type="number" id="val4day7"> </br></td>
+            <td><input  type="number" id="val4day1"> </td>
+            <td><input  type="number" id="val4day2"> </br></td>
+            <td><input  type="number" id="val4day3"> </br></td>
+            <td><input  type="number" id="val4day4"> </br></td>
+            <td><input  type="number" id="val4day5"> </br></td>
+            <td><input  type="number" id="val4day6"> </br></td>
+            <td><input  type="number" id="val4day7"> </br></td>
             </tr>
 
             <tr>
             <th>Înainte de cină</th>
-            <td><input style="width:75%" type="number" id="val5day1"> </td>
-            <td><input style="width:75%" type="number" id="val5day2"> </br></td>
-            <td><input style="width:75%" type="number" id="val5day3"> </br></td>
-            <td><input style="width:75%" type="number" id="val5day4"> </br></td>
-            <td><input style="width:75%" type="number" id="val5day5"> </br></td>
-            <td><input style="width:75%" type="number" id="val5day6"> </br></td>
-            <td><input style="width:75%" type="number" id="val5day7"> </br></td>
+            <td><input  type="number" id="val5day1"> </td>
+            <td><input  type="number" id="val5day2"> </br></td>
+            <td><input  type="number" id="val5day3"> </br></td>
+            <td><input  type="number" id="val5day4"> </br></td>
+            <td><input  type="number" id="val5day5"> </br></td>
+            <td><input  type="number" id="val5day6"> </br></td>
+            <td><input  type="number" id="val5day7"> </br></td>
             </tr>
 
             <tr>
             <th>După cină</th>
-            <td><input style="width:75%" type="number" id="val6day1"> </td>
-            <td><input style="width:75%" type="number" id="val6day2"> </br></td>
-            <td><input style="width:75%" type="number" id="val6day3"> </br></td>
-            <td><input style="width:75%" type="number" id="val6day4"> </br></td>
-            <td><input style="width:75%" type="number" id="val6day5"> </br></td>
-            <td><input style="width:75%" type="number" id="val6day6"> </br></td>
-            <td><input style="width:75%" type="number" id="val6day7"> </br></td>
+            <td><input  type="number" id="val6day1"> </td>
+            <td><input  type="number" id="val6day2"> </br></td>
+            <td><input  type="number" id="val6day3"> </br></td>
+            <td><input  type="number" id="val6day4"> </br></td>
+            <td><input  type="number" id="val6day5"> </br></td>
+            <td><input  type="number" id="val6day6"> </br></td>
+            <td><input  type="number" id="val6day7"> </br></td>
             </tr>
 
             <tr>
             <th>Înainte de culcare</th>
-            <td><input style="width:75%" type="number" id="val7day1"> </td>
-            <td><input style="width:75%" type="number" id="val7day2"> </br></td>
-            <td><input style="width:75%" type="number" id="val7day3"> </br></td>
-            <td><input style="width:75%" type="number" id="val7day4"> </br></td>
-            <td><input style="width:75%" type="number" id="val7day5"> </br></td>
-            <td><input style="width:75%" type="number" id="val7day6"> </br></td>
-            <td><input style="width:75%" type="number" id="val7day7"> </br></td>
+            <td><input  type="number" id="val7day1"> </td>
+            <td><input  type="number" id="val7day2"> </br></td>
+            <td><input  type="number" id="val7day3"> </br></td>
+            <td><input  type="number" id="val7day4"> </br></td>
+            <td><input  type="number" id="val7day5"> </br></td>
+            <td><input  type="number" id="val7day6"> </br></td>
+            <td><input  type="number" id="val7day7"> </br></td>
               </tr>
 
               <tr>
             <th> Valori suplimentare</th>
-            <td><input style="width:75%" type="number" id="val8day1" ></td>
-            <td><input style="width:75%" type="number" id="val8day2" > </br></td>
-            <td><input style="width:75%" type="number" id="val8day3" > </br></td>
-            <td><input style="width:75%" type="number" id="val8day4" > </br></td>
-            <td><input style="width:75%" type="number" id="val8day5" > </br></td>
-            <td><input style="width:75%" type="number" id="val8day6" > </br></td>
-            <td><input style="width:75%" type="number" id="val8day7" > </br></td>
+            <td><input  type="number" id="val8day1" ></td>
+            <td><input  type="number" id="val8day2" > </br></td>
+            <td><input  type="number" id="val8day3" > </br></td>
+            <td><input  type="number" id="val8day4" > </br></td>
+            <td><input  type="number" id="val8day5" > </br></td>
+            <td><input  type="number" id="val8day6" > </br></td>
+            <td><input  type="number" id="val8day7" > </br></td>
               </tr>
 
               <tr>
             <th> Valori suplimentare</th>
-            <td><input style="width:75%" type="number" id="val9day1" ></td>
-            <td><input style="width:75%" type="number" id="val9day2" > </br></td>
-            <td><input style="width:75%" type="number" id="val9day3" > </br></td>
-            <td><input style="width:75%" type="number" id="val9day4" > </br></td>
-            <td><input style="width:75%" type="number" id="val9day5" > </br></td>
-            <td><input style="width:75%" type="number" id="val9day6" > </br></td>
-            <td><input style="width:75%" type="number" id="val9day7" > </br></td>
+            <td><input  type="number" id="val9day1" ></td>
+            <td><input  type="number" id="val9day2" > </br></td>
+            <td><input  type="number" id="val9day3" > </br></td>
+            <td><input  type="number" id="val9day4" > </br></td>
+            <td><input  type="number" id="val9day5" > </br></td>
+            <td><input  type="number" id="val9day6" > </br></td>
+            <td><input  type="number" id="val9day7" > </br></td>
               </tr>
 
               <tr>
             <th>Valori suplimentare</th>
-            <td><input style="width:75%" type="number" id="val10day1" ></td>
-            <td><input style="width:75%" type="number" id="val10day2" > </br></td>
-            <td><input style="width:75%" type="number" id="val10day3" > </br></td>
-            <td><input style="width:75%" type="number" id="val10day4" > </br></td>
-            <td><input style="width:75%" type="number" id="val10day5" > </br></td>
-            <td><input style="width:75%" type="number" id="val10day6" > </br></td>
-            <td><input style="width:75%" type="number" id="val10day7" > </br></td>
+            <td><input  type="number" id="val10day1" ></td>
+            <td><input  type="number" id="val10day2" > </br></td>
+            <td><input  type="number" id="val10day3" > </br></td>
+            <td><input  type="number" id="val10day4" > </br></td>
+            <td><input  type="number" id="val10day5" > </br></td>
+            <td><input  type="number" id="val10day6" > </br></td>
+            <td><input  type="number" id="val10day7" > </br></td>
               </tr>
 
               <tr>
             <th>Valori suplimentare</th>
-            <td><input style="width:75%" type="number" id="val11day1" ></td>
-            <td><input style="width:75%" type="number" id="val11day2" > </br></td>
-            <td><input style="width:75%" type="number" id="val11day3" > </br></td>
-            <td><input style="width:75%" type="number" id="val11day4" > </br></td>
-            <td><input style="width:75%" type="number" id="val11day5" > </br></td>
-            <td><input style="width:75%" type="number" id="val11day6" > </br></td>
-            <td><input style="width:75%" type="number" id="val11day7" > </br></td>
+            <td><input  type="number" id="val11day1" ></td>
+            <td><input  type="number" id="val11day2" > </br></td>
+            <td><input  type="number" id="val11day3" > </br></td>
+            <td><input  type="number" id="val11day4" > </br></td>
+            <td><input  type="number" id="val11day5" > </br></td>
+            <td><input  type="number" id="val11day6" > </br></td>
+            <td><input  type="number" id="val11day7" > </br></td>
               </tr>
 
               <tr>
             <th>Valori suplimentare</th>
-            <td><input style="width:75%" type="number" id="val12day1" ></td>
-            <td><input style="width:75%" type="number" id="val12day2" > </br></td>
-            <td><input style="width:75%" type="number" id="val12day3" > </br></td>
-            <td><input style="width:75%" type="number" id="val12day4" > </br></td>
-            <td><input style="width:75%" type="number" id="val12day5" > </br></td>
-            <td><input style="width:75%" type="number" id="val12day6" > </br></td>
-            <td><input style="width:75%" type="number" id="val12day7" > </br></td>
+            <td><input  type="number" id="val12day1" ></td>
+            <td><input  type="number" id="val12day2" > </br></td>
+            <td><input  type="number" id="val12day3" > </br></td>
+            <td><input  type="number" id="val12day4" > </br></td>
+            <td><input  type="number" id="val12day5" > </br></td>
+            <td><input  type="number" id="val12day6" > </br></td>
+            <td><input  type="number" id="val12day7" > </br></td>
               </tr>
 
               <tr>
                 <td colspan="8">
                   <div class="wrapper">
-                    <button type="submit" class="btn btn-outline-success my-2 my-sm-4"  onclick= "Output();">Calculeaza</button>
+                    <button type="submit" class="btn btn-outline-success my-2 my-sm-4"  onclick= "Output();">Calculează</button>
                   </div>
 
                 </td>
@@ -451,7 +454,7 @@
 
               <tr>
                 <td colspan="4" id="ValNormMedie1">Valoare normală pentru un diabetic <154 mg/dl <br> </154>(corespunde unei HbA1c<7%)</td>
-                <td colspan="4" id="ValNormMedie2">Valoare anormala daca >154 mg/dl</td>
+                <td colspan="4" id="ValNormMedie2">Valoare anormală daca >154 mg/dl</td>
               </tr>
 
               <tr>
@@ -483,7 +486,7 @@
 
               <tr>
                 <td colspan="4" id="ValNormDS1">Valoare normală <50-60 mg/dl <br> </50-60>(este de dorit să fie sub o treime din medie)</td>
-                <td colspan="4" id="ValNormDS2">Valoare anormala daca >60 mg/dl</td>
+                <td colspan="4" id="ValNormDS2">Valoare anormală daca >60 mg/dl</td>
               </tr>
 
               <tr>

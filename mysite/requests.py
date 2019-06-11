@@ -575,7 +575,7 @@ def statistica_indice_siMS(request):
     data['total_cazuri'] =  Indice_SiMS.objects.all().count()  #total inregistrari
     return JsonResponse(data)
 
-def getTotalPacienti():
+'''def getTotalPacienti():
     data = {'nr_pacienti': 4}
     data['total'] = Reprezentare_Glicemie.objects.values('user_id').distinct().count()
     date = datetime.date.today()
@@ -594,4 +594,4 @@ def preluare_medici():
         })
     print(views.doctors)
 
-preluare_medici()
+preluare_medici()'''
