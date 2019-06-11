@@ -13,6 +13,13 @@ var rezultateAnaliza=new Array(cols);
 for(var i=0;i<cols;i++)
 rezultateAnaliza[i]=new Array(nrRezultate);
 
+//event for cookies to change if a value has changed
+$(document).ready(function(){
+    $(':input[type="number"]').click(function() {
+    	getValues();
+    });
+});
+
 function setColour(name,colour)
 {
 	var element = document.getElementById(name).style.backgroundColor=colour;
@@ -80,6 +87,8 @@ function compareResults(day)
 	}
 	
 }
+
+//file stuff
 var parseFileSucces=false;
 function addFile()
 {
@@ -188,6 +197,18 @@ if(document.cookie.indexOf('cookie_tabel=')!= -1)
 	}
 }
 
+//add / edit cookies for 7days
+function changeCookie()
+{
+	cookieJsonTabel=JSON.stringify(tabel);	
+	if(document.cookie.indexOf('cookie_tabel=')== -1) 
+		setCookie('cookie_tabel', cookieJsonTabel,7);
+	else{
+		document.cookie = 'cookie_tabel=;';
+		setCookie('cookie_tabel', cookieJsonTabel,7);
+		}
+}
+
 function validNr(a)
 {
 	if(a!=0 && a>9 && a<999) return true;
@@ -216,15 +237,7 @@ function getValues()
 		}
 	}	
 
-	//add / edit cookies for 7days
-	cookieJsonTabel=JSON.stringify(tabel);	
-	if(document.cookie.indexOf('cookie_tabel=')== -1) 
-		setCookie('cookie_tabel', cookieJsonTabel,7);
-	else{
-		document.cookie = 'cookie_tabel=;';
-		setCookie('cookie_tabel', cookieJsonTabel,7);
-	}
-
+	changeCookie();
  }
 
 

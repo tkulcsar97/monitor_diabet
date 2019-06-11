@@ -9,9 +9,6 @@
     <script type="text/javascript" src="{% static 'js/render(A).js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery-3.3.1.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/server_requests(A).js' %}"></script>
-
-    <script type="text/javascript" src="{% static 'js/script_siMS.js' %}"></script>
-
     
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -37,7 +34,7 @@
             <a class="nav-link" href="index.htm">Algoritm diagnostic</a>
           </li>
           <li class="nav-item mt-2">
-            <a class="nav-link" href="#">Analiza glicemiei</a>
+            <a class="nav-link" href="analiza_glicemiei.htm">Analiza glicemiei</a>
           </li>
           <li class="nav-item mt-2">
             <a class="nav-link" href="stadializarea_nefropatiei_diabetice.htm">Stadializarea nefropatiei diabetice</a>
@@ -118,21 +115,21 @@
               </div>
 
               <div class="form-group">
-                <label> Male/female</label>
+                <label> Bărbat/Femeie</label>
               </div>
             </td>
             <td>
               <div class="form-group">
-                <label> Scorul de referinta </label>
+                <label> Scorul de referință </label>
               </div>
 
               <div class="form-group">
                 <div class="btn-group-toggle" id="male_female_buttons1" data-toggle="buttons">
                   <label class="btn btn-outline-success my-2 my-sm-4">
-                    <input  type="radio" name="options1" id="scor_male" autocomplete="off"> Male
+                    <input  type="radio" name="options1" id="scor_male" autocomplete="off"> Bărbat
                   </label>
                   <label class="btn btn-outline-success my-2 my-sm-4">
-                    <input type="radio" name="options1" id="scor_female" autocomplete="off"> Female
+                    <input type="radio" name="options1" id="scor_female" autocomplete="off"> Femeie
                   </label>
                 </div>
               </div>
@@ -146,10 +143,10 @@
               <div class="form-group">
                 <div class="btn-group-toggle" id="male_female_buttons2" data-toggle="buttons">
                   <label class="btn btn-outline-success my-2 my-sm-4">
-                  <input type="radio" name="options2" id="scor_male_pacient" autocomplete="off"> Male
+                  <input type="radio" name="options2" id="scor_male_pacient" autocomplete="off"> Bărbat
                   </label>
                   <label class="btn btn-outline-success my-2 my-sm-4">
-                  <input type="radio" name="options2" id="scor_female_pacient" autocomplete="off"> Female
+                  <input type="radio" name="options2" id="scor_female_pacient" autocomplete="off"> Femeie
                   </label>
                 </div>
               </div>
@@ -158,7 +155,7 @@
           <tr>
             <td>
               <div class="form-group">
-                <label> Family history </label>
+                <label> Istoria familiei </label>
               </div>
             </td>
             <td>
@@ -189,7 +186,7 @@
           <tr>
             <td>
               <div class="form-group">
-                <label> Height </label>
+                <label> Înalțime </label>
               </div>
             </td>
             <td>
@@ -206,7 +203,7 @@
           <tr>
             <td>
               <div class="form-group">
-                <label> Age </label>
+                <label> Vârsta </label>
               </div>
             </td>
             <td>
@@ -223,7 +220,7 @@
           <tr>
             <td>
               <div class="form-group">
-                <label> Waist </label>
+                <label> Talie </label>
               </div>
             </td>
             <td>
@@ -240,7 +237,7 @@
           <tr>
             <td>
               <div class="form-group">
-                <label> Glycemia </label>
+                <label> Glicemie </label>
               </div>
             </td>
             <td>
@@ -257,7 +254,7 @@
           <tr>
             <td>
               <div class="form-group">
-                <label> Triglycerides </label>
+                <label> Trigliceridele </label>
               </div>
             </td>
             <td>
@@ -274,7 +271,7 @@
               <tr>
             <td>
               <div class="form-group">
-                <label> TA systolic </label>
+                <label> TA sistolice </label>
               </div>
             </td>
             <td>
@@ -308,7 +305,7 @@
           <tr>
             <td>
               <div class="form-group">
-                <label> siMS score </label>
+                <label> siMS scor </label>
               </div>
             </td>
             <td>
@@ -325,7 +322,7 @@
           <tr>
             <td>
               <div class="form-group">
-                <label> siMS risk score </label>
+                <label> siMS risk scor </label>
               </div>
             </td>
             <td>
@@ -342,7 +339,7 @@
           <tr>
             <td>
               <div class="form-group">
-                <label> PsiMS score </label>
+                <label> PsiMS scor </label>
               </div>
             </td>
             <td>
@@ -356,10 +353,10 @@
           <tr>
             
             <td>
-              <button type="button"  class="btn btn-outline-success my-2 my-sm-4"  class="form-group" onclick= "CalculeazaScorReferinta();">Calculeaza scor referinta</button>
+              <button type="button"  class="btn btn-outline-success my-2 my-sm-4"  class="form-group" onclick= "CalculeazaScorReferinta();">Calculează scor referință</button>
             </td>
             <td>
-                <button type="button"  class="btn btn-outline-success my-2 my-sm-4"  class="form-group" onclick= "CalculeazaScorPacient();">Calculeaza scor pacient</button>
+                <button type="button"  class="btn btn-outline-success my-2 my-sm-4"  class="form-group" onclick= "CalculeazaScorPacient();">Calculează scor pacient</button>
             </td>
             {% if role == 2 and patient != '' %}
               <td>
@@ -378,6 +375,9 @@
       </div>
     </div>
 
+
+    <script type="text/javascript" src="{% static 'js/script_siMS.js' %}"></script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- Optional JavaScript -->
