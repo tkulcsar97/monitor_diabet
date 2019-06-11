@@ -23,9 +23,6 @@ function register(){
     username = document.getElementById("nume_utilizator").value;
     password = document.getElementById("parola").value;
     birth_date = document.getElementById("data_nasterii").value;
-    onset_age = document.getElementById("varsta_debut").value;
-    //antibodies = document.getElementById("anticorpi").value;
-    antibodies = true;
 
     url = "http://localhost:8000/register/";
     data_to_send = {
@@ -33,7 +30,6 @@ function register(){
         password: password,
         birth_date: birth_date,
         onset_age: onset_age,
-        antibodies: antibodies
     }
 
     f = function(data_recived){
@@ -283,6 +279,8 @@ function adauga_risc_diabet(){
     else{
         data_to_send["cmds"] = CMDSTotal;
         data_to_send["cmds_modificat"] = ModifiedCMDSTotal;
+        data_to_send["risc_cmds"] = risc_CMDS;
+        data_to_send["risc_cmds_modificat"] = risc_ModifiedCMDS;
 
         url = "http://localhost:8000/set_risc_diabet/"
 
@@ -300,6 +298,7 @@ function adauga_ssims(){
     if (score_ref == null || score_patient == null)
         alert("Este nevoie de ambele scoruri");
     else{
+        console.log(rezultat);
         var data_to_send = {
             'sex': gender == 1.02 ? 'male' : 'female',
             'diabet_familie': family == 1.2 ? 'True' : 'False',
@@ -313,7 +312,8 @@ function adauga_ssims(){
             'siMS_scor_risc': parseFloat(risk_score_patient),
             'PsiMS_scor': parseFloat(psiMS),
             'siMS_scor_ref': parseFloat(score_ref),
-            'siMS_scor_risc_ref': parseFloat(risk_score_ref)
+            'siMS_scor_risc_ref': parseFloat(risk_score_ref),
+            'rezultat': rezultat
         }
 
         console.log(data_to_send)
@@ -333,8 +333,10 @@ function adauga_ssims(){
 function preia_date_nefropatie(){
     var url = "http://localhost:8000/get_nefropatie/"
     data_to_send = {"data": null}
-    f = function(data_recived){ 
-        render_date_nefropatie(data_recived);
+    f = function(data_recived){
+        console.log(data_recived)
+        if (data_recived.array)
+            render_date_nefropatie(data_recived);
     }
 
     ajax_request(url, data_to_send, f);
@@ -344,7 +346,8 @@ function preia_date_hipoglicemie(){
     var url = "http://localhost:8000/get_risc_hipoglicemie/"
     data_to_send = {"data": null}
     f = function(data_recived){ 
-        render_date_hipoglicemie(data_recived);
+        if (data_recived.array)
+            render_date_hipoglicemie(data_recived);
     }
 
     ajax_request(url, data_to_send, f);
@@ -354,7 +357,8 @@ function preia_date_calculator_diabet(){
     var url = "http://localhost:8000/get_risc_diabet/"
     data_to_send = {"data": null}
     f = function(data_recived){
-        render_date_calculator_diabet(data_recived);
+        if (data_recived.array)
+            render_date_calculator_diabet(data_recived);
     }
 
     ajax_request(url, data_to_send, f);
@@ -364,7 +368,8 @@ function preia_date_ssims(){
     var url = "http://localhost:8000/get_indice_siMS/"
     data_to_send = {"data": null}
     f = function(data_recived){
-        render_date_ssims(data_recived);
+        if (data_recived.array)
+            render_date_ssims(data_recived);
     }
 
     ajax_request(url, data_to_send, f);
@@ -402,6 +407,41 @@ function preluare_tabel_reprezentare(){
     f = function(data_recived){
         date_reprezentare = data_recived;
         render_date_reprezentare();
+    }
+
+    ajax_request(url, data_to_send, f);
+}
+
+function statistica(){
+    var modul = document.getElementById("module").options.selectedIndex;
+    var rezultat = document.getElementById("rezultate").options[document.getElementById("rezultate").options.selectedIndex].text;
+    var varsta_start = document.getElementById("varsta_start").value;
+    var varsta_stop = document.getElementById("varsta_stop").value;
+    var varsta_debut_start = document.getElementById("varsta_debut_start").value;
+    var varsta_debut_stop = document.getElementById("varsta_debut_stop").value;
+    var data_start = new Date(document.getElementById("data_start").value);
+    var data_stop = new Date(document.getElementById("data_stop").value);
+
+    var url;
+    switch (modul){
+        case 0: url = "http://localhost:8000/statistics_nefropatie/"; break;
+        case 1: url = "http://localhost:8000/statistics_risc_hipoglicemie/"; break;
+        case 2: url = "http://localhost:8000/statistics_risc_diabet/"; break;
+        case 3: url = "http://localhost:8000/statistics_indice_siMS/"; break;
+    }
+
+    data_to_send = {
+        "rezultat": rezultat,
+        "varsta_start": varsta_start,
+        "varsta_stop": varsta_stop,
+        "debut_start": varsta_debut_start,
+        "debut_stop": varsta_debut_stop,
+        "data_start": data_start.toJSON(),
+        "data_stop": data_stop.toJSON()
+    }
+
+    f = function(data_recived){
+        render_afisare_statistica(data_recived, rezultat);
     }
 
     ajax_request(url, data_to_send, f);

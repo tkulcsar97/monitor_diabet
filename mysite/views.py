@@ -16,7 +16,7 @@ def autentificare(request):
 	return render(request, 'autentificare.htm')
 
 def inregistrare(request):
-	return render(request, 'inregistrare.htm')
+	return render(request, 'inregistrare.htm', {'doctors': doctors })
 
 def reprezentarea_glicemiei(request):
 	return render(request, 'reprezentarea_glicemiei.htm', {'role': role, 'username': username, 'patient': patient})
@@ -35,4 +35,7 @@ def siMS(request):
 
 def cauta_pacient(request):
 	return render(request, 'cauta_pacient.htm', {'role': role, 'username': username, 'patient': patient})
+
+def statistica(request):
+	return render(request, 'statistica.htm', {'role': role, 'username': username, 'patient': patient})
 

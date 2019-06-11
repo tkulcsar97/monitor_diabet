@@ -5,6 +5,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript" src="{% static 'js/render(A).js' %}"></script>
         <script type="text/javascript" src="{% static 'js/jquery-3.3.1.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/server_requests(A).js' %}"></script>
@@ -53,11 +54,11 @@
                 </li>
                 {% if role > 0 %}
                     {% if role == 2 %}
-                        <li class="nav-item active mt-2">
-                            <a class="nav-link" href="cauta_pacient.htm">Caută pacient<span class="sr-only">(current)</span></a>
-                        </li>
                         <li class="nav-item mt-2">
-                        <a class="nav-link" href="statistica.htm">Vezi statistică</a>
+                            <a class="nav-link" href="cauta_pacient.htm">Caută pacient</a>
+                        </li>
+                        <li class="nav-item active mt-2">
+                            <a class="nav-link" href="statistica.htm">Vezi statistică<span class="sr-only">(current)</span></a>
                         </li>
                     {% endif %}
                 <li class="nav-item mt-5">
@@ -77,27 +78,57 @@
             </ul>
         </nav>
         <div class="container con">
-            <div class="row justify-content-md-center top-dis">     
-                <form>
-                    {% if patient == '' %}
+            <div class="row justify-content-md-center">
+                <div id = "mod_introducere" style="display: block">     
+                    <form>
                         <div class="form-group">
-                            <h4 id = "message1"></h4>
-                        </div>
-                        <div class="form-group mt-5">
-                            <input id="pacient" class="form-control mr-sm-2" type="search" placeholder="Nume de utilizator" aria-label="Search">
+                            <label> De unde să provină informațiile? </label>
+                            <select class="form-control" id="module" onchange="optiuni_module_statistica()">
+                                <option>Stadializarea nefropatiei diabetice</option>
+                                <option>Calculator hipoglicemic</option>
+                                <option>Calculator diabet</option>
+                                <option>Indice siMS</option>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <button class="btn btn-outline-success" type="button" onclick="cauta_pacient()">Caută pacient</button>
+                            <label> Ce rezultate căutați? </label>
+                            <select class="form-control" id="rezultate">
+                                <option>Risc scăzut de ND</option>
+                                <option>Risc moderat de ND</option>
+                                <option>Risc crescut de ND</option>
+                                <option>Risc foarte crescut de ND</option>
+                            </select>
                         </div>
-                    {% else %}
-                    <div class="form-group">
-                        <h4 id = "message2">Ai selectat pacientul: {{ patient }}</h4>
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-outline-success" type="button" onclick="deselectare_pacient()">Deselectează pacient</button>
-                    </div>
-                    {% endif %}
-                </form>
+                        <div class="form-group">
+                            <label> Vârsta începând cu: </label>
+                            <input type="number" class="form-control" id="varsta_start">
+                        </div>
+                        <div class="form-group">
+                            <label> Vârsta terminând cu: </label>
+                            <input type="number" class="form-control" id="varsta_stop">
+                        </div>
+                        <div class="form-group">
+                            <label> Vârsta debut începând cu: </label>
+                            <input type="number" class="form-control" id="varsta_debut_start">
+                        </div>
+                        <div class="form-group">
+                            <label> Vârsta debut terminând cu: </label>
+                            <input type="number" class="form-control" id="varsta_debut_stop">
+                        </div>
+                        <div class="form-group">
+                            <label> Începând cu data de: </label>
+                            <input type="date" class="form-control" id="data_start">
+                        </div>
+                        <div class="form-group">
+                            <label> Terminând cu data de: </label>
+                            <input type="date" class="form-control" id="data_stop">
+                        </div>
+                        <button type="button" class="btn btn-outline-success my-2 my-sm-4" onclick="statistica()">Afișează statistică</button>
+                    </form>
+                </div>
+                <div id = "mod_afisare" style="display: none">
+                    <div id="piechart" style="width: 900px; height: 500px;"></div>
+                </div>
             </div>
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

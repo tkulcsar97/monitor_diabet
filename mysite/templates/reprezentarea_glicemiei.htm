@@ -12,10 +12,10 @@
 
     <script type="text/javascript" src="{% static 'js/render(A).js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery-3.3.1.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/script_reprezentarea_glicemiei.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/server_requests(A).js' %}"></script>
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript" src="{% static 'js/script_reprezentarea_glicemiei.js' %}"></script>
 
 
 
@@ -64,6 +64,9 @@
           {% if role == 2 %}
             <li class="nav-item mt-2">
               <a class="nav-link" href="cauta_pacient.htm">Caută pacient</a>
+            </li>
+            <li class="nav-item mt-2">
+              <a class="nav-link" href="statistica.htm">Vezi statistică</a>
             </li>
           {% endif %}
           <li class="nav-item mt-5">
@@ -160,7 +163,9 @@
         <div class="row justify-content-md-center">
           <from>
             <label class = "text-success" style="display: block" id="message"></label>
-            <button class="btn btn-outline-success my-2 my-sm-4" onclick="renderRG_addValue()">Adaugă valoare</button>
+            {% if role == 1 %}
+              <button class="btn btn-outline-success my-2 my-sm-4" onclick="renderRG_addValue()">Adaugă valoare</button>
+            {% endif %}
             &nbsp&nbsp&nbsp&nbsp&nbsp
             <button class="btn btn-outline-success my-2 my-sm-4" onclick="renderRG_showValues()">Afișează grafic</button>
           </from>

@@ -10,7 +10,14 @@ var data_to_send = {
 var CMDSTotal = 0;
 var ModifiedCMDSTotal = 0;
 
+var risc_CMDS = "";
+var risc_ModifiedCMDS = "";
+
 window.onload = function () {
+
+	if (role == 2)
+		preia_date_calculator_diabet();
+		
 	var SELECTED_COLOR = 'red';
 	var cmdsFields = document.querySelectorAll('.cmds-input-table .cmds');
 	var modifiedCMDSFields = document.querySelectorAll('.cmds-input-table .modified-cmds');
@@ -91,6 +98,7 @@ window.onload = function () {
 			var cmdsField = document.querySelector('#' + cmdsGroup + ' .cmds');
 			resetResuls('cmds');
 			if (CMDSTotal !== 0) {
+				risc_CMDS = cmdsField.innerHTML;
 				cmdsField.bgColor = SELECTED_COLOR;
 			}
 		}
@@ -101,6 +109,7 @@ window.onload = function () {
 			var modifiedCmdsField = document.querySelector('#' + modifiedCmdsGroup + ' .modified-cmds');
 			resetResuls('modified-cmds');
 			if (ModifiedCMDSTotal !== 0) {
+				risc_ModifiedCMDS = modifiedCmdsField.innerHTML;
 				modifiedCmdsField.bgColor = SELECTED_COLOR;
 			}
 		}
@@ -135,6 +144,7 @@ window.onload = function () {
 
 		calculateTotal();
 	}
+	console.log(cmdsFields);	
 
 	for (var i = 0; i < cmdsFields.length; i++) {
 		cmdsFields[i].addEventListener('click', onFieldClick);

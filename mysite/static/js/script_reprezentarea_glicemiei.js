@@ -55,11 +55,34 @@ function giveVerdict()
   
   document.getElementById("verdict").innerHTML = "Numar de ore deasupra pragului ~ " + nrOre;
 }
+
+function init_tabelInput(valori){
+
+  var i = 0;
+
+  var momente = ["ora 7", "ora 8", "ora 9", "ora 11", "ora 13", "ora 14", "ora 15", "ora 17", "ora 19", "ora 20", "ora 21", "ora 22"];
+
+  for(var key in valori){
+    if (momente[i] == key){
+      tabelInput[i] = parseInt(valori[key]);
+    }
+    else
+      tabelInput[i] = 0;
+    i++;
+  }
+}
+
+
 function Calculeaza()
 {
   getInputValues();
   drawChart();
   giveVerdict();
+}
+
+function show(valori){
+  init_tabelInput(valori);
+  drawChart();
 }
 
 
