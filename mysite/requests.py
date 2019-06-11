@@ -422,7 +422,21 @@ def preluare_date_tabel_reprezentare(request): #MEDIC
     else:
         user = User.objects.get(username = views.patient) # request de catre medic
     array_reprezentare = []
-    inregistrari_grafic = Reprezentare_Glicemie.objects.filter(user=user).order_by('data', 'moment_al_zilei')
+    # inregistrari_grafic = Reprezentare_Glicemie.objects.filter(user=user).order_by('data', 'moment_al_zilei')
+    # for inregistrare_grafic in inregistrari_grafic:
+    #     if(inregistrare_grafic.data >= temp_start.date() and inregistrare_grafic.data <= temp_end.date()):
+    #         array_reprezentare.append({
+    #             'data': inregistrare_grafic.data,
+    #             'moment': inregistrare_grafic.moment_al_zilei,
+    #             'valoare': inregistrare_grafic.valoare_glicemie
+    #         })
+    # data = {'array': array_reprezentare} 
+    # return JsonResponse(data)
+    inregistrari_grafic = Reprezentare_Glicemie.objects.filter(user=user).order_by('data')
+    inregistrari_grafic = inregistrari_grafic.extra(select={
+              'ora': "SUBSTR('moment_al_zilei', 4)",
+              'cifra': "CAST(substr(moment_al_zilei, 5) AS UNSIGNED)"})
+    inregistrari_grafic = inregistrari_grafic.order_by('cifra')
     for inregistrare_grafic in inregistrari_grafic:
         if(inregistrare_grafic.data >= temp_start.date() and inregistrare_grafic.data <= temp_end.date()):
             array_reprezentare.append({
@@ -432,6 +446,8 @@ def preluare_date_tabel_reprezentare(request): #MEDIC
             })
     data = {'array': array_reprezentare} 
     return JsonResponse(data)
+
+
 
 def statistica_nefropatie(request):
     varsta_debut_start = request.GET.get('debut_start')
