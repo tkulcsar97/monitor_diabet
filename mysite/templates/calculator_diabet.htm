@@ -2,9 +2,12 @@
 {% load static %}
 <html lang="en">
   <head>
+	<script type="text/javascript">
+		var role = "{{role}}";
+	</script>
     <script type="text/javascript" src="{% static 'js/render(A).js' %}"></script>
-		<script type="text/javascript" src="{% static 'js/jquery-3.3.1.js' %}"></script>
-		<script type="text/javascript" src="{% static 'js/script_calculator_diabet.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/jquery-3.3.1.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/script_calculator_diabet.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/server_requests(A).js' %}"></script>
 
 	<!-- Required meta tags -->
@@ -24,7 +27,7 @@
 		}
 	</style>
 </head>
-<body {% if role > 0 %} onload = "preia_date_calculator_diabet()" {% endif %}>
+<body>
 	<style>
 		.navbar-fixed-left{
 			position: fixed;
@@ -65,6 +68,9 @@
 					{% if role == 2 %}
 						<li class="nav-item mt-2">
 							<a class="nav-link" href="cauta_pacient.htm">Caută pacient</a>
+						</li>
+						<li class="nav-item mt-2">
+							<a class="nav-link" href="statistica.htm">Vezi statistică</a>
 						</li>
 					{% endif %}
 					<li class="nav-item mt-5">

@@ -85,17 +85,14 @@
               <label> Vârsta debut: </label>
               <input type="number" class="form-control" id="varsta_debut">
             </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="anticorpi" id="prezenti" value="prezenti" checked>
-              <label class="form-check-label" for="exampleRadios1">
-                  Anticorpi anti-GADA prezenti
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="anticorpi" id="absenti" value="absenti">
-              <label class="form-check-label" for="exampleRadios1">
-                Anticorpi anti-GADA absenti
-              </label>
+            <div class="form-group">
+              <label> La ce medic doriți sa va inregistrați </label>
+              <select class="form-control" id="medici">
+                {% for doctor in doctors %}
+                <div class="form-group">
+                  <option>{{doctor.username}}</option>
+                {% endfor %}
+              </select>
             </div>
             <button type="button" class="btn btn-outline-success my-2 my-sm-4" onclick="register()">Înregistrează</button>
           </form>

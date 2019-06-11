@@ -36,6 +36,7 @@ urlpatterns = [
     path('calculator_diabet.htm', views.calculator_diabet),
     path('siMS.htm', views.siMS),
     path('cauta_pacient.htm', views.cauta_pacient),
+    path('statistica.htm', views.statistica),
 
     #url(r'analiza_glicemiei/$', requests.analiza_glicemiei),
     url(r'login/$', requests.login),

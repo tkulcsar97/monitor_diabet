@@ -47,11 +47,9 @@ def create_account(request):
     username = request.GET.get('username')
     password = request.GET.get('password')
     birth_date = request.GET.get('birth_date')
-    #antibodies = request.GET.get('antibodies')
     onset_age = request.GET.get('onset_age')
     doctor = request.GET.get('doctor') 
 
-    antibodies = True
 
     print (username)
     print (password)
@@ -66,7 +64,6 @@ def create_account(request):
     else:
         utilizator = Pacient(user=user)
         utilizator.data_nastere = birth_date
-        utilizator.anticorpi = antibodies
         utilizator.varsta_debut = onset_age
         #utilizator.medic = medic.medic_id
         utilizator.save()
@@ -304,96 +301,108 @@ def setare_date_indice_siMS(request): #MEDIC
     return JsonResponse(data)  
 
 def preluare_date_nefropatie(request): #MEDIC
-    if views.role == 1:
-        user = User.objects.get(username = views.username) # request de catre pacient
+    if views.role == 2 and views.patient != None:
+        if views.role == 1:
+            user = User.objects.get(username = views.username) # request de catre pacient
+        else:
+            user = User.objects.get(username = views.patient) # request de catre medic
+        array_nefropatie = []
+        inregistrari_nefropatie = Nefropatie.objects.filter(user=user)
+        for inregistrare_nefropatie in inregistrari_nefropatie:
+            print("y")
+            array_nefropatie.append({
+                'zi': inregistrare_nefropatie.data,
+                'rata_filtrare_glomerulara': inregistrare_nefropatie.rata_filtrare_glomerulara,
+                'albuminuria': inregistrare_nefropatie.albuminuria,
+                'unitate_masura': inregistrare_nefropatie.unitate_masura,
+                'rezultat': inregistrare_nefropatie.rezultat
+            })
+        data = {'array': array_nefropatie}
     else:
-        user = User.objects.get(username = views.patient) # request de catre medic
-    array_nefropatie = []
-    inregistrari_nefropatie = Nefropatie.objects.filter(user=user)
-    for inregistrare_nefropatie in inregistrari_nefropatie:
-        print("y")
-        array_nefropatie.append({
-            'zi': inregistrare_nefropatie.data,
-            'rata_filtrare_glomerulara': inregistrare_nefropatie.rata_filtrare_glomerulara,
-            'albuminuria': inregistrare_nefropatie.albuminuria,
-            'unitate_masura': inregistrare_nefropatie.unitate_masura,
-            'rezultat': inregistrare_nefropatie.rezultat
-        })
-    data = {'array': array_nefropatie}             
+        data = {'array': None}               
     return JsonResponse(data)
 
 def preluare_date_risc_hipoglicemie(request): #MEDIC
-    if views.role == 1:
-        user = User.objects.get(username = views.username) # request de catre pacient
+    if views.role == 2 and views.patient != None:
+        if views.role == 1:
+            user = User.objects.get(username = views.username) # request de catre pacient
+        else:
+            user = User.objects.get(username = views.patient) # request de catre medic
+        array_hipoglicemie = []
+        inregistrari_hipoglicemie = Risc_Hipoglicemie.objects.filter(user=user)
+        for inregistrare_hipoglicemie in inregistrari_hipoglicemie:
+            array_hipoglicemie.append({
+                'zi': inregistrare_hipoglicemie.data,
+                'urgente_hipo': inregistrare_hipoglicemie.urgente_hipoglicemie,
+                'urgente': inregistrare_hipoglicemie.urgente,
+                'insulina': inregistrare_hipoglicemie.insulina,
+                'derivate_sulfoniluree': inregistrare_hipoglicemie.derivate_sulfoniluree,
+                'insuficienta_renala': inregistrare_hipoglicemie.irc_severa_terminala,
+                'varsta_sub_77': inregistrare_hipoglicemie.varsta_sub_77,
+                'rezultat': inregistrare_hipoglicemie.rezultat
+            })
+        data = {'array': array_hipoglicemie}  
     else:
-        user = User.objects.get(username = views.patient) # request de catre medic
-    array_hipoglicemie = []
-    inregistrari_hipoglicemie = Risc_Hipoglicemie.objects.filter(user=user)
-    for inregistrare_hipoglicemie in inregistrari_hipoglicemie:
-        array_hipoglicemie.append({
-            'zi': inregistrare_hipoglicemie.data,
-            'urgente_hipo': inregistrare_hipoglicemie.urgente_hipoglicemie,
-            'urgente': inregistrare_hipoglicemie.urgente,
-            'insulina': inregistrare_hipoglicemie.insulina,
-            'derivate_sulfoniluree': inregistrare_hipoglicemie.derivate_sulfoniluree,
-            'insuficienta_renala': inregistrare_hipoglicemie.irc_severa_terminala,
-            'varsta_sub_77': inregistrare_hipoglicemie.varsta_sub_77,
-            'rezultat': inregistrare_hipoglicemie.rezultat
-        })
-    data = {'array': array_hipoglicemie}             
+        data = {'array': None}           
     return JsonResponse(data)
 
 def preluare_date_risc_diabet(request): #MEDIC
-    if views.role == 1:
-        user = User.objects.get(username = views.username) # request de catre pacient
+    if views.role == 2 and views.patient != None:
+        if views.role == 1:
+            user = User.objects.get(username = views.username) # request de catre pacient
+        else:
+            user = User.objects.get(username = views.patient) # request de catre medic
+        array_diabet = []
+        inregistrari_diabet = Risc_Diabet.objects.filter(user=user)
+        for inregistrare_diabet in inregistrari_diabet:
+            array_diabet.append({
+                'zi': inregistrare_diabet.data,
+                'glicemie_nemancate': inregistrare_diabet.conditie_glicemie_pe_nemancate,
+                'glicemie_doua_ore': inregistrare_diabet.conditie_glicemie_la_doua_ore,
+                'talie': inregistrare_diabet.conditie_circumferinta_talie,
+                'hipertensiune': inregistrare_diabet.conditie_hipertensiune,
+                'colesterol': inregistrare_diabet.conditie_colesterol,
+                'hiperlipidemie': inregistrare_diabet.conditie_hiperlipidemie,
+                'scor_cmds': inregistrare_diabet.scor_cmds,
+                'scor_cmds_modificat': inregistrare_diabet.scor_cmds_modificat,
+                'risc_cmds': inregistrare_diabet.risc_cmds,
+                'risc_cmds_modificat': inregistrare_diabet.risc_cmds_modificat
+            })
+        data = {'array': array_diabet}
     else:
-        user = User.objects.get(username = views.patient) # request de catre medic
-    array_diabet = []
-    inregistrari_diabet = Risc_Diabet.objects.filter(user=user)
-    for inregistrare_diabet in inregistrari_diabet:
-        array_diabet.append({
-            'zi': inregistrare_diabet.data,
-            'glicemie_nemancate': inregistrare_diabet.conditie_glicemie_pe_nemancate,
-            'glicemie_doua_ore': inregistrare_diabet.conditie_glicemie_la_doua_ore,
-            'talie': inregistrare_diabet.conditie_circumferinta_talie,
-            'hipertensiune': inregistrare_diabet.conditie_hipertensiune,
-            'colesterol': inregistrare_diabet.conditie_colesterol,
-            'hiperlipidemie': inregistrare_diabet.conditie_hiperlipidemie,
-            'scor_cmds': inregistrare_diabet.scor_cmds,
-            'scor_cmds_modificat': inregistrare_diabet.scor_cmds_modificat,
-            'risc_cmds': inregistrare_diabet.risc_cmds,
-            'risc_cmds_modificat': inregistrare_diabet.risc_cmds_modificat
-        })
-    data = {'array': array_diabet}             
+        data = {'array': None}           
     return JsonResponse(data)
 
 def preluare_date_indice_siMS(request): #MEDIC
-    if views.role == 1:
-        user = User.objects.get(username = views.username) # request de catre pacient
+    if views.role == 2 and views.patient != None:
+        if views.role == 1:
+            user = User.objects.get(username = views.username) # request de catre pacient
+        else:
+            user = User.objects.get(username = views.patient) # request de catre medic
+        array_siMS = []
+        inregistrari_siMS = Indice_SiMS.objects.filter(user=user)
+        for inregistrare_siMS in inregistrari_siMS:
+            array_siMS.append({
+                'zi': inregistrare_siMS.data,
+                'sex': inregistrare_siMS.sex,
+                'diabet_familie': inregistrare_siMS.diabet_in_familie,
+                'inaltime': inregistrare_siMS.inaltime,
+                'varsta': inregistrare_siMS.varsta,
+                'talie': inregistrare_siMS.talie,
+                'glicemia': inregistrare_siMS.glicemia,
+                'trigliceride': inregistrare_siMS.trigliceride,
+                'tensiune_sistolica': inregistrare_siMS.tensiune_sistolica,
+                'colesterol': inregistrare_siMS.colesterol,
+                'siMS_scor': inregistrare_siMS.siMS_scor,
+                'siMS_scor_risc': inregistrare_siMS.siMS_scor_risc,
+                'PsiMS_scor': inregistrare_siMS.PsiMS_scor,
+                'siMS_scor_ref': inregistrare_siMS.siMS_scor_ref,
+                'siMS_scor_risc_ref': inregistrare_siMS.siMS_scor_risc_ref,
+                'rezultat': inregistrare_siMS.rezultat
+            })
+        data = {'array': array_siMS}    
     else:
-        user = User.objects.get(username = views.patient) # request de catre medic
-    array_siMS = []
-    inregistrari_siMS = Indice_SiMS.objects.filter(user=user)
-    for inregistrare_siMS in inregistrari_siMS:
-        array_siMS.append({
-            'zi': inregistrare_siMS.data,
-            'sex': inregistrare_siMS.sex,
-            'diabet_familie': inregistrare_siMS.diabet_in_familie,
-            'inaltime': inregistrare_siMS.inaltime,
-            'varsta': inregistrare_siMS.varsta,
-            'talie': inregistrare_siMS.talie,
-            'glicemia': inregistrare_siMS.glicemia,
-            'trigliceride': inregistrare_siMS.trigliceride,
-            'tensiune_sistolica': inregistrare_siMS.tensiune_sistolica,
-            'colesterol': inregistrare_siMS.colesterol,
-            'siMS_scor': inregistrare_siMS.siMS_scor,
-            'siMS_scor_risc': inregistrare_siMS.siMS_scor_risc,
-            'PsiMS_scor': inregistrare_siMS.PsiMS_scor,
-            'siMS_scor_ref': inregistrare_siMS.siMS_scor_ref,
-            'siMS_scor_risc_ref': inregistrare_siMS.siMS_scor_risc_ref,
-            'rezultat': inregistrare_siMS.rezultat
-        })
-    data = {'array': array_siMS}             
+        data = {'array': None}           
     return JsonResponse(data)
 
 def preluare_date_tabel_analiza(request): #MEDIC
@@ -434,11 +443,12 @@ def preluare_date_tabel_reprezentare(request): #MEDIC
     return JsonResponse(data)
 
 def statistica_nefropatie(request):
-    varsta_debut_start = request.GET.get('debut_start')
-    varsta_debut_stop = request.GET.get('debut_stop')
-    varsta_start = request.GET.get('varsta_start')
-    varsta_stop = request.GET.get('varsta_stop')
+    varsta_debut_start = int(request.GET.get('debut_start'))
+    varsta_debut_stop = int(request.GET.get('debut_stop'))
+    varsta_start = int(request.GET.get('varsta_start'))
+    varsta_stop = int(request.GET.get('varsta_stop'))
     rezultat = request.GET.get('rezultat')
+    print(type(varsta_debut_start))
     data_start = datetime.datetime.strptime(request.GET.get('data_start'), "%Y-%m-%dT%H:%M:%S.%fZ")
     data_stop = datetime.datetime.strptime(request.GET.get('data_stop'), "%Y-%m-%dT%H:%M:%S.%fZ")
     date = datetime.date.today()
@@ -467,10 +477,10 @@ def statistica_nefropatie(request):
     return JsonResponse(data)
 
 def statistica_hipoglicemie(request):
-    varsta_debut_start = request.GET.get('debut_start')
-    varsta_debut_stop = request.GET.get('debut_stop')
-    varsta_start = request.GET.get('varsta_start')
-    varsta_stop = request.GET.get('varsta_stop')
+    varsta_debut_start = int(request.GET.get('debut_start'))
+    varsta_debut_stop = int(request.GET.get('debut_stop'))
+    varsta_start = int(request.GET.get('varsta_start'))
+    varsta_stop = int(request.GET.get('varsta_stop'))
     rezultat = request.GET.get('rezultat')
     data_start = datetime.datetime.strptime(request.GET.get('data_start'), "%Y-%m-%dT%H:%M:%S.%fZ")
     data_stop = datetime.datetime.strptime(request.GET.get('data_stop'), "%Y-%m-%dT%H:%M:%S.%fZ")
@@ -500,11 +510,11 @@ def statistica_hipoglicemie(request):
     return JsonResponse(data)
 
 def statistica_diabet(request):
-    varsta_debut_start = request.GET.get('debut_start')
-    varsta_debut_stop = request.GET.get('debut_stop')
-    varsta_start = request.GET.get('varsta_start')
-    varsta_stop = request.GET.get('varsta_stop')
-    risc = request.GET.get('risc')
+    varsta_debut_start = int(request.GET.get('debut_start'))
+    varsta_debut_stop = int(request.GET.get('debut_stop'))
+    varsta_start = int(request.GET.get('varsta_start'))
+    varsta_stop = int(request.GET.get('varsta_stop'))
+    risc = request.GET.get('rezultat')
     data_start = datetime.datetime.strptime(request.GET.get('data_start'), "%Y-%m-%dT%H:%M:%S.%fZ")
     data_stop = datetime.datetime.strptime(request.GET.get('data_stop'), "%Y-%m-%dT%H:%M:%S.%fZ")
     date = datetime.date.today()
@@ -533,10 +543,10 @@ def statistica_diabet(request):
     return JsonResponse(data)
 
 def statistica_indice_siMS(request):
-    varsta_debut_start = request.GET.get('debut_start')
-    varsta_debut_stop = request.GET.get('debut_stop')
-    varsta_start = request.GET.get('varsta_start')
-    varsta_stop = request.GET.get('varsta_stop')
+    varsta_debut_start = int(request.GET.get('debut_start'))
+    varsta_debut_stop = int(request.GET.get('debut_stop'))
+    varsta_start = int(request.GET.get('varsta_start'))
+    varsta_stop = int(request.GET.get('varsta_stop'))
     rezultat = request.GET.get('rezultat')
     data_start = datetime.datetime.strptime(request.GET.get('data_start'), "%Y-%m-%dT%H:%M:%S.%fZ")
     data_stop = datetime.datetime.strptime(request.GET.get('data_stop'), "%Y-%m-%dT%H:%M:%S.%fZ")
@@ -565,24 +575,23 @@ def statistica_indice_siMS(request):
     data['total_cazuri'] =  Indice_SiMS.objects.all().count()  #total inregistrari
     return JsonResponse(data)
 
-# def getTotalPacienti():
-#     # data = {'nr_pacienti': 4}
-#     # data['total'] = Reprezentare_Glicemie.objects.values('user_id').distinct().count()
-#     # print(data)
-#     date = datetime.date.today()
-#     print(Nefropatie.objects.filter((Q(data__lte=date)|Q(data__gt=date))&Q(rezultat="Risc foarte crescut de ND")).count())
+def getTotalPacienti():
+    data = {'nr_pacienti': 4}
+    data['total'] = Reprezentare_Glicemie.objects.values('user_id').distinct().count()
+    date = datetime.date.today()
+    print(Nefropatie.objects.filter((Q(data__lte=date)|Q(data__gt=date))&Q(rezultat="Risc foarte crescut de ND")).count())
 
-# getTotalPacienti()
+getTotalPacienti()
 
-#def preluare_medici():
- #   medici = Medic.objects.all()
-  #  for medic in medici:
-   #     medic_user = User.objects.get(id=medic.medic_id)
-    #    views.doctors.append({
-     #       'username': medic_user.username,
-      #      'first_name': medic_user.first_name,
-       #     'last_name': medic_user.last_name
-        #})
-    #print(views.doctors)
+def preluare_medici():
+    medici = Medic.objects.all()
+    for medic in medici:
+        medic_user = User.objects.get(id=medic.medic_id)
+        views.doctors.append({
+            'username': medic_user.username,
+            'first_name': medic_user.first_name,
+            'last_name': medic_user.last_name
+        })
+    print(views.doctors)
 
-#preluare_medici()
+preluare_medici()

@@ -59,6 +59,9 @@
               <li class="nav-item mt-2">
                 <a class="nav-link" href="cauta_pacient.htm">Caută pacient</a>
               </li>
+              <li class="nav-item mt-2">
+                <a class="nav-link" href="statistica.htm">Vezi statistică</a>
+              </li>
             {% endif %}
             <li class="nav-item mt-5">
               <p class = "text-success h4 border">Bun venit, {{username}}</p>
@@ -204,21 +207,23 @@
             </td>
           </tr>
           <tr>
-            <td>
-              <div class="form-group">
-                <label> Age </label>
-              </div>
-            </td>
-            <td>
-              <div class="form-group">
-                <input type="number" class="form-control" id="age1">
-              </div>
-            </td>
-            <td>
-              <div class="form-group">
-                  <input type="number" class="form-control" id="age2">
-              </div>
-            </td>
+            {% if role == 0 %}
+              <td>
+                <div class="form-group">
+                  <label> Age </label>
+                </div>
+              </td>
+              <td>
+                <div class="form-group">
+                  <input type="number" class="form-control" id="age1">
+                </div>
+              </td>
+              <td>
+                <div class="form-group">
+                    <input type="number" class="form-control" id="age2">
+                </div>
+              </td>
+            {% endif %}
           </tr>
           <tr>
             <td>

@@ -7,6 +7,8 @@ var score_patient = null;
 var risk_score_patient = null;
 
 var psiMS = null;
+
+var rezultat = null;
 //events
 
 //1. clicked button from the second male/female buttons + change values for waist/hdl
@@ -145,16 +147,21 @@ document.getElementById("scor_ref_siMS_risk").value = sims_risk_score(1);
 
 function CalculeazaScorPacient()
 {
-score_patient = scor_pacient_siMS=sims_score(2);
-risk_score_patient = sims_risk_score(2);
-psiMS = psiMS_score();
+	score_patient = scor_pacient_siMS=sims_score(2);
+	risk_score_patient = sims_risk_score(2);
+	psiMS = psiMS_score();
 
-document.getElementById("scor_pacient_siMS").value=scor_pacient_siMS;
-document.getElementById("scor_pacient_siMS_risk").value=sims_risk_score(2);
-document.getElementById("scor_pacient_PsiMS").value=psiMS_score();
+	document.getElementById("scor_pacient_siMS").value=scor_pacient_siMS;
+	document.getElementById("scor_pacient_siMS_risk").value=sims_risk_score(2);
+	document.getElementById("scor_pacient_PsiMS").value=psiMS_score();
 
-if(scor_ref_siMS < scor_pacient_siMS)
-	document.getElementById("verdict").innerHTML = "Rezultat: Sindrom metabolic.";
-	else document.getElementById("verdict").innerHTML = "Rezultat: Sanatos.";
+	if(scor_ref_siMS < scor_pacient_siMS){
+		document.getElementById("verdict").innerHTML = "Rezultat: Sindrom metabolic.";
+		rezultat = "Sindrom metabolic";
+	}
+	else{
+		document.getElementById("verdict").innerHTML = "Rezultat: Sanatos.";
+		rezultat = "Sănătos";
+	}
 	
 }

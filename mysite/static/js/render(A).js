@@ -330,6 +330,14 @@ function render_date_calculator_diabet(data){
     th.appendChild(document.createTextNode("Scor CMDS modificat"));
     tbody.appendChild(th);
 
+    var th = document.createElement("th");
+    th.appendChild(document.createTextNode("Risc CMDS"));
+    tbody.appendChild(th);
+
+    var th = document.createElement("th");
+    th.appendChild(document.createTextNode("Risc CMDS modificat"));
+    tbody.appendChild(th);
+
     for (var i=0; i<data.array.length; i++){
         var tr = document.createElement("tr");
 
@@ -373,6 +381,28 @@ function render_date_calculator_diabet(data){
         if (data.array[i].scor_cmds_modificat != 0){
             td = document.createElement("td");
             td.appendChild(document.createTextNode(data.array[i].scor_cmds_modificat));
+            tr.appendChild(td);
+        }
+        else{
+            td = document.createElement("td");
+            td.appendChild(document.createTextNode("-"));
+            tr.appendChild(td);
+        }
+
+        if (data.array[i].risc_cmds){
+            td = document.createElement("td");
+            td.appendChild(document.createTextNode(data.array[i].risc_cmds));
+            tr.appendChild(td);
+        }
+        else{
+            td = document.createElement("td");
+            td.appendChild(document.createTextNode("-"));
+            tr.appendChild(td);
+        }
+
+        if (data.array[i].risc_cmds_modificat){
+            td = document.createElement("td");
+            td.appendChild(document.createTextNode(data.array[i].risc_cmds_modificat));
             tr.appendChild(td);
         }
         else{
@@ -451,6 +481,10 @@ function render_date_ssims(data){
     th.appendChild(document.createTextNode("Scor PsiMS"));
     tbody.appendChild(th);
 
+    var th = document.createElement("th");
+    th.appendChild(document.createTextNode("Rezultat"));
+    tbody.appendChild(th);
+
 
     for (var i=0; i<data.array.length; i++){
         var tr = document.createElement("tr");
@@ -515,6 +549,10 @@ function render_date_ssims(data){
 
         td = document.createElement("td");
         td.appendChild(document.createTextNode(data.array[i].PsiMS_scor));
+        tr.appendChild(td);
+
+        td = document.createElement("td");
+        td.appendChild(document.createTextNode(data.array[i].rezultat));
         tr.appendChild(td);
 
         tbody.appendChild(tr);
@@ -675,4 +713,125 @@ function der_inainte_reprezentare(){
 function render_stare_intr_date(){
     document.getElementById("mod_introducere").style.display = "block";
     document.getElementById("mod_afisare").style.display = "none";
+}
+
+function optiuni_module_statistica(){
+    var rezultate = document.getElementById("rezultate").options;
+    while (rezultate.length) {
+        rezultate.remove(0);
+    }
+    switch (document.getElementById("module").options.selectedIndex){
+        case 0: {
+            c1 = document.createElement("option");
+            c2 = document.createElement("option");
+            c3 = document.createElement("option");
+            c4 = document.createElement("option");
+
+            c1.text = "Risc scăzut de ND";
+            c2.text = "Risc moderat de ND";
+            c3.text = "Risc crescut de ND";
+            c4.text = "Risc foarte crescut de ND";
+
+            rezultate.add(c1);
+            rezultate.add(c2);
+            rezultate.add(c3);
+            rezultate.add(c4);
+
+        } break;
+        case 1: {
+            c1 = document.createElement("option");
+            c2 = document.createElement("option");
+            c3 = document.createElement("option");
+
+            c1.text = "risc-scazut";
+            c2.text = "risc-interm";
+            c3.text = "risc-ridicat";
+
+            rezultate.add(c1);
+            rezultate.add(c2);
+            rezultate.add(c3);
+
+        } break;
+        case 2: {
+            c1 = document.createElement("option");
+            c2 = document.createElement("option");
+            c3 = document.createElement("option");
+            c4 = document.createElement("option");
+            c5 = document.createElement("option");
+            c6 = document.createElement("option");
+            c7 = document.createElement("option");
+            c8 = document.createElement("option");
+            c9 = document.createElement("option");
+            c10 = document.createElement("option");
+            c11 = document.createElement("option");
+            c12 = document.createElement("option");
+            c13 = document.createElement("option");
+            c14 = document.createElement("option");
+
+            c1.text = "≤7";
+            c2.text = "≤10";
+            c3.text = "≤11";
+            c4.text = "≤13";
+            c5.text = "≤16";
+            c6.text = "≤18";
+            c7.text = "≤23";
+            c8.text = "≤24";
+            c9.text = "≤32";
+            c10.text = "≤33";
+            c11.text = "≤43";
+            c12.text = "≤59";
+            c13.text = ">43";
+            c14.text = ">59";
+
+            rezultate.add(c1);
+            rezultate.add(c2);
+            rezultate.add(c3);
+            rezultate.add(c4);
+            rezultate.add(c5);
+            rezultate.add(c6);
+            rezultate.add(c7);
+            rezultate.add(c8);
+            rezultate.add(c9);
+            rezultate.add(c10);
+            rezultate.add(c11);
+            rezultate.add(c12);
+            rezultate.add(c13);
+            rezultate.add(c14);
+        } break;
+        case 3:{
+            c1 = document.createElement("option");
+            c2 = document.createElement("option");
+
+            c1.text = "Sindrom metabolic";
+            c2.text = "Sănătos";
+
+            rezultate.add(c1);
+            rezultate.add(c2);
+        }
+    }
+}
+
+function render_afisare_statistica(data_recived, rezultat){
+    document.getElementById("mod_introducere").style.display = "none";
+    document.getElementById("mod_afisare").style.display = "block";
+
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(function () { drawChart(data_recived) });
+
+    function drawChart(data_recived) {
+
+        var data = google.visualization.arrayToDataTable([
+            [ rezultat, 'Numar cazuri'],
+            [ rezultat, data_recived.numar_cazuri ],
+            [ 'Alte rezultate',data_recived.total_cazuri - data_recived.numar_cazuri ]
+        ]);
+
+        var options = {
+            title: "Numar cazuri totale: " + data_recived.total_cazuri
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+    }
 }
