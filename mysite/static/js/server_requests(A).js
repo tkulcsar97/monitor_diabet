@@ -232,7 +232,7 @@ function adauga_np(){
 function adauga_risc_hipo(){
     var c1,c2,c3,c4,c5,c6;
 
-    if (isSelected("C1_niciodata")) c1 = document.getElementById("c1_niciodata").value;
+    if (isSelected("C1_niciodata")) c1 = document.getElementById("C1_niciodata").value;
     if (isSelected("C1_sub2")) c1 = document.getElementById("C1_sub2").value;
     if (isSelected("C1_3plus")) c1 = document.getElementById("C1_3plus").value;
 

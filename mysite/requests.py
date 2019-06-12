@@ -151,10 +151,10 @@ def preluare_date_reprezentare(request):
     inregistrari_grafic = Reprezentare_Glicemie.objects.all()
     for inregistrare_grafic in inregistrari_grafic:
         if(inregistrare_grafic.user == user):
-            print(inregistrare_grafic.data, date.date())
             if(inregistrare_grafic.data == date.date()):
                 count=count+1
                 data[inregistrare_grafic.moment_al_zilei] = inregistrare_grafic.valoare_glicemie
+    print(data)
     return JsonResponse(data)
 
 def cautare_pacient(request):

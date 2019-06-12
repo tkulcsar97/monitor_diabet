@@ -6,6 +6,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <script>
+      var role = "{{role}}";
+      var patient = "{{patient}}";
+    </script>
+
     <script type="text/javascript" src="{% static 'js/render(A).js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery-3.3.1.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/server_requests(A).js' %}"></script>
@@ -204,7 +209,7 @@
             </td>
           </tr>
           <tr>
-            {% if role == 0 %}
+            {% if role == 0 or patient == '' %}
               <td>
                 <div class="form-group">
                   <label> Vârstă </label>

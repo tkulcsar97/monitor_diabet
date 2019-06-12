@@ -85,7 +85,8 @@ function getValues(id)
 	{
 	 
 	 gender=document.getElementById("hdl1").value;
-	 age=document.getElementById("age1").value;
+	 if (role == 0 || patient == '')
+	 	age=document.getElementById("age1").value;
 	 waist=document.getElementById("waist1").value;
 	 height=document.getElementById("height1").value;
 	 glycemia=document.getElementById("glycemia1").value;
@@ -97,7 +98,8 @@ function getValues(id)
 	else if(id==2)
 	{
 	 gender=document.getElementById("hdl1").value; // checks if it's (male/female)
-	 age=document.getElementById("age2").value;
+	 if (role == 0 || patient == '')
+	 	age=document.getElementById("age2").value;
 	 waist=document.getElementById("waist2").value;
 	 height=document.getElementById("height2").value;
 	 glycemia=document.getElementById("glycemia2").value;

@@ -641,7 +641,6 @@ function der_inainte_analiza(){
 
 var date_reprezentare;
 function render_date_reprezentare(){
-    console.log(date_reprezentare);
 
     var tbody_old = document.getElementsByTagName("tbody");
 
@@ -665,7 +664,6 @@ function render_date_reprezentare(){
 
 
     for (var i=limita_stanga; i<limita_dreapta && i < date_reprezentare.array.length ; i++){
-        console.log("i:", i);
         var tr = document.createElement("tr");
 
         var td;
