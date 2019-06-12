@@ -147,13 +147,13 @@ def preluare_date_reprezentare(request):
         user = User.objects.get(username = views.patient) # request de catre medic
     #temp_date = datetime.strptime(date, '%Y-%m-%d').date()
     data = {}
-    count = 0
-    inregistrari_grafic = Reprezentare_Glicemie.objects.all()
+    inregistrari_grafic = Reprezentare_Glicemie.objects.filter(user=user, data=date.date())
+    inregistrari_grafic = inregistrari_grafic.extra(select={
+              'ora': "SUBSTR('moment_al_zilei', 4)",
+              'cifra': "CAST(substr(moment_al_zilei, 5) AS UNSIGNED)"})
+    inregistrari_grafic = inregistrari_grafic.order_by('cifra')
     for inregistrare_grafic in inregistrari_grafic:
-        if(inregistrare_grafic.user == user):
-            if(inregistrare_grafic.data == date.date()):
-                count=count+1
-                data[inregistrare_grafic.moment_al_zilei] = inregistrare_grafic.valoare_glicemie
+        data[inregistrare_grafic.moment_al_zilei] = inregistrare_grafic.valoare_glicemie
     print(data)
     return JsonResponse(data)
 
