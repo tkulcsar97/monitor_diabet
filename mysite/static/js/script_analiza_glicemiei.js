@@ -13,12 +13,17 @@ var rezultateAnaliza=new Array(cols);
 for(var i=0;i<cols;i++)
 rezultateAnaliza[i]=new Array(nrRezultate);
 
+
 //event for cookies to change if a value has changed
+//and delete invalid numbers
 $(document).ready(function(){
-    $(':input[type="number"]').click(function() {
-    	getValues();
+    $(':input[type="number"]').change(function() {
+    	
+    	if(validNr(this.value)) getValues();
+		else this.value=null;
     });
 });
+
 
 function setColour(name,colour)
 {
@@ -27,26 +32,25 @@ function setColour(name,colour)
 
 function resetColours()
 {
-// MAKE A FUNTION TO COLOUR CELLS ---- setColour
-document.getElementById("ValNormMedie1").style.backgroundColor = "white";
-document.getElementById("ValNormMedie2").style.backgroundColor = "white";
+setColour("ValNormMedie1", "white");
+setColour("ValNormMedie2", "white");
 
-document.getElementById("ValNormDS1").style.backgroundColor = "white";
-document.getElementById("ValNormDS2").style.backgroundColor = "white";
+setColour("ValNormDS1", "white");
+setColour("ValNormDS2", "white");
 
-document.getElementById("ValNormCD1").style.backgroundColor = "white";
-document.getElementById("ValNormCD2").style.backgroundColor = "white";
-document.getElementById("ValNormCD3").style.backgroundColor = "white";
-document.getElementById("ValNormCD4").style.backgroundColor = "white";
+setColour("ValNormCD1", "white");
+setColour("ValNormCD2", "white");
+setColour("ValNormCD3", "white");
+setColour("ValNormCD4", "white");
 
-document.getElementById("ValNormJ1").style.backgroundColor = "white";
-document.getElementById("ValNormJ2").style.backgroundColor = "white";
-document.getElementById("ValNormJ3").style.backgroundColor = "white";
-document.getElementById("ValNormJ4").style.backgroundColor = "white";
+setColour("ValNormJ1", "white");
+setColour("ValNormJ2", "white");
+setColour("ValNormJ3", "white");
+setColour("ValNormJ4", "white");
 
-document.getElementById("ValNormMODD1").style.backgroundColor = "white";
-document.getElementById("ValNormMODD2").style.backgroundColor = "white";
-document.getElementById("ValNormMODD3").style.backgroundColor = "white";
+setColour("ValNormMODD1", "white");
+setColour("ValNormMODD2", "white");
+setColour("ValNormMODD3", "white");
 }
 
 function compareResults(day)
@@ -57,29 +61,29 @@ function compareResults(day)
 		switch(j)
 		{
 		case 0:
-			if(rezultateAnaliza[day][j]<=154) document.getElementById("ValNormMedie1").style.backgroundColor = "red";
-			else if(rezultateAnaliza[day][j]>154)document.getElementById("ValNormMedie2").style.backgroundColor = "red";
+			if(rezultateAnaliza[day][j]<=154) setColour("ValNormMedie1","red");
+			else if(rezultateAnaliza[day][j]>154) setColour("ValNormMedie2","red");
 			break;
 		case 1:
-			if(rezultateAnaliza[day][j]<60) document.getElementById("ValNormDS1").style.backgroundColor = "red";
-			else if(rezultateAnaliza[day][j]>60)document.getElementById("ValNormDS2").style.backgroundColor = "red";
+			if(rezultateAnaliza[day][j]<60) setColour("ValNormDS1","red");
+			else if(rezultateAnaliza[day][j]>60) setColour("ValNormDS2", "red");
 			break;
 		case 2:
-			if(rezultateAnaliza[day][j]<33.5) document.getElementById("ValNormCD1").style.backgroundColor = "red";
-			else if(rezultateAnaliza[day][j]>=36.8 && rezultateAnaliza[day][j]<36.8) document.getElementById("ValNormCD2").style.backgroundColor = "red";
-			else if(rezultateAnaliza[day][j]>=36.8  && rezultateAnaliza[day][j]<40.6) document.getElementById("ValNormCD3").style.backgroundColor = "red";
-			else if(rezultateAnaliza[day][j]>40.6)document.getElementById("ValNormCD4").style.backgroundColor = "red";
+			if(rezultateAnaliza[day][j]<33.5) setColour("ValNormCD1","red");
+			else if(rezultateAnaliza[day][j]>=33.5 && rezultateAnaliza[day][j]<36.8) setColour("ValNormCD2", "red");
+			else if(rezultateAnaliza[day][j]>=36.8  && rezultateAnaliza[day][j]<=40.6) setColour("ValNormCD3", "red");
+			else if(rezultateAnaliza[day][j]>40.6) setColour("ValNormCD4", "red");
 			break;
 		case 3:
-			if(rezultateAnaliza[day][j]>=10 && rezultateAnaliza[day][j]<20) document.getElementById("ValNormJ1").style.backgroundColor = "red";
-			else if(rezultateAnaliza[day][j]>=20 && rezultateAnaliza[day][j]<30) document.getElementById("ValNormJ2").style.backgroundColor = "red";
-			else if(rezultateAnaliza[day][j]>=30 && rezultateAnaliza[day][j]<=40) document.getElementById("ValNormJ3").style.backgroundColor = "red";
-			else if(rezultateAnaliza[day][j]>40)  document.getElementById("ValNormJ4").style.backgroundColor = "red";
+			if(rezultateAnaliza[day][j]>=10 && rezultateAnaliza[day][j]<20) setColour("ValNormJ1","red");
+			else if(rezultateAnaliza[day][j]>=20 && rezultateAnaliza[day][j]<30) setColour("ValNormJ2", "red");
+			else if(rezultateAnaliza[day][j]>=30 && rezultateAnaliza[day][j]<=40) setColour("ValNormJ3","red");
+			else if(rezultateAnaliza[day][j]>40)  setColour("ValNormJ4","red");
 			break;
 		case 4:
-			if(rezultateAnaliza[day][j]<7) document.getElementById("ValNormMODD1").style.backgroundColor = "red";
-			else if(rezultateAnaliza[day][j]>=7 && rezultateAnaliza[day][j]<=25) document.getElementById("ValNormMODD2").style.backgroundColor = "red";
-			else if(rezultateAnaliza[day][j]>40) document.getElementById("ValNormMODD3").style.backgroundColor = "red";
+			if(rezultateAnaliza[day][j]<7) setColour("ValNormMODD1", "red");
+			else if(rezultateAnaliza[day][j]>=7 && rezultateAnaliza[day][j]<=25) setColour("ValNormMODD2", "red");
+			else if(rezultateAnaliza[day][j]>40) setColour("ValNormMODD3", "red");
 			break;
 		}
 
@@ -224,15 +228,9 @@ function getValues()
 		{ 
 		for(var j=0;j<rows;j++)
 			{
-			//if(isNaN(tabel[i][j]) || tabel[i][j]==null)
-			tabel[i][j]=Math.abs(parseInt(document.getElementById('val'+(j+1)+'day'+(i+1)).value));
-			
-			//delete invalid numbers
-			if(!validNr(tabel[i][j])) 
-				{
-					tabel[i][j]=NaN;
-					document.getElementById('val'+(j+1)+'day'+(i+1)).value=null;
-				}
+				var number=Math.abs(parseInt(document.getElementById('val'+(j+1)+'day'+(i+1)).value));
+
+				if(validNr(number)) tabel[i][j]=number;
 			}
 		}
 	}	
