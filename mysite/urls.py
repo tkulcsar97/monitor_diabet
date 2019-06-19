@@ -39,7 +39,7 @@ urlpatterns = [
     path('statistica.htm', views.statistica),
 
     #url(r'analiza_glicemiei/$', requests.analiza_glicemiei),
-    url(r'login/$', requests.login),
+    url(r'login/$', requests.autentificare),
     url(r'register/$', requests.create_account),
     url(r'logout/$', requests.logout),
     url(r'set_analiza/$', requests.setare_date_analiza),
@@ -47,7 +47,7 @@ urlpatterns = [
     url(r'setare_date_reprezentare/$', requests.setare_date_reprezentare),
     url(r'get_reprezentare/$', requests.preluare_date_reprezentare),
     url(r'cautare_pacient/$', requests.cautare_pacient),
-    url(r'deselectare_pacient/$', requests.deselect_patient),
+    url(r'deselectare_pacient/$', requests.deselectare_pacient),
     url(r'setare_nefropatie/$', requests.setare_date_nefropatie),
     url(r'set_risc_hipoglicemie/$', requests.setare_date_risc_hipoglicemie),
     url(r'set_risc_diabet/$', requests.setare_date_risc_diabet),
