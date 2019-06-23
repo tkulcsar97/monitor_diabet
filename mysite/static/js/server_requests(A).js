@@ -23,6 +23,8 @@ function register(){
     username = document.getElementById("nume_utilizator").value;
     password = document.getElementById("parola").value;
     birth_date = document.getElementById("data_nasterii").value;
+    onset_age = document.getElementById("varsta_debut").value;
+    doctor = document.getElementById("medici").options[document.getElementById("medici").options.selectedIndex].text;
 
     url = "http://localhost:8000/register/";
     data_to_send = {
@@ -30,6 +32,7 @@ function register(){
         password: password,
         birth_date: birth_date,
         onset_age: onset_age,
+        doctor: doctor
     }
 
     f = function(data_recived){

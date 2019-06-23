@@ -4,6 +4,7 @@ from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.db.models import Q
+from django.core.exceptions import ObjectDoesNotExist
 from .models import Pacient, Variabilitate_Glicemie, Reprezentare_Glicemie, Rol, Risc_Hipoglicemie, Risc_Diabet, Nefropatie, Indice_SiMS, Medic
 from . import views
 from . import urls
@@ -71,6 +72,7 @@ def create_account(request):
         rol.id_rol = 1 # 1 -> pacient
         rol.save()
         data = {'successful': True}   
+
     return JsonResponse(data)
 
 def logout(request):
@@ -160,17 +162,19 @@ def preluare_date_reprezentare(request):
 def cautare_pacient(request):
     searched_patient = request.GET.get('pacient')
     date = datetime.date.today() 
-    u = User.objects.get(username=searched_patient)
-    m = User.objects.get(username=views.username)
-    medic = Medic.objects.get(medic = m)  
-    if(Pacient.objects.filter(user=u, medic=medic.medic_id).exists()):
+    try:
+        u = User.objects.get(username=searched_patient)
+        m = User.objects.get(username=views.username)
+        medic = Medic.objects.get(medic = m) 
+        p = Pacient.objects.get(user=u, medic=medic.medic_id)
+    except ObjectDoesNotExist:
+        data = {'successful': False}
+    else:
         views.patient = searched_patient
         user = User.objects.get(username=views.patient)
         pacient = Pacient.objects.get(user=user)
         views.age = date.year - pacient.data_nastere.year - ((date.month, date.day) < (pacient.data_nastere.month, pacient.data_nastere.day))
         data = {'successful': True}
-    else:
-        data = {'successful': False}
     return JsonResponse(data)
 
 def deselect_patient(request):
@@ -464,6 +468,7 @@ def statistica_nefropatie(request):
     varsta_start = int(request.GET.get('varsta_start'))
     varsta_stop = int(request.GET.get('varsta_stop'))
     rezultat = request.GET.get('rezultat')
+
     print(type(varsta_debut_start))
     data_start = datetime.datetime.strptime(request.GET.get('data_start'), "%Y-%m-%dT%H:%M:%S.%fZ")
     data_stop = datetime.datetime.strptime(request.GET.get('data_stop'), "%Y-%m-%dT%H:%M:%S.%fZ")
@@ -490,6 +495,7 @@ def statistica_nefropatie(request):
         else:
             data = {'numar_cazuri': inregistrari_nefropatie.count()} 
     data['total_cazuri'] =  Nefropatie.objects.all().count()  #total inregistrari
+
     return JsonResponse(data)
 
 def statistica_hipoglicemie(request):
@@ -591,7 +597,7 @@ def statistica_indice_siMS(request):
     data['total_cazuri'] =  Indice_SiMS.objects.all().count()  #total inregistrari
     return JsonResponse(data)
 
-'''def getTotalPacienti():
+def getTotalPacienti():
     data = {'nr_pacienti': 4}
     data['total'] = Reprezentare_Glicemie.objects.values('user_id').distinct().count()
     date = datetime.date.today()
@@ -610,4 +616,4 @@ def preluare_medici():
         })
     print(views.doctors)
 
-preluare_medici()'''
+preluare_medici()
