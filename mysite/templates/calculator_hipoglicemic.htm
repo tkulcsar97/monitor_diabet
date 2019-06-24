@@ -75,7 +75,7 @@
 		}
 	</style>
 </head>
-<body {% if role > 0 %}onload="preia_date_hipoglicemie()" {% endif %}>
+<body {% if role == 1  or role == 2 and patient != '' %} onload="preia_date_hipoglicemie()" {% endif %}>
 
 	<style>
 		.navbar-fixed-left{
@@ -92,11 +92,8 @@
 			<li class="nav-item mt-3">
 				<a class="navbar-brand" href="#">Monitor Diabet</a>
 			</li>
-			<li class="nav-item mt-3">
-				<a class="nav-link" href="index.htm">Algoritm diagnostic</a>
-			</li>
 			<li class="nav-item mt-2">
-				<a class="nav-link" href="analiza_glicemiei.htm">Analiza glicemiei</a>
+				<a class="nav-link" href="index.htm">Analiza glicemiei</a>
 			</li>
 			<li class="nav-item mt-2">
 				<a class="nav-link" href="stadializarea_nefropatiei_diabetice.htm">Stadializarea nefropatiei diabetice</a>

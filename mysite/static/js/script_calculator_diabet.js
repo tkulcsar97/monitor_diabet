@@ -15,7 +15,7 @@ var risc_ModifiedCMDS = "";
 
 window.onload = function () {
 
-	if (role == 2)
+	if (role == 1 || role == 2 && patient != "")
 		preia_date_calculator_diabet();
 		
 	var SELECTED_COLOR = 'red';

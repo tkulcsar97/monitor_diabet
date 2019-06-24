@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title></title>
   </head>
-  <body {% if role > 0 %}onload = "preia_date_ssims()" {%  endif %}>
+  <body {% if role == 1  or role == 2 and patient != '' %}onload = "preia_date_ssims()" {%  endif %}>
     <style>
       .navbar-fixed-left{
         position: fixed;
@@ -35,11 +35,8 @@
           <li class="nav-item mt-3">
             <a class="navbar-brand" href="#">Monitor Diabet</a>
           </li>
-          <li class="nav-item mt-3">
-            <a class="nav-link" href="index.htm">Algoritm diagnostic</a>
-          </li>
           <li class="nav-item mt-2">
-            <a class="nav-link" href="analiza_glicemiei.htm">Analiza glicemiei</a>
+            <a class="nav-link" href="index.htm">Analiza glicemiei</a>
           </li>
           <li class="nav-item mt-2">
             <a class="nav-link" href="stadializarea_nefropatiei_diabetice.htm">Stadializarea nefropatiei diabetice</a>

@@ -2,13 +2,13 @@
 {% load static %}
 <html lang="en">
   <head>
-    <!-- Scripts-->
+    <script type="text/javascript" src="{% static 'js/render(A).js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery-3.3.1.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/data.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/server_requests(A).js' %}"></script>
 
-    <script type="text/javascript" src="{% static 'js/script_algoritm_diagnostic.js' %}"></script>
-
+    <script type="text/javascript" src="{% static 'js/papaparse.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/script_analiza_glicemiei.js' %}"></script>
+ 
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title></title>
   </head>
-  <body>
+  <body onload="checkCookie()">
       <style>
         .navbar-fixed-left{
           position: fixed;
@@ -28,184 +28,584 @@
           padding-left: 15%;
         }
       </style>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-left">
-        <ul class="navbar-nav flex-column mb-auto">
-          <li class="nav-item mt-3">
-            <a class="navbar-brand" href="#">Monitor Diabet</a>
-          </li>
-          <li class="nav-item active mt-3">
-            <a class="nav-link" href="#">Algoritm diagnostic<span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item mt-2">
-            <a class="nav-link" href="analiza_glicemiei.htm">Analiza glicemiei</a>
-          </li>
-          <li class="nav-item mt-2">
-            <a class="nav-link" href="stadializarea_nefropatiei_diabetice.htm">Stadializarea nefropatiei diabetice</a>
-          </li>
-          <li class="nav-item mt-2">
-            <a class="nav-link" href="reprezentarea_glicemiei.htm">Reprezentarea glicemiei</a>
-          </li>
-          <li class="nav-item mt-2">
-            <a class="nav-link" href="calculator_hipoglicemic.htm">Calculator Hipoglicemic</a>
-          </li>
-          <li class="nav-item mt-2">
-            <a class="nav-link" href="calculator_diabet.htm">Calculator diabet</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="siMS.htm">siMS</a>
-          </li>
-          {% if role > 0 %}
-            {% if role == 2 %}
-              <li class="nav-item mt-2">
-                <a class="nav-link" href="cauta_pacient.htm">Caută pacient</a>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-left">
+          <ul class="navbar-nav flex-column mb-auto">
+            <li class="nav-item mt-3">
+              <a class="navbar-brand" href="#">Monitor Diabet</a>
+            </li>
+            <li class="nav-item active mt-2">
+              <a class="nav-link" href="#">Analiza glicemiei<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item mt-2">
+              <a class="nav-link" href="stadializarea_nefropatiei_diabetice.htm">Stadializarea nefropatiei diabetice</a>
+            </li>
+            <li class="nav-item mt-2">
+              <a class="nav-link" href="reprezentarea_glicemiei.htm">Reprezentarea glicemiei</a>
+            </li>
+            <li class="nav-item mt-2">
+              <a class="nav-link" href="calculator_hipoglicemic.htm">Calculator Hipoglicemic</a>
+            </li>
+            <li class="nav-item mt-2">
+              <a class="nav-link" href="calculator_diabet.htm">Calculator diabet</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="siMS.htm">siMS</a>
+            </li>
+            {% if role > 0 %}
+
+              {% if role == 2 %}
+                <li class="nav-item mt-2">
+                  <a class="nav-link" href="cauta_pacient.htm">Caută pacient</a>
+                </li>
+                <li class="nav-item mt-2">
+                  <a class="nav-link" href="statistica.htm">Vezi statistică</a>
+                </li>
+              {% endif %}
+
+              <li class="nav-item mt-5">
+                <p class = "text-success h4 border">Bun venit, {{username}}</p>
               </li>
-              <li class="nav-item mt-2">
-                <a class="nav-link" href="statistica.htm">Vezi statistică</a>
+              <li class="nav-item mt-3">
+                <button class="btn btn-outline-success my-2 my-sm-0 ml-4" onclick="logout()">Delogare</button>
+              </li>
+            {% else %}
+              <li class="nav-item mt-5">
+                <a class="btn btn-outline-success my-2 my-sm-2 mr-2" href="autentificare.htm">Autentificare</a>
+              </li>
+              <li class="nav-item mt-3">
+                <a class="btn btn-outline-success my-2 my-sm-2 mr" href="inregistrare.htm">Înregistrare</a>
               </li>
             {% endif %}
-            <li class="nav-item mt-5">
-              <p class = "text-success h4 border">Bun venit, {{username}}</p>
-            </li>
-            <li class="nav-item mt-3">
-              <button class="btn btn-outline-success my-2 my-sm-0 ml-4" onclick="logout()">Delogare</button>
-            </li>
-          {% else %}
-            <li class="nav-item mt-5">
-              <a class="btn btn-outline-success my-2 my-sm-2 mr-2" href="autentificare.htm">Autentificare</a>
-            </li>
-            <li class="nav-item mt-3">
-              <a class="btn btn-outline-success my-2 my-sm-2 mr" href="inregistrare.htm">Inregistrare</a>
-            </li>
-          {% endif %}
-        </ul>
-      </nav>
-      <div class="container con">
-        <div class = "d-flex justify-content-center">
-          {% if patient == '' %}
-            <h4>Nu ai selectat niciun pacient!</h4>
-          {% else %}
-            <h4>Ai selectat pacientul: {{patient}}</h4>
-          {% endif %}
-        </div>
-        <div class = "mt-5" id="accordion">
+          </ul>
+        </nav>
+        <div class="container con">
+          <div class = "d-flex justify-content-center">
+
+            {% if role == 2 %}
+              {% if patient == '' %}
+                <h4>Nu ai selectat niciun pacient!</h4>
+              {% else %}
+                <h4>Ai selectat pacientul: {{patient}}</h4>
+              {% endif %}
+            {% endif %}
+
+          </div>
+          <div id="accordion" class = "mt-5">
             <div class="card">
               <div class="card-header" id="headingOne">
                 <h5 class="mb-0">
-                  <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                     Descriere
                   </button>
                 </h5>
               </div>
               <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                 <div class="card-body">
-                  <p>
-                    Un nou studiu efectuat în Suedia pe o populație de diabetici (a se vedea articolul de referința la finalul acestei pagini) 
-                    a aratat că ar exista 5 tipuri de diabet, fiecare cu caracteristici specifice, gravitate și evolutie particulară, tratament diferit și riscuri diferite de dezvoltare a unor complicații.
-                  </p>
-                  <p>
-                    Cele 5 clustere de diabet sunt:
-                    <ul style="list-style-type:circle">
-                      <li>
-                        clusterul 1 - severe autoimmune diabetes (SAID) – diabetul autoimun sever;
-                      </li>
-                      <li>
-                        clusterul 2 - severe insulin-deficient diabetes (SIDD) – diabetul insulino-deficient sever;
-                      </li>
-                      <li>
-                        clusterul 3 - severe insulin-resistant diabetes (SIRD) – diabetul insulino-rezistent sever;
-                      </li>
-                      <li>
-                        clusterul 4 - mild obesity-related diabetes (MORD) – diabetul moderat asociat cu obezitatea;
-                      </li>
-                      <li>
-                        clusterul 5 - mild age-related diabetes (MARD) – diabetul moderat asociat cu vârsta;
-                      </li>
-                    </ul>
-                  </p>
-                          
-                  <p>
-                    În timp ce SAID corespunde actualului diabet de tip 1 și diabetului de tip LADA (diabetul autoimun latent al adultului), studiul a identificat două noi forme, severe, de diabet și anume SIDD și SIRD, care sunt mascate actualmente de tipul 2 de diabet. Algoritmul nostru vă permite încadrarea diabetului dumneavoastră într-unul din cele 5 tipuri (clustere) nou descrise.
-                  </p> 
-                  <p>
-                    Aveți nevoie de următoarele date:
-          
-                    <ul style="list-style-type:circle">
-                      <li>
-                        vârsta la debutul diabetului;
-                      </li>
-                      <li>
-                        prezența sau absența anticorpilor anti decarboxilaza acidului glutamic (anticorpii anti-GADA);
-                      </li>
-                      <li>
-                        nivelul hemoglobinei glicozilate (HbA1c);
-                      </li>
-                      <li>
-                        indicele masei corporale (IMC);
-                      </li>
-                      <li>
-                        evaluarea funcției celulelor beta-pancreatice HOMA-2B prin modelul homeostatic HOMA2;
-                      </li>
-                      <li>
-                        evaluarea insulino-rezistenței HOMA2-IR prin modelul homeostatic HOMA2;
-                      </li>
-                    </ul>
-                  </p>
-                  <p>
-                    HOMA-2B și HOMA2-IR pot fi calculate cu ajutorul unui freeware, care poate fi descărcat de <a href="https://www.dtu.ox.ac.uk/homacalculator/">aici</a>. Pentru calculul acestor doi parametri este nevoie de valorile glicemiei și insulinei plasmatice.
-                  </p>
+                  <p>Aplicația permite calcularea unor indici de variabilitate ai glicemiei, cum ar fi media, deviația standard, 
+                      coeficientul de variație, indexul J și media diferențelor zilnice (MODD - mean of daily difference în engleză). 
+                      Acești indici dau o imagine mai bună asupra variabilității valorilor glicemiei decât simpla examinare a datelor 
+                      individuale, fiind o măsură a bunei gestionări a diabetului dumneavoastră. Analiza necesită un număr de cel puțin 
+                      7 măsurători de glicemie pe zi (dar se pot introduce până la 12 măsurători), pentru un număr maxim de 7 zile. 
+                      Pentru măsurarea mediei diferențelor zilnice este necesar să completați datele pentru două zile (se compară datele 
+                      a două zile, nu este necesar să fie zile consecutive dar datele trebuie introduse în coloane consecutive). 
+                      Pentru aceste analize statistice nu este importantă ora la care s-a făcut citirea glicemiei însă mediei diferențelor 
+                      zilnice este influențată de dietă iar rezultatele vor fi mai mari dacă aveți o dietă variabilă (cu excese alimentare).
+                    </p>
+                    <p>
+                        Dacă valorile calculate ale indicilor de variabilitate glicemică sunt mai mari decât valorile normale înseamnă că aveți 
+                        variabilitate ridicată în valorile zilnice și de la o zi la alta ale glicemiei și glicemia dumneavoastră nu este 
+                        gestionată așa cum trebuie si este necesar să luați măsuri – tratament + dietă - pentru corectarea situației.
+                    </p>
                 </div>
               </div>
             </div>
           </div>
-        
-        <div class="p-1 mb-4 bg-white"></div>
-        <div class="row justify-content-md-center">
-            <form>
-              <div class="form-group">
-                <label> Varsta la debutul diabetului: </label>
-                <input type="number" class="form-control" id="varsta_debut">
+
+          {% if role > 0 %}
+            <div id="valori_stocate" class = "mt-2">
+              <div class="card">
+                <div class="card-header" id="headingTwo">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                      Ce valori sunt deja stocate?
+                    </button>
+                  </h5>
+                </div>
+                <div id="collapseTwo" id = "mod_introducere" class="collapse" aria-labelledby="headingTwo" data-parent="#valori_stocate">
+                  <div class="card-body">
+                    <div id = "mod_introducere" style="display: block">
+                      <label class = "d-flex justify-content-center"> Introduceți data de inceput </label>
+                      <input type="date" class="form-control" id="data_inceput_valoare">
+                      <label class = "d-flex justify-content-center mt-2"> Introduceți data de sfarsit </label>
+                      <input type="date" class="form-control" id="data_sfarsit_valoare">
+                      <div class = "d-flex justify-content-center"> <button type="button" class="btn btn-primary mt-3" onclick = "preluare_tabel_analiza()">Afisează</button> </div>
+                    </div>
+                    <div id = "mod_afisare" style="display: none">
+                      <table id = "date-pacient" cellpadding="20" class = "d-flex justify-content-center">
+                          
+                      </table> 
+                      <div class = "d-flex justify-content-center">
+                        <button type="button" class="btn btn-primary mt-3 ml" onclick = "der_inapoi_analiza()"><</button> 
+                        <button type="button" class="btn btn-primary mt-3 ml-5" onclick = "der_inainte_analiza()">></button>
+                      </div>
+                      <button type="button" class="btn btn-primary mt-3" onclick = "render_stare_intr_date()">Înapoi</button>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="form-group">
-                <label> Inaltimea (cm): </label>
-                <input type="number" class="form-control" id="inaltime">
+            </div>
+            <div id = "initial_state">
+              <div class="row justify-content-md-center">
+                <form>
+                  <label class = "text-success" style="display: block" id="message1"></label>
+                  {% if role == 1 %}
+                    <button type="button" class="btn btn-outline-success my-2 my-sm-4" onclick="renderAG_addValue()">Adaugă o singură valoare</button>
+                  {% endif %}
+                  &nbsp&nbsp&nbsp&nbsp&nbsp
+                  <button type="button" class="btn btn-outline-success my-2 my-sm-4" onclick="renderAG_showValues()">Afișează tabel</button>
+                </form>
               </div>
-              <div class="form-group">
-                <label> Greutatea (kg): </label>
-                <input type="number" class="form-control" id="greutate">
+            </div>
+
+            <div class="container" style="display: none" id="view_addValue">
+              <div class="row justify-content-md-center">
+                <form>
+                  <div class="form-group">
+                    <label> Introduceți ziua </label>
+                    <input type="date" class="form-control" id="data_valoare">
+                  </div> 
+                  <div class="form-group">
+                    <label> Introduceți momentul </label>
+                    <input type="time" class="form-control" id="timp_valoare">
+                  </div>
+                  <div class="form-group">
+                    <label> Introduceți valoarea </label>
+                    <input type="number" class="form-control" id="valoare">
+                  </div>
+                  <button type="button" class="btn btn-outline-success my-2 my-sm-4" onclick="adauga_glicemie()">Adaugă</button>
+                  &nbsp&nbsp&nbsp&nbsp
+                  <button type="button" class="btn btn-outline-success my-2 my-sm-4" onclick="renderAG_initState(null)">Înapoi</button>
+                </form>                 
               </div>
-              <div class="form-group">
-                <label> Nivelul hemoglobinei glicozilate: </label>
-                <input type="number" class="form-control" id="nivel_hemoglobina">
+            </div>
+
+            <div class="container" style="display: none" id="view_showValues">
+                <div class="row justify-content-md-center">
+                  <form>
+                    <label class="text-danger" id = "message2"> Puteți alege maxim 7 zile </label>
+                    <div class="form-group">
+                      <label> Introduceți data de început </label>
+                      <input type="date" class="form-control" id="start_date">
+                    </div> 
+                    <div class="form-group">
+                      <label> Introduceți data de sfârșit </label>
+                      <input type="date" class="form-control" id="end_date">
+                    </div>
+                    <button type="button" class="btn btn-outline-success my-2 my-sm-4" onclick="preia_glicemie()">Afișează</button>
+                    &nbsp&nbsp&nbsp&nbsp
+                    <button type="button" class="btn btn-outline-success my-2 my-sm-4" onclick="renderAG_initState(null)">Înapoi</button>
+                  </form>                 
+                </div>
               </div>
-              <div class="form-group">
-                <label> Glicemia pe nemâncate (mg/DL) </label>
-                <input type="number" class="form-control" id="glicemie">
+            
+            <div class="container" style="display: none" id="view_tableValues">
+              <div class="row justify-content-md-center">
+                <table class="table table-sm" id="table-logged" style="width:100%">
+                </table>
+                <button type="button" class="btn btn-outline-success my-2 my-sm-4" onclick="renderAG_initState(null)">Înapoi</button>
               </div>
-              <div class="form-group">
-                <label> Insulina pe nemâncate (mIU/L) </label>
-                <input type="number" class="form-control" id="insulina">
-              </div>
-              <div class="form-group">
-                <label> HOMA2-Beta: </label>
-                <input type="number" class="form-control" id="homa2_beta">
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="anticorpi" id="prezenti" value="prezenti" checked>
-                <label class="form-check-label" for="exampleRadios1">
-                    Anticorpi anti-GADA prezenti
-                </label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="anticorpi" id="absenti" value="absenti">
-                <label class="form-check-label" for="exampleRadios1">
-                  Anticorpi anti-GADA absenti
-                </label>
-              </div>
-              <button type="button" class="btn btn-outline-success my-2 my-sm-4" onclick= "Output();">Calculeaza</button>
-            </form>
+            </div>
+
+
+          {% else %}
+
+          <div align="center">
+            <label>Adăugați un fisier de tip .csv</label>
+            <input type="file"  id="upload" class="btn btn-outline-success my-2 my-sm-4" onchange="addFile();"></input>
+          </div>
+          <div align="center">
+            <label>Descărcați varianta curenta a tabelului (fisier de tip .csv)</label>
+              <button type="button" class="btn btn-outline-success my-2 my-sm-4" onclick="makeCsvFile();">Descarcă</button>
+          </div>
+
+          <!-- tabel -->
+
+          <style>
+          th, td {
+              white-space:nowrap;
+              font-size: 20px;
+              text-align: left; 
+              padding:none;
+
+          }
+
+          th.cellBorder{
+
+            border: 3px solid #00cc00;
+            text-align: center;
+          }
+
+          .wrapper {
+              text-align: center;
+          }
+
+          .button {
+              position: absolute;
+              top: 50%;
+          }
+
+          input[type="number"]{
+            width:75%;
+          }
+
+          /* hide increment-decrement arrows for <input> value : */
+          input::-webkit-outer-spin-button,
+          input::-webkit-inner-spin-button {
+              /* display: none; <- Crashes Chrome on hover */
+              -webkit-appearance: none;
+              margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+          }
+
+          input[type=number] {
+              -moz-appearance:textfield; /* Firefox */
+          }
+
+          </style>
+
+          <table class="table table-sm table-bordered" id="table" style="width:100%">
+            <thead>
+            <tr>
+              <th></th>
+              <th  class="cellBorder" onclick="compareResults(0)">Ziua 1</th>
+              <th  class="cellBorder" onclick="compareResults(1)">Ziua 2</th> 
+              <th  class="cellBorder" onclick="compareResults(2)">Ziua 3</th>
+              <th  class="cellBorder" onclick="compareResults(3)">Ziua 4</th>
+              <th  class="cellBorder" onclick="compareResults(4)">Ziua 5</th> 
+              <th  class="cellBorder" onclick="compareResults(5)">Ziua 6</th>
+              <th  class="cellBorder" onclick="compareResults(6)">Ziua 7</th>
+            </tr>
+            </thead>
+
+              <tbody>
+              <tr>
+            <th>Înainte de micul dejun</th>
+            <td><input  type="number" id="val1day1"> </td>
+            <td><input  type="number" id="val1day2"> </br></td>
+            <td><input  type="number" id="val1day3"> </br></td>
+            <td><input  type="number" id="val1day4"> </br></td>
+            <td><input  type="number" id="val1day5"> </br></td>
+            <td><input  type="number" id="val1day6"> </br></td>
+            <td><input  type="number" id="val1day7"> </br></td>
+            </tr>
+
+            <tr>
+            <th>După micul dejun</th>
+            <td><input  type="number" id="val2day1"> </td>
+            <td><input  type="number" id="val2day2"> </br></td>
+            <td><input  type="number" id="val2day3"> </br></td>
+            <td><input  type="number" id="val2day4"> </br></td>
+            <td><input  type="number" id="val2day5"> </br></td>
+            <td><input  type="number" id="val2day6"> </br></td>
+            <td><input  type="number" id="val2day7"> </br></td>
+            </tr>
+
+            <tr>
+            <th>Înainte de prânz</th>
+            <td><input  type="number" id="val3day1"> </td>
+            <td><input  type="number" id="val3day2"> </br></td>
+            <td><input  type="number" id="val3day3"> </br></td>
+            <td><input  type="number" id="val3day4"> </br></td>
+            <td><input  type="number" id="val3day5"> </br></td>
+            <td><input  type="number" id="val3day6"> </br></td>
+            <td><input  type="number" id="val3day7"> </br></td>
+            </tr>
+
+            <tr>
+            <th>După prânz</th>
+            <td><input  type="number" id="val4day1"> </td>
+            <td><input  type="number" id="val4day2"> </br></td>
+            <td><input  type="number" id="val4day3"> </br></td>
+            <td><input  type="number" id="val4day4"> </br></td>
+            <td><input  type="number" id="val4day5"> </br></td>
+            <td><input  type="number" id="val4day6"> </br></td>
+            <td><input  type="number" id="val4day7"> </br></td>
+            </tr>
+
+            <tr>
+            <th>Înainte de cină</th>
+            <td><input  type="number" id="val5day1"> </td>
+            <td><input  type="number" id="val5day2"> </br></td>
+            <td><input  type="number" id="val5day3"> </br></td>
+            <td><input  type="number" id="val5day4"> </br></td>
+            <td><input  type="number" id="val5day5"> </br></td>
+            <td><input  type="number" id="val5day6"> </br></td>
+            <td><input  type="number" id="val5day7"> </br></td>
+            </tr>
+
+            <tr>
+            <th>După cină</th>
+            <td><input  type="number" id="val6day1"> </td>
+            <td><input  type="number" id="val6day2"> </br></td>
+            <td><input  type="number" id="val6day3"> </br></td>
+            <td><input  type="number" id="val6day4"> </br></td>
+            <td><input  type="number" id="val6day5"> </br></td>
+            <td><input  type="number" id="val6day6"> </br></td>
+            <td><input  type="number" id="val6day7"> </br></td>
+            </tr>
+
+            <tr>
+            <th>Înainte de culcare</th>
+            <td><input  type="number" id="val7day1"> </td>
+            <td><input  type="number" id="val7day2"> </br></td>
+            <td><input  type="number" id="val7day3"> </br></td>
+            <td><input  type="number" id="val7day4"> </br></td>
+            <td><input  type="number" id="val7day5"> </br></td>
+            <td><input  type="number" id="val7day6"> </br></td>
+            <td><input  type="number" id="val7day7"> </br></td>
+              </tr>
+
+              <tr>
+            <th> Valori suplimentare</th>
+            <td><input  type="number" id="val8day1" ></td>
+            <td><input  type="number" id="val8day2" > </br></td>
+            <td><input  type="number" id="val8day3" > </br></td>
+            <td><input  type="number" id="val8day4" > </br></td>
+            <td><input  type="number" id="val8day5" > </br></td>
+            <td><input  type="number" id="val8day6" > </br></td>
+            <td><input  type="number" id="val8day7" > </br></td>
+              </tr>
+
+              <tr>
+            <th> Valori suplimentare</th>
+            <td><input  type="number" id="val9day1" ></td>
+            <td><input  type="number" id="val9day2" > </br></td>
+            <td><input  type="number" id="val9day3" > </br></td>
+            <td><input  type="number" id="val9day4" > </br></td>
+            <td><input  type="number" id="val9day5" > </br></td>
+            <td><input  type="number" id="val9day6" > </br></td>
+            <td><input  type="number" id="val9day7" > </br></td>
+              </tr>
+
+              <tr>
+            <th>Valori suplimentare</th>
+            <td><input  type="number" id="val10day1" ></td>
+            <td><input  type="number" id="val10day2" > </br></td>
+            <td><input  type="number" id="val10day3" > </br></td>
+            <td><input  type="number" id="val10day4" > </br></td>
+            <td><input  type="number" id="val10day5" > </br></td>
+            <td><input  type="number" id="val10day6" > </br></td>
+            <td><input  type="number" id="val10day7" > </br></td>
+              </tr>
+
+              <tr>
+            <th>Valori suplimentare</th>
+            <td><input  type="number" id="val11day1" ></td>
+            <td><input  type="number" id="val11day2" > </br></td>
+            <td><input  type="number" id="val11day3" > </br></td>
+            <td><input  type="number" id="val11day4" > </br></td>
+            <td><input  type="number" id="val11day5" > </br></td>
+            <td><input  type="number" id="val11day6" > </br></td>
+            <td><input  type="number" id="val11day7" > </br></td>
+              </tr>
+
+              <tr>
+            <th>Valori suplimentare</th>
+            <td><input  type="number" id="val12day1" ></td>
+            <td><input  type="number" id="val12day2" > </br></td>
+            <td><input  type="number" id="val12day3" > </br></td>
+            <td><input  type="number" id="val12day4" > </br></td>
+            <td><input  type="number" id="val12day5" > </br></td>
+            <td><input  type="number" id="val12day6" > </br></td>
+            <td><input  type="number" id="val12day7" > </br></td>
+              </tr>
+
+              <tr>
+                <td colspan="8">
+                  <div class="wrapper">
+                    <button type="submit" class="btn btn-outline-success my-2 my-sm-4"  onclick= "Output();">Calculează</button>
+                  </div>
+
+                </td>
+              </tr>
+
+              <tr>
+              <tr>
+                <th></th>
+                <th>Ziua 1</th>
+                <th>Ziua 2</th>
+                <th>Ziua 3</th>
+                <th>Ziua 4</th>
+                <th>Ziua 5</th>
+                <th>Ziua 6</th>
+                <th>Ziua 7</th>
+              </tr>
+            <th>Media glicemiilor - M</th>
+            <td><output type="number" id="media0"> </td>
+            <td><output type="number" id="media1"> </br></td>
+            <td><output type="number" id="media2"> </br></td>
+            <td><output type="number" id="media3"> </br></td>
+            <td><output type="number" id="media4"> </br></td>
+            <td><output type="number" id="media5"> </br></td>
+            <td><output type="number" id="media6"> </br></td>
+              </tr>
+
+              <tr>
+                <td colspan="4" id="ValNormMedie1">Valoare normală pentru un diabetic <154 mg/dl <br> </154>(corespunde unei HbA1c<7%)</td>
+                <td colspan="4" id="ValNormMedie2">Valoare anormală daca >154 mg/dl</td>
+              </tr>
+
+              <tr>
+                <td colspan="8"><br></td>
+              </tr>
+
+              <tr>
+                <th></th>
+                <th>Ziua 1</th>
+                <th>Ziua 2</th>
+                <th>Ziua 3</th>
+                <th>Ziua 4</th>
+                <th>Ziua 5</th>
+                <th>Ziua 6</th>
+                <th>Ziua 7</th>
+              </tr>
+
+              <tr>
+            <th>Deviația standard a mediei - SD</th>
+            <td><output type="number" id="ds0"></td>
+            <td><output type="number" id="ds1"> </br></td>
+            <td><output type="number" id="ds2"> </br></td>
+            <td><output type="number" id="ds3"> </br></td>
+            <td><output type="number" id="ds4"> </br></td>
+            <td><output type="number" id="ds5"> </br></td>
+            <td><output type="number" id="ds6"> </br></td>
+              
+              </tr>
+
+              <tr>
+                <td colspan="4" id="ValNormDS1">Valoare normală <50-60 mg/dl <br> </50-60>(este de dorit să fie sub o treime din medie)</td>
+                <td colspan="4" id="ValNormDS2">Valoare anormală daca >60 mg/dl</td>
+              </tr>
+
+              <tr>
+                <td colspan="8"><br></td>
+              </tr>
+
+              <tr>
+                <th></th>
+                <th>Ziua 1</th>
+                <th>Ziua 2</th>
+                <th>Ziua 3</th>
+                <th>Ziua 4</th>
+                <th>Ziua 5</th>
+                <th>Ziua 6</th>
+                <th>Ziua 7</th>
+              </tr>
+
+              <tr>
+            <th>Coeficientul de variație% - CV</th>
+            <td><output type="number" id="cv0"></td>
+            <td><output type="number" id="cv1"> </br></td>
+            <td><output type="number" id="cv2"> </br></td>
+            <td><output type="number" id="cv3"> </br></td>
+            <td><output type="number" id="cv4"> </br></td>
+            <td><output type="number" id="cv5"> </br></td>
+            <td><output type="number" id="cv6"> </br></td>
+
+              </tr>
+
+              <tr>
+                <td colspan="8" id="ValNormCD1">CV<33,5%, control excelent al glicemiei</td>
+              </tr>
+              <tr>
+                <td colspan="8" id="ValNormCD2">CV 33,5 - 36,8, control bun</td>
+              </tr>
+              <tr>
+                <td colspan="8" id="ValNormCD3">CV 36,8 - 40,6 control acceptabil</td>
+              </tr>
+              <tr>
+                <td colspan="8" id="ValNormCD4">CV>40,6, control prost</td>
+              </tr>
+
+              <tr>
+                <td colspan="8"><br></td>
+              </tr>
+
+              <tr>
+                <th></th>
+                <th>Ziua 1</th>
+                <th>Ziua 2</th>
+                <th>Ziua 3</th>
+                <th>Ziua 4</th>
+                <th>Ziua 5</th>
+                <th>Ziua 6</th>
+                <th>Ziua 7</th>
+              </tr>
+
+              <tr>
+            <th>Indicele J</th>
+            <td><output type="number" id="jindex0"></td>
+            <td><output type="number" id="jindex1"> </br></td>
+            <td><output type="number" id="jindex2"> </br></td>
+            <td><output type="number" id="jindex3"> </br></td>
+            <td><output type="number" id="jindex4"> </br></td>
+            <td><output type="number" id="jindex5"> </br></td>
+            <td><output type="number" id="jindex6"> </br></td>
+              </tr>
+
+              <tr>
+                <td colspan="8" id="ValNormJ1">Diabet cu control ideal al glicemiei 10&ltJ&lt20 </th>
+              </tr>
+              <tr>
+                <td colspan="8" id="ValNormJ2">Diabet cu control bun, 20&ltJ&lt30</td>
+              </tr>
+              <tr>
+                <td colspan="8" id="ValNormJ3">Diabet cu control prost, 30&ltJ&lt40 </td>
+              </tr>
+              <tr>
+                <td colspan="8" id="ValNormJ4">Diabet fără control, J>40</td>
+              </tr>
+
+              <tr>
+                <td colspan="8"><br></td>
+              </tr>
+
+              <tr>
+                <th></th>
+                <th>Ziua 1</th>
+                <th>Ziua 2</th>
+                <th>Ziua 3</th>
+                <th>Ziua 4</th>
+                <th>Ziua 5</th>
+                <th>Ziua 6</th>
+                <th>Ziua 7</th>
+              </tr>
+
+              <tr>
+            <th>Media diferențelor zilnice - MODD</th>
+            <td><output type="number" id="modd0"> </td>
+            <td><output type="number" id="modd1"> </br></td>
+            <td><output type="number" id="modd2"> </br></td>
+            <td><output type="number" id="modd3"> </br></td>
+            <td><output type="number" id="modd4"> </br></td>
+            <td><output type="number" id="modd5"> </br></td>
+            <td><output type="number" id="modd6"> </br></td>
+            </tr>
+
+            <tr>
+              <td colspan="8" id="ValNormMODD1">MODD<7 mg/dl, variabilitate glicemică normală</td>
+            </tr>
+            <tr>
+              <td colspan="8" id="ValNormMODD2">MODD 7-25 mg/dl, diabet stabil</td>
+            </tr>
+            <tr>
+              <td colspan="8" id="ValNormMODD3">MODD >40 mg/dl diabet instabil</td> 
+            </tr>
+
+            </tbody>
+          </table>
+
+          {% endif %}
         </div>
-      </div>
-             
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
