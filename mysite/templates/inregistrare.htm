@@ -4,6 +4,7 @@
   <head>
     <!--Scripts-->
     <script type="text/javascript" src="{% static 'js/jquery-3.3.1.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/render(A).js' %}"></script>
     <script type="text/javascript" src="{% static 'js/server_requests(A).js' %}"></script>
     
     <!-- Required meta tags -->
@@ -78,21 +79,30 @@
               <small id="info_parola" class="form-text text-muted">Acest câmp este obligatoriu.</small>
             </div>
             <div class="form-group">
-              <label> Data nașterii: </label>
-              <input type="date" class="form-control" id="data_nasterii">
-            </div>
-            <div class="form-group">
-              <label> Vârsta debut: </label>
-              <input type="number" class="form-control" id="varsta_debut">
-            </div>
-            <div class="form-group">
-              <label> La ce medic doriți sa va inregistrați </label>
-              <select class="form-control" id="medici">
-                {% for doctor in doctors %}
-                <div class="form-group">
-                  <option>{{doctor.username}}</option>
-                {% endfor %}
+              <label> Ce cont doriți să creați? </label>
+              <select class="form-control" id="tip_cont" onchange="render_role_register()">
+                  <option>Cont de pacient</option>
+                  <option>Cont de medic</option>
               </select>
+            </div>
+            <div id = "formular-pacienti">
+              <div class="form-group">
+                <label> Data nașterii: </label>
+                <input type="date" class="form-control" id="data_nasterii">
+              </div>
+              <div class="form-group">
+                <label> Vârsta debut: </label>
+                <input type="number" class="form-control" id="varsta_debut">
+              </div>
+              <div class="form-group">
+                <label> La ce medic doriți sa va inregistrați </label>
+                <select class="form-control" id="medici">
+                  {% for doctor in doctors %}
+                  <div class="form-group">
+                    <option>{{doctor.username}}</option>
+                  {% endfor %}
+                </select>
+              </div>
             </div>
             <button type="button" class="btn btn-outline-success my-2 my-sm-4" onclick="register()">Înregistrează</button>
           </form>

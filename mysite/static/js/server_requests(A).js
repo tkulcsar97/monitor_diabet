@@ -26,13 +26,21 @@ function register(){
     onset_age = document.getElementById("varsta_debut").value;
     doctor = document.getElementById("medici").options[document.getElementById("medici").options.selectedIndex].text;
 
+    rol = "";
+
+    if (document.getElementById("tip_cont").options.selectedIndex == 0)
+        rol = "pacient";
+    else
+        rol = "medic";
+
     url = "http://localhost:8000/register/";
     data_to_send = {
         username: username,
         password: password,
         birth_date: birth_date,
         onset_age: onset_age,
-        doctor: doctor
+        doctor: doctor,
+        rol: rol
     }
 
     f = function(data_recived){

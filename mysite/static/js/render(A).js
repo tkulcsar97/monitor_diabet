@@ -21,7 +21,8 @@ function renderAG_initState(message){
     document.getElementById("initial_state").style.display = 'block';
 
     var table = document.getElementById("table-logged");
-    table.removeChild(table.getElementsByTagName("tbody")[0]);
+    if (table.getElementsByTagName("tbody").length > 0)
+        table.removeChild(table.getElementsByTagName("tbody")[0]);
 
     if (message){
         document.getElementById("message1").innerHTML = message;
@@ -724,30 +725,36 @@ function optiuni_module_statistica(){
             c2 = document.createElement("option");
             c3 = document.createElement("option");
             c4 = document.createElement("option");
+            c5 = document.createElement("option");
 
             c1.text = "Risc scăzut de ND";
             c2.text = "Risc moderat de ND";
             c3.text = "Risc crescut de ND";
             c4.text = "Risc foarte crescut de ND";
+            c5.text = "Toate rezultatele";
 
             rezultate.add(c1);
             rezultate.add(c2);
             rezultate.add(c3);
             rezultate.add(c4);
+            rezultate.add(c5);
 
         } break;
         case 1: {
             c1 = document.createElement("option");
             c2 = document.createElement("option");
             c3 = document.createElement("option");
+            c4 = document.createElement("option");
 
             c1.text = "risc-scazut";
             c2.text = "risc-interm";
             c3.text = "risc-ridicat";
+            c4.text = "Toate rezultatele";
 
             rezultate.add(c1);
             rezultate.add(c2);
             rezultate.add(c3);
+            rezultate.add(c4);
 
         } break;
         case 2: {
@@ -765,6 +772,7 @@ function optiuni_module_statistica(){
             c12 = document.createElement("option");
             c13 = document.createElement("option");
             c14 = document.createElement("option");
+            c15 = document.createElement("option");
 
             c1.text = "≤7";
             c2.text = "≤10";
@@ -780,6 +788,7 @@ function optiuni_module_statistica(){
             c12.text = "≤59";
             c13.text = ">43";
             c14.text = ">59";
+            c15.text = "Toate rezultatele";
 
             rezultate.add(c1);
             rezultate.add(c2);
@@ -795,16 +804,20 @@ function optiuni_module_statistica(){
             rezultate.add(c12);
             rezultate.add(c13);
             rezultate.add(c14);
+            rezultate.add(c15);
         } break;
         case 3:{
             c1 = document.createElement("option");
             c2 = document.createElement("option");
+            c3 = document.createElement("option");
 
             c1.text = "Sindrom metabolic";
             c2.text = "Sănătos";
+            c3.text = "Toate rezultatele";
 
             rezultate.add(c1);
             rezultate.add(c2);
+            rezultate.add(c3);
         }
     }
 }
@@ -817,19 +830,45 @@ function render_afisare_statistica(data_recived, rezultat){
     google.charts.setOnLoadCallback(function () { drawChart(data_recived) });
 
     function drawChart(data_recived) {
+        var data = null;
+        var options = null;
+        if (Object.keys(data_recived).length == 2){
+            data = google.visualization.arrayToDataTable([
+                [ rezultat, 'Numar cazuri'],
+                [ rezultat, data_recived.numar_cazuri ],
+                [ 'Alte rezultate',data_recived.total_cazuri - data_recived.numar_cazuri ]
+            ]);
 
-        var data = google.visualization.arrayToDataTable([
-            [ rezultat, 'Numar cazuri'],
-            [ rezultat, data_recived.numar_cazuri ],
-            [ 'Alte rezultate',data_recived.total_cazuri - data_recived.numar_cazuri ]
-        ]);
+            options = {
+                title: "Numar cazuri totale: " + data_recived.total_cazuri
+            };
+        }
+        else{
+            var d = [[ rezultat, 'Numar cazuri']];
+            var cazuri_totale = 0;
+            for (var key in data_recived){
+                d.push([key, data_recived[key]]);
+                cazuri_totale = cazuri_totale + data_recived[key];
+            }
 
-        var options = {
-            title: "Numar cazuri totale: " + data_recived.total_cazuri
-        };
+            data = google.visualization.arrayToDataTable(d);
+
+            options = {
+                title: "Numar cazuri totale: " + cazuri_totale
+            };
+        }
 
         var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
         chart.draw(data, options);
+    }
+}
+
+function render_role_register(){
+    if (document.getElementById("tip_cont").options.selectedIndex == 0){
+        document.getElementById("formular-pacienti").style.display = "block";
+    }
+    else{
+        document.getElementById("formular-pacienti").style.display = "none";
     }
 }

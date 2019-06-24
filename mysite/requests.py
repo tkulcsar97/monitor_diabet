@@ -39,27 +39,49 @@ def autentificare(request):
 def create_account(request):
     username = request.GET.get('username')
     password = request.GET.get('password')
+    user_role = request.GET.get('rol')
+
     birth_date = request.GET.get('birth_date')
     onset_age = request.GET.get('onset_age')
     doctor = request.GET.get('doctor') 
-    try:
-        user = User.objects.create_user(username=username
-                ,password=password)
-        medic = User.objects.get(username=doctor)
-    except (IntegrityError, ObjectDoesNotExist) as e:
-        print(e)
-        data = {'successful': False}
-    else:
-        pacient = Pacient(user=user)
-        pacient.data_nastere = birth_date
-        pacient.varsta_debut = onset_age
-        pacient.medic = medic.medic_id
-        pacient.save()
-        rol = Rol(user=user)
-        rol.id_rol = 1 # 1 -> pacient
-        rol.save()
-        data = {'successful': True}   
 
+    # clinica = request.GET.get('clinica')
+
+    data = {'successful': False} 
+
+    if(user_role == "pacient"):
+        try:
+            user = User.objects.create_user(username=username
+                    ,password=password)
+            medic = User.objects.get(username=doctor)
+        except (IntegrityError, ObjectDoesNotExist) as e:
+            print(e)
+            data = {'successful': False}
+        else:
+            pacient = Pacient(user=user)
+            pacient.data_nastere = birth_date
+            pacient.varsta_debut = onset_age
+            pacient.medic = medic.medic_id
+            pacient.save()
+            rol = Rol(user=user)
+            rol.id_rol = 1 # 1 -> pacient
+            rol.save()
+            data = {'successful': True} 
+    if(user_role == "medic"):
+        try:
+            user = User.objects.create_user(username=username
+                    ,password=password)
+        except (IntegrityError, ObjectDoesNotExist) as e:
+            print(e)
+            data = {'successful': False}
+        else:
+            medic = Medic(medic=user)
+            # medic.clinica = clinica
+            medic.save()
+            rol = Rol(user=user)
+            rol.id_rol = 2 # 1 -> pacient
+            rol.save()
+            data = {'successful': True} 
     return JsonResponse(data)
 
 def logout(request):
@@ -73,7 +95,6 @@ def logout(request):
 def setare_date_analiza(request):
     date = request.GET.get('moment_valoare')
     value = request.GET.get('valoare')
-
     print (date)
     print (value)
     try:
@@ -81,13 +102,17 @@ def setare_date_analiza(request):
     except ObjectDoesNotExist:
         data = {'successful': False}
     else:
-        analiza_glicemie = Variabilitate_Glicemie(user=user)
-        #temp_date = datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
-
-        analiza_glicemie.valoare_glicemie = value
-        analiza_glicemie.data_ora = date
-        analiza_glicemie.save()
-        data = {'successful': True}
+        try:
+            analiza = Variabilitate_Glicemie.objects.get(data_ora=date)
+        except ObjectDoesNotExist:
+            analiza_glicemie = Variabilitate_Glicemie(user=user)
+            #temp_date = datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
+            analiza_glicemie.valoare_glicemie = value
+            analiza_glicemie.data_ora = date
+            analiza_glicemie.save()
+            data = {'successful': True}
+        else:
+            data = {'successful': "exista"}
     return JsonResponse(data)
 
 def preluare_date_analiza(request):
@@ -117,13 +142,19 @@ def setare_date_reprezentare(request):
     except ObjectDoesNotExist:
         data = {'successful': False}
     else:
-        reprezentare_glicemie = Reprezentare_Glicemie(user=user)
-        #temp_date = datetime.strptime(date, '%Y-%m-%d').date()
-        reprezentare_glicemie.valoare_glicemie = value
-        reprezentare_glicemie.data = date.date()
-        reprezentare_glicemie.moment_al_zilei = moment
-        reprezentare_glicemie.save()
-        data = {'successful': True}
+        try:
+            reprezentare = Reprezentare_Glicemie.objects.get(data=date.date(), moment_al_zilei=moment)
+        except ObjectDoesNotExist:
+            reprezentare_glicemie = Reprezentare_Glicemie(user=user)
+            #temp_date = datetime.strptime(date, '%Y-%m-%d').date()
+            reprezentare_glicemie.valoare_glicemie = value
+            reprezentare_glicemie.data = date.date()
+            reprezentare_glicemie.moment_al_zilei = moment
+            reprezentare_glicemie.save()
+            data = {'successful': True}
+        else:
+            # data = {'successful': False}
+            data = {'successful': "exista"}
     return JsonResponse(data)
 
 def preluare_date_reprezentare(request):
@@ -136,7 +167,7 @@ def preluare_date_reprezentare(request):
     data = {}
     inregistrari_grafic = Reprezentare_Glicemie.objects.filter(user=user, data=date.date())
     inregistrari_grafic = inregistrari_grafic.extra(select={
-              'ora': "SUBSTR('moment_al_zilei', 4)",
+              'ora': "SUBSTR('moment_al_zilei', 1, 4)",
               'cifra': "CAST(substr(moment_al_zilei, 5) AS UNSIGNED)"})
     inregistrari_grafic = inregistrari_grafic.order_by('cifra')
     for inregistrare_grafic in inregistrari_grafic:
@@ -419,11 +450,11 @@ def preluare_date_tabel_reprezentare(request): #MEDIC
     else:
         user = User.objects.get(username = views.patient) # request de catre medic
     array_reprezentare = []
-    inregistrari_grafic = Reprezentare_Glicemie.objects.filter(user=user).order_by('data')
+    inregistrari_grafic = Reprezentare_Glicemie.objects.filter(user=user)
     inregistrari_grafic = inregistrari_grafic.extra(select={
-              'ora': "SUBSTR('moment_al_zilei', 4)",
-              'cifra': "CAST(substr(moment_al_zilei, 5) AS UNSIGNED)"})
-    inregistrari_grafic = inregistrari_grafic.order_by('cifra')
+              'ora': "SUBSTR('moment_al_zilei', 1, 4)",
+              'cifra': "CAST(SUBSTR(moment_al_zilei, 5) AS UNSIGNED)"})
+    inregistrari_grafic = inregistrari_grafic.order_by('data','cifra')
     for inregistrare_grafic in inregistrari_grafic:
         if(inregistrare_grafic.data >= temp_start.date() and inregistrare_grafic.data <= temp_end.date()):
             array_reprezentare.append({
@@ -431,7 +462,7 @@ def preluare_date_tabel_reprezentare(request): #MEDIC
                 'moment': inregistrare_grafic.moment_al_zilei,
                 'valoare': inregistrare_grafic.valoare_glicemie
             })
-    data = {'array': array_reprezentare} 
+    data = {'array': array_reprezentare}
     return JsonResponse(data)
 
 def statistica_nefropatie(request):
@@ -443,31 +474,59 @@ def statistica_nefropatie(request):
     data_start = datetime.datetime.strptime(request.GET.get('data_start'), "%Y-%m-%dT%H:%M:%S.%fZ")
     data_stop = datetime.datetime.strptime(request.GET.get('data_stop'), "%Y-%m-%dT%H:%M:%S.%fZ")
     date = datetime.date.today()
-    # medic_user = User.objects.get(username=views.username) 
-    # medic = Medic.objects.get(medic=medic_user)
-    inregistrari_nefropatie = Nefropatie.objects.filter(Q(data__gte=data_start.date())&Q(data__lte=data_stop.date())&Q(rezultat=rezultat))
-    if(varsta_debut_start != '' and varsta_debut_stop != ''):
-        nr_cazuri = 0
-        for inregistrare_nefropatie in inregistrari_nefropatie:
-            user = User.objects.get(id = inregistrare_nefropatie.user_id) 
-            pacient = Pacient.objects.get(user = user)
-            if(pacient.varsta_debut >= int(varsta_debut_start) and pacient.varsta_debut <= int(varsta_debut_stop)):
-                nr_cazuri = nr_cazuri + 1
-        data = {'numar_cazuri': nr_cazuri}
-    else:
+    medic_user = User.objects.get(username=views.username) 
+    medic = Medic.objects.get(medic=medic_user)
+    data = {}
+    nr_cazuri = 0
+    array_rezultate = ["Risc scăzut de ND", "Risc moderat de ND", "Risc crescut de ND", "Risc foarte crescut de ND"]
+    if(rezultat != "Toate rezultatele"):
+        inregistrari_nefropatie = Nefropatie.objects.filter(Q(data__gte=data_start.date())&Q(data__lte=data_stop.date())&Q(rezultat=rezultat))
+        if(varsta_debut_start != '' and varsta_debut_stop != ''):
+            for inregistrare_nefropatie in inregistrari_nefropatie:
+                user = User.objects.get(id = inregistrare_nefropatie.user_id) 
+                pacient = Pacient.objects.get(user = user)
+                if(pacient.medic_id == medic.medic_id and pacient.varsta_debut >= int(varsta_debut_start) and pacient.varsta_debut <= int(varsta_debut_stop)):
+                    nr_cazuri = nr_cazuri + 1
         if(varsta_start != '' and varsta_stop != ''):
-            nr_cazuri = 0
             for inregistrare_nefropatie in inregistrari_nefropatie:
                 user = User.objects.get(id = inregistrare_nefropatie.user_id) 
                 pacient = Pacient.objects.get(user = user)
                 varsta = date.year - pacient.data_nastere.year - ((date.month, date.day) < (pacient.data_nastere.month, pacient.data_nastere.day))
-                if(varsta >= int(varsta_start) and varsta <= int(varsta_stop)):
+                if(pacient.medic_id == medic.medic_id and varsta >= int(varsta_start) and varsta <= int(varsta_stop)):
                     nr_cazuri = nr_cazuri + 1
-            data = {'numar_cazuri': nr_cazuri}
-        else:
-            data = {'numar_cazuri': inregistrari_nefropatie.count()} 
-    data['total_cazuri'] =  Nefropatie.objects.all().count()  #total inregistrari
-
+        if(varsta_debut_start == '' and varsta_debut_stop == '' and varsta_start == '' and varsta_stop == ''):
+            for inregistrare_nefropatie in inregistrari_nefropatie:
+                user = User.objects.get(id = inregistrare_nefropatie.user_id) 
+                pacient = Pacient.objects.get(user = user)
+                if(pacient.medic_id == medic.medic_id):
+                    nr_cazuri = nr_cazuri + 1
+                print(nr_cazuri)
+        data['numar_cazuri'] = nr_cazuri
+        data['total_cazuri'] =  Nefropatie.objects.all().count()  #total inregistrari
+    else:
+        for rez in array_rezultate:
+            nr_cazuri = 0
+            inregistrari_nefropatie = Nefropatie.objects.filter(Q(data__gte=data_start.date())&Q(data__lte=data_stop.date())&Q(rezultat=rez))
+            if(varsta_debut_start != '' and varsta_debut_stop != ''):
+                for inregistrare_nefropatie in inregistrari_nefropatie:
+                    user = User.objects.get(id = inregistrare_nefropatie.user_id) 
+                    pacient = Pacient.objects.get(user = user)
+                    if(pacient.medic_id == medic.medic_id and pacient.varsta_debut >= int(varsta_debut_start) and pacient.varsta_debut <= int(varsta_debut_stop)):
+                        nr_cazuri = nr_cazuri + 1
+            if(varsta_start != '' and varsta_stop != ''):
+                for inregistrare_nefropatie in inregistrari_nefropatie:
+                    user = User.objects.get(id = inregistrare_nefropatie.user_id) 
+                    pacient = Pacient.objects.get(user = user)
+                    varsta = date.year - pacient.data_nastere.year - ((date.month, date.day) < (pacient.data_nastere.month, pacient.data_nastere.day))
+                    if(pacient.medic_id == medic.medic_id and varsta >= int(varsta_start) and varsta <= int(varsta_stop)):
+                        nr_cazuri = nr_cazuri + 1
+            if(varsta_debut_start == '' and varsta_debut_stop == '' and varsta_start == '' and varsta_stop == ''):
+                for inregistrare_nefropatie in inregistrari_nefropatie:
+                    user = User.objects.get(id = inregistrare_nefropatie.user_id) 
+                    pacient = Pacient.objects.get(user = user)
+                    if(pacient.medic_id == medic.medic_id):
+                        nr_cazuri = nr_cazuri + 1
+            data[rez] = nr_cazuri
     return JsonResponse(data)
 
 def statistica_hipoglicemie(request):
@@ -479,28 +538,59 @@ def statistica_hipoglicemie(request):
     data_start = datetime.datetime.strptime(request.GET.get('data_start'), "%Y-%m-%dT%H:%M:%S.%fZ")
     data_stop = datetime.datetime.strptime(request.GET.get('data_stop'), "%Y-%m-%dT%H:%M:%S.%fZ")
     date = datetime.date.today()
-    inregistrari_hipoglicemie = Risc_Hipoglicemie.objects.filter(Q(data__gte=data_start.date())&Q(data__lte=data_stop.date())&Q(rezultat=rezultat))
-    if(varsta_debut_start != '' and varsta_debut_stop != ''):
-        nr_cazuri = 0
-        for inregistrare_hipoglicemie in inregistrari_hipoglicemie:
-            user = User.objects.get(id = inregistrare_hipoglicemie.user_id) 
-            pacient = Pacient.objects.get(user = user)
-            if(pacient.varsta_debut >= int(varsta_debut_start) and pacient.varsta_debut <= int(varsta_debut_stop)):
-                nr_cazuri = nr_cazuri + 1
-        data = {'numar_cazuri': nr_cazuri}
-    else:
+    medic_user = User.objects.get(username=views.username) 
+    medic = Medic.objects.get(medic=medic_user)
+    data = {}
+    nr_cazuri = 0
+    array_rezultate = ["risc-scazut", "risc-interm", "risc-ridicat"]
+    if(rezultat != "Toate rezultatele"):
+        inregistrari_hipoglicemie = Risc_Hipoglicemie.objects.filter(Q(data__gte=data_start.date())&Q(data__lte=data_stop.date())&Q(rezultat=rezultat))
+        if(varsta_debut_start != '' and varsta_debut_stop != ''):
+            for inregistrare_hipoglicemie in inregistrari_hipoglicemie:
+                user = User.objects.get(id = inregistrare_hipoglicemie.user_id) 
+                pacient = Pacient.objects.get(user = user)
+                if(pacient.medic_id == medic.medic_id and pacient.varsta_debut >= int(varsta_debut_start) and pacient.varsta_debut <= int(varsta_debut_stop)):
+                    nr_cazuri = nr_cazuri + 1
         if(varsta_start != '' and varsta_stop != ''):
-            nr_cazuri = 0
             for inregistrare_hipoglicemie in inregistrari_hipoglicemie:
                 user = User.objects.get(id = inregistrare_hipoglicemie.user_id) 
                 pacient = Pacient.objects.get(user = user)
                 varsta = date.year - pacient.data_nastere.year - ((date.month, date.day) < (pacient.data_nastere.month, pacient.data_nastere.day))
-                if(varsta >= int(varsta_start) and varsta <= int(varsta_stop)):
+                if(pacient.medic_id == medic.medic_id and varsta >= int(varsta_start) and varsta <= int(varsta_stop)):
                     nr_cazuri = nr_cazuri + 1
-            data = {'numar_cazuri': nr_cazuri}
-        else:
-            data = {'numar_cazuri': inregistrari_hipoglicemie.count()}
-    data['total_cazuri'] =  Risc_Hipoglicemie.objects.all().count()  #total inregistrari
+        if(varsta_debut_start == '' and varsta_debut_stop == '' and varsta_start == '' and varsta_stop == ''):
+            for inregistrare_hipoglicemie in inregistrari_hipoglicemie:
+                user = User.objects.get(id = inregistrare_hipoglicemie.user_id) 
+                pacient = Pacient.objects.get(user = user)
+                if(pacient.medic_id == medic.medic_id):
+                    nr_cazuri = nr_cazuri + 1
+                print(nr_cazuri)
+        data['numar_cazuri'] = nr_cazuri
+        data['total_cazuri'] =  Risc_Hipoglicemie.objects.all().count()  #total inregistrari
+    else:
+        for rez in array_rezultate:
+            nr_cazuri = 0
+            inregistrari_hipoglicemie = Risc_Hipoglicemie.objects.filter(Q(data__gte=data_start.date())&Q(data__lte=data_stop.date())&Q(rezultat=rez))
+            if(varsta_debut_start != '' and varsta_debut_stop != ''):
+                for inregistrare_hipoglicemie in inregistrari_hipoglicemie:
+                    user = User.objects.get(id = inregistrare_hipoglicemie.user_id) 
+                    pacient = Pacient.objects.get(user = user)
+                    if(pacient.medic_id == medic.medic_id and pacient.varsta_debut >= int(varsta_debut_start) and pacient.varsta_debut <= int(varsta_debut_stop)):
+                        nr_cazuri = nr_cazuri + 1
+            if(varsta_start != '' and varsta_stop != ''):
+                for inregistrare_hipoglicemie in inregistrari_hipoglicemie:
+                    user = User.objects.get(id = inregistrare_hipoglicemie.user_id) 
+                    pacient = Pacient.objects.get(user = user)
+                    varsta = date.year - pacient.data_nastere.year - ((date.month, date.day) < (pacient.data_nastere.month, pacient.data_nastere.day))
+                    if(pacient.medic_id == medic.medic_id and varsta >= int(varsta_start) and varsta <= int(varsta_stop)):
+                        nr_cazuri = nr_cazuri + 1
+            if(varsta_debut_start == '' and varsta_debut_stop == '' and varsta_start == '' and varsta_stop == ''):
+                for inregistrare_hipoglicemie in inregistrari_hipoglicemie:
+                    user = User.objects.get(id = inregistrare_hipoglicemie.user_id) 
+                    pacient = Pacient.objects.get(user = user)
+                    if(pacient.medic_id == medic.medic_id):
+                        nr_cazuri = nr_cazuri + 1
+            data[rez] = nr_cazuri
     return JsonResponse(data)
 
 def statistica_diabet(request):
@@ -512,28 +602,59 @@ def statistica_diabet(request):
     data_start = datetime.datetime.strptime(request.GET.get('data_start'), "%Y-%m-%dT%H:%M:%S.%fZ")
     data_stop = datetime.datetime.strptime(request.GET.get('data_stop'), "%Y-%m-%dT%H:%M:%S.%fZ")
     date = datetime.date.today()
-    inregistrari_diabet = Risc_Diabet.objects.filter((Q(risc_cmds=risc)|Q(risc_cmds_modificat=risc))&(Q(data__gte=data_start.date())&Q(data__lte=data_stop.date())))
-    if(varsta_debut_start != '' and varsta_debut_stop != ''):
-        nr_cazuri = 0
-        for inregistrare_diabet in inregistrari_diabet:
-            user = User.objects.get(id = inregistrare_diabet.user_id) 
-            pacient = Pacient.objects.get(user = user)
-            if(pacient.varsta_debut >= int(varsta_debut_start) and pacient.varsta_debut <= int(varsta_debut_stop)):
-                nr_cazuri = nr_cazuri + 1
-        data = {'numar_cazuri': nr_cazuri}
-    else:
+    medic_user = User.objects.get(username=views.username) 
+    medic = Medic.objects.get(medic=medic_user)
+    data = {}
+    nr_cazuri = 0
+    array_rezultate = ["≤7", "≤10", "≤11", "≤13", "≤16", "≤18", "≤23" , "≤24" , "≤32" , "≤33" , "≤43", "≤59", ">43", ">59"]
+    if(risc != "Toate rezultatele"):
+        inregistrari_diabet = Risc_Diabet.objects.filter((Q(risc_cmds=risc)|Q(risc_cmds_modificat=risc))&(Q(data__gte=data_start.date())&Q(data__lte=data_stop.date())))
+        if(varsta_debut_start != '' and varsta_debut_stop != ''):
+            for inregistrare_diabet in inregistrari_diabet:
+                user = User.objects.get(id = inregistrare_diabet.user_id) 
+                pacient = Pacient.objects.get(user = user)
+                if(pacient.medic_id == medic.medic_id and pacient.varsta_debut >= int(varsta_debut_start) and pacient.varsta_debut <= int(varsta_debut_stop)):
+                    nr_cazuri = nr_cazuri + 1
         if(varsta_start != '' and varsta_stop != ''):
-            nr_cazuri = 0
             for inregistrare_diabet in inregistrari_diabet:
                 user = User.objects.get(id = inregistrare_diabet.user_id) 
                 pacient = Pacient.objects.get(user = user)
                 varsta = date.year - pacient.data_nastere.year - ((date.month, date.day) < (pacient.data_nastere.month, pacient.data_nastere.day))
-                if(varsta >= int(varsta_start) and varsta <= int(varsta_stop)):
+                if(pacient.medic_id == medic.medic_id and varsta >= int(varsta_start) and varsta <= int(varsta_stop)):
                     nr_cazuri = nr_cazuri + 1
-            data = {'numar_cazuri': nr_cazuri}
-        else:
-            data = {'numar_cazuri': inregistrari_diabet.count()}
-    data['total_cazuri'] =  Risc_Diabet.objects.all().count()  #total inregistrari
+        if(varsta_debut_start == '' and varsta_debut_stop == '' and varsta_start == '' and varsta_stop == ''):
+            for inregistrare_diabet in inregistrari_diabet:
+                user = User.objects.get(id = inregistrare_diabet.user_id) 
+                pacient = Pacient.objects.get(user = user)
+                if(pacient.medic_id == medic.medic_id):
+                    nr_cazuri = nr_cazuri + 1
+                print(nr_cazuri)
+        data['numar_cazuri'] = nr_cazuri
+        data['total_cazuri'] =  Risc_Diabet.objects.all().count()  #total inregistrari
+    else:
+        for rez in array_rezultate:
+            nr_cazuri = 0
+            inregistrari_diabet = Risc_Diabet.objects.filter((Q(risc_cmds=risc)|Q(risc_cmds_modificat=risc))&(Q(data__gte=data_start.date())&Q(data__lte=data_stop.date())))
+            if(varsta_debut_start != '' and varsta_debut_stop != ''):
+                for inregistrare_diabet in inregistrari_diabet:
+                    user = User.objects.get(id = inregistrare_diabet.user_id) 
+                    pacient = Pacient.objects.get(user = user)
+                    if(pacient.medic_id == medic.medic_id and pacient.varsta_debut >= int(varsta_debut_start) and pacient.varsta_debut <= int(varsta_debut_stop)):
+                        nr_cazuri = nr_cazuri + 1
+            if(varsta_start != '' and varsta_stop != ''):
+                for inregistrare_diabet in inregistrari_diabet:
+                    user = User.objects.get(id = inregistrare_diabet.user_id) 
+                    pacient = Pacient.objects.get(user = user)
+                    varsta = date.year - pacient.data_nastere.year - ((date.month, date.day) < (pacient.data_nastere.month, pacient.data_nastere.day))
+                    if(pacient.medic_id == medic.medic_id and varsta >= int(varsta_start) and varsta <= int(varsta_stop)):
+                        nr_cazuri = nr_cazuri + 1
+            if(varsta_debut_start == '' and varsta_debut_stop == '' and varsta_start == '' and varsta_stop == ''):
+                for inregistrare_diabet in inregistrari_diabet:
+                    user = User.objects.get(id = inregistrare_diabet.user_id) 
+                    pacient = Pacient.objects.get(user = user)
+                    if(pacient.medic_id == medic.medic_id):
+                        nr_cazuri = nr_cazuri + 1
+            data[rez] = nr_cazuri
     return JsonResponse(data)
 
 def statistica_indice_siMS(request):
@@ -545,38 +666,61 @@ def statistica_indice_siMS(request):
     data_start = datetime.datetime.strptime(request.GET.get('data_start'), "%Y-%m-%dT%H:%M:%S.%fZ")
     data_stop = datetime.datetime.strptime(request.GET.get('data_stop'), "%Y-%m-%dT%H:%M:%S.%fZ")
     date = datetime.date.today()
-    inregistrari_sims = Indice_SiMS.objects.filter(Q(data__gte=data_start.date())&Q(data__lte=data_stop.date())&Q(rezultat=rezultat))
-    if(varsta_debut_start != '' and varsta_debut_stop != ''):
-        nr_cazuri = 0
-        for inregistrare_sims in inregistrari_sims:
-            user = User.objects.get(id = inregistrare_sims.user_id) 
-            pacient = Pacient.objects.get(user = user)
-            if(pacient.varsta_debut >= int(varsta_debut_start) and pacient.varsta_debut <= int(varsta_debut_stop)):
-                nr_cazuri = nr_cazuri + 1
-        data = {'numar_cazuri': nr_cazuri}
-    else:
+    medic_user = User.objects.get(username=views.username) 
+    medic = Medic.objects.get(medic=medic_user)
+    data = {}
+    nr_cazuri = 0
+    array_rezultate = ["Sindrom metabolic", "Sănătos"]
+    if(rezultat != "Toate rezultatele"):
+        inregistrari_siMS = Indice_SiMS.objects.filter(Q(data__gte=data_start.date())&Q(data__lte=data_stop.date())&Q(rezultat=rezultat))
+        if(varsta_debut_start != '' and varsta_debut_stop != ''):
+            for inregistrare_siMS in inregistrari_siMS:
+                user = User.objects.get(id = inregistrare_siMS.user_id) 
+                pacient = Pacient.objects.get(user = user)
+                if(pacient.medic_id == medic.medic_id and pacient.varsta_debut >= int(varsta_debut_start) and pacient.varsta_debut <= int(varsta_debut_stop)):
+                    nr_cazuri = nr_cazuri + 1
         if(varsta_start != '' and varsta_stop != ''):
-            nr_cazuri = 0
-            for inregistrare_sims in inregistrari_sims:
-                user = User.objects.get(id = inregistrare_sims.user_id) 
+            for inregistrare_siMS in inregistrari_siMS:
+                user = User.objects.get(id = inregistrare_siMS.user_id) 
                 pacient = Pacient.objects.get(user = user)
                 varsta = date.year - pacient.data_nastere.year - ((date.month, date.day) < (pacient.data_nastere.month, pacient.data_nastere.day))
-                if(varsta >= int(varsta_start) and varsta <= int(varsta_stop)):
+                if(pacient.medic_id == medic.medic_id and varsta >= int(varsta_start) and varsta <= int(varsta_stop)):
                     nr_cazuri = nr_cazuri + 1
-            data = {'numar_cazuri': nr_cazuri}
-        else:
-            data = {'numar_cazuri': inregistrari_sims.count()}
-    data['total_cazuri'] =  Indice_SiMS.objects.all().count()  #total inregistrari
+        if(varsta_debut_start == '' and varsta_debut_stop == '' and varsta_start == '' and varsta_stop == ''):
+            for inregistrare_siMS in inregistrari_siMS:
+                user = User.objects.get(id = inregistrare_siMS.user_id) 
+                pacient = Pacient.objects.get(user = user)
+                if(pacient.medic_id == medic.medic_id):
+                    nr_cazuri = nr_cazuri + 1
+                print(nr_cazuri)
+        data['numar_cazuri'] = nr_cazuri
+        data['total_cazuri'] =  Indice_SiMS.objects.all().count()  #total inregistrari
+    else:
+        for rez in array_rezultate:
+            nr_cazuri = 0
+            inregistrari_siMS = Indice_SiMS.objects.filter(Q(data__gte=data_start.date())&Q(data__lte=data_stop.date())&Q(rezultat=rez))
+            if(varsta_debut_start != '' and varsta_debut_stop != ''):
+                for inregistrare_siMS in inregistrari_siMS:
+                    user = User.objects.get(id = inregistrare_siMS.user_id) 
+                    pacient = Pacient.objects.get(user = user)
+                    if(pacient.medic_id == medic.medic_id and pacient.varsta_debut >= int(varsta_debut_start) and pacient.varsta_debut <= int(varsta_debut_stop)):
+                        nr_cazuri = nr_cazuri + 1
+            if(varsta_start != '' and varsta_stop != ''):
+                for inregistrare_siMS in inregistrari_siMS:
+                    user = User.objects.get(id = inregistrare_siMS.user_id) 
+                    pacient = Pacient.objects.get(user = user)
+                    varsta = date.year - pacient.data_nastere.year - ((date.month, date.day) < (pacient.data_nastere.month, pacient.data_nastere.day))
+                    if(pacient.medic_id == medic.medic_id and varsta >= int(varsta_start) and varsta <= int(varsta_stop)):
+                        nr_cazuri = nr_cazuri + 1
+            if(varsta_debut_start == '' and varsta_debut_stop == '' and varsta_start == '' and varsta_stop == ''):
+                for inregistrare_siMS in inregistrari_siMS:
+                    user = User.objects.get(id = inregistrare_siMS.user_id) 
+                    pacient = Pacient.objects.get(user = user)
+                    if(pacient.medic_id == medic.medic_id):
+                        nr_cazuri = nr_cazuri + 1
+            data[rez] = nr_cazuri
     return JsonResponse(data)
 
-def getTotalPacienti():
-    data = {'nr_pacienti': 4}
-    data['total'] = Reprezentare_Glicemie.objects.values('user_id').distinct().count()
-    date = datetime.date.today()
-    print(Nefropatie.objects.filter((Q(data__lte=date)|Q(data__gt=date))&Q(rezultat="Risc foarte crescut de ND")).count())
-
-getTotalPacienti()
-'''
 
 def preluare_medici():
     medici = Medic.objects.all()
@@ -591,9 +735,10 @@ def preluare_medici():
 
 preluare_medici()
 
-def parola():
-    hashed_pwd = make_password("plain_text")
-    print(hashed_pwd)
-    print(check_password("plain_text1", hashed_pwd))
+# def parola():
+#     hashed_pwd = make_password("plain_text")
+#     print(hashed_pwd)
+#     print(check_password("plain_text1", hashed_pwd))
 
-parola()'''
+# parola()
+
