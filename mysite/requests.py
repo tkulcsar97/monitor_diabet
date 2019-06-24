@@ -73,7 +73,7 @@ def create_account(request):
             print(e)
             data = {'successful': False}
         else:
-            medic = Medic(user=user)
+            medic = Medic(medic=user)
             # medic.clinica = clinica
             medic.save()
             rol = Rol(user=user)
@@ -451,8 +451,8 @@ def preluare_date_tabel_reprezentare(request): #MEDIC
     array_reprezentare = []
     inregistrari_grafic = Reprezentare_Glicemie.objects.filter(user=user)
     inregistrari_grafic = inregistrari_grafic.extra(select={
-              'ora': "SUBSTR('moment_al_zilei', 4)",
-              'cifra': "CAST(substr(moment_al_zilei, 5) AS UNSIGNED)"})
+              'ora': "SUBSTR('moment_al_zilei', 1, 4)",
+              'cifra': "CAST(SUBSTR(moment_al_zilei, 5) AS UNSIGNED)"})
     inregistrari_grafic = inregistrari_grafic.order_by('data','cifra')
     for inregistrare_grafic in inregistrari_grafic:
         if(inregistrare_grafic.data >= temp_start.date() and inregistrare_grafic.data <= temp_end.date()):
@@ -462,8 +462,6 @@ def preluare_date_tabel_reprezentare(request): #MEDIC
                 'valoare': inregistrare_grafic.valoare_glicemie
             })
     data = {'array': array_reprezentare}
-    for item in array_reprezentare:
-        print(item)
     return JsonResponse(data)
 
 def statistica_nefropatie(request):
