@@ -93,7 +93,6 @@ def logout(request):
 def setare_date_analiza(request):
     date = request.GET.get('moment_valoare')
     value = request.GET.get('valoare')
-
     print (date)
     print (value)
     try:
@@ -102,7 +101,7 @@ def setare_date_analiza(request):
         data = {'successful': False}
     else:
         try:
-            analiza = Variabilitate_Glicemie(data_ora=date)
+            analiza = Variabilitate_Glicemie.objects.get(data_ora=date)
         except ObjectDoesNotExist:
             analiza_glicemie = Variabilitate_Glicemie(user=user)
             #temp_date = datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
