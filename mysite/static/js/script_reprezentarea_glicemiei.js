@@ -3,6 +3,65 @@ var tabelInput=new Array(size);
 var tabelValNormale=new Array(size);
 var prag;
 
+//validate number
+$(document).ready(function(){
+    $(':input[type="number"]').change(function() {
+      
+      if(validNr(this.value)) getInputValues();
+        else this.value=null;
+    });
+});
+
+// cookie stuff
+function setCookie(cname, cvalue, exdays) {
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+  var expires = "expires="+d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  
+}
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var ca = document.cookie.split(';');
+  for(var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+function checkCookie()
+{
+
+if(document.cookie.indexOf('cookie_tabel=')!= -1) 
+  {
+    cookieJsonTabel=getCookie('cookie_tabel');
+    tabelInput=JSON.parse(cookieJsonTabel);
+    for(var i=0;i<size;i++)
+      document.getElementById('timp'+(i+1)).value=tabelInput[i];
+    
+  }
+}
+
+//add / edit cookies for 7days
+function changeCookie()
+{
+  cookieJsonTabel=JSON.stringify(tabelInput);  
+  if(document.cookie.indexOf('cookie_tabel=')== -1) 
+    setCookie('cookie_tabel', cookieJsonTabel,7);
+  else{
+    document.cookie = 'cookie_tabel=;';
+    setCookie('cookie_tabel', cookieJsonTabel,7);
+    }
+}
+
+
 function init()
 {
 //init tabels input & valori normale & prag
@@ -36,22 +95,36 @@ $(document).ready(function () {
 }
 
 
+function validNr(a)
+{
+  if(a>=40 && a<=500) return true;
+   else return false;
+}
+
 function getInputValues()
 {
 for(var i=0;i<size;i++)
   {
-    if(!isNaN(tabelInput[i])) 
-    tabelInput[i]=Math.abs(parseFloat(document.getElementById('timp'+(i+1)).value));
-    else tabelInput[i]=0;
+    var number=Math.abs(parseFloat(document.getElementById('timp'+(i+1)).value));
+
+    if(validNr(number))  tabelInput[i]=number;
+    else tabelInput[i]=null;
+
+    changeCookie();
   }
 }
 
-function giveVerdict()
+function afiseazaNrOre()
 {
   var nrOre=0;
 
   for(var i=0;i<size;i++)
-    if(tabelInput[i]>prag) nrOre++;
+    if(tabelInput[i]>=prag) 
+      {
+        // i=2 (ora 9-11);  i=3 (ora 11-13);  i=6 (ora 15-17); i=7 (ora 17-19)
+        if(i==2 || i==3 || i==6 || i==7) nrOre=nrOre+2; 
+        else nrOre++;
+      }
   
   document.getElementById("verdict").innerHTML = "Numar de ore deasupra pragului ~ " + nrOre;
 }
@@ -77,7 +150,7 @@ function Calculeaza()
 {
   getInputValues();
   drawChart();
-  giveVerdict();
+  afiseazaNrOre();
 }
 
 function show(valori){

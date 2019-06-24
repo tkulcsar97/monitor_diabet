@@ -408,6 +408,7 @@ function preluare_tabel_reprezentare(){
     }
 
     f = function(data_recived){
+        console.log(data_recived);
         date_reprezentare = data_recived;
         render_date_reprezentare();
     }
