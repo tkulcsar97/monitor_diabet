@@ -16,7 +16,7 @@ class Rol(models.Model):
 
 class Medic(models.Model):
 	#id_m = models.AutoField(primary_key=True)
-	medic = models.OneToOneField(User, on_delete=models.CASCADE)
+	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	clinica = models.CharField(max_length=50, default='', blank=True)
 
 	class Meta: 
@@ -35,7 +35,7 @@ class Pacient(models.Model):
 	HOMA2_Beta = models.FloatField(null=True)
 	HOMA2_IR = models.FloatField(null=True)
 	cluster = models.CharField(max_length=50, default='', blank=True)
-	medic = models.ForeignKey(Medic, to_field='medic_id', blank=True, null=True, on_delete = models.CASCADE, default="")
+	medic = models.ForeignKey(Medic, blank=True, null=True, on_delete = models.CASCADE, default="")
 	
 	class Meta: 
 		verbose_name = "Pacient"
@@ -48,7 +48,7 @@ class Nefropatie(models.Model):
 	albuminuria = models.FloatField(null=True)
 	unitate_masura = models.CharField(max_length=20, default='', blank=True)
 	rezultat = models.CharField(max_length=50, default='', blank=True)
-	user = models.ForeignKey(User, on_delete = models.CASCADE, default="")
+	pacient = models.ForeignKey(Pacient, on_delete = models.CASCADE, default="")
 	
 	class Meta: 
 		verbose_name = "Inregistrare Nefropatie"
@@ -58,7 +58,7 @@ class Variabilitate_Glicemie(models.Model):
 	id_variabilitate = models.AutoField(primary_key=True)
 	data_ora = models.DateTimeField(null=True)
 	valoare_glicemie = models.FloatField()
-	user = models.ForeignKey(User, on_delete = models.CASCADE, default="")
+	pacient = models.ForeignKey(Pacient, on_delete = models.CASCADE, default="")
 	
 	class Meta: 
 		verbose_name = "Inregistrare pentru analiza glicemiei"
@@ -69,7 +69,7 @@ class Reprezentare_Glicemie(models.Model):
 	data = models.DateField(null=True)
 	moment_al_zilei = models.CharField(max_length=50, default='', blank=True)
 	valoare_glicemie = models.IntegerField()
-	user = models.ForeignKey(User, on_delete = models.CASCADE, default="")
+	pacient = models.ForeignKey(Pacient, on_delete = models.CASCADE, default="")
 	
 	class Meta: 
 		verbose_name = "Inregistrare pentru reprezentarea glicemiei"
@@ -85,7 +85,7 @@ class Risc_Hipoglicemie(models.Model):
 	irc_severa_terminala = models.BooleanField(default = False)
 	varsta_sub_77 = models.BooleanField(default=False)
 	rezultat = models.CharField(max_length=50, default="", blank=True)
-	user = models.ForeignKey(User, on_delete = models.CASCADE, default="")
+	pacient = models.ForeignKey(Pacient, on_delete = models.CASCADE, default="")
 
 	class Meta: 
 		verbose_name = "Inregistrare pentru calculatorul de risc hipoglicemie"
@@ -104,7 +104,7 @@ class Risc_Diabet(models.Model):
 	scor_cmds_modificat = models.IntegerField(null=True)
 	risc_cmds = models.CharField(max_length=20, default="", blank=True)
 	risc_cmds_modificat = models.CharField(max_length=20, default="", blank=True)
-	user = models.ForeignKey(User, on_delete = models.CASCADE, default="")
+	pacient = models.ForeignKey(Pacient, on_delete = models.CASCADE, default="")
 
 	class Meta: 
 		verbose_name = "Inregistrare pentru calculatorul de risc diabetic"
@@ -128,7 +128,7 @@ class Indice_SiMS(models.Model):
 	siMS_scor_ref = models.FloatField(null=True)
 	siMS_scor_risc_ref = models.FloatField(null=True)
 	rezultat = models.CharField(max_length=50, default="", blank=True)
-	user = models.ForeignKey(User, on_delete=models.CASCADE, default="")
+	pacient = models.ForeignKey(Pacient, on_delete=models.CASCADE, default="")
 
 	class Meta: 
 		verbose_name = "Inregistrare pentru indicele siMS"

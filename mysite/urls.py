@@ -38,7 +38,7 @@ urlpatterns = [
     path('cauta_pacient.htm', views.cauta_pacient),
     path('statistica.htm', views.statistica),
 
-    #url(r'analiza_glicemiei/$', requests.analiza_glicemiei),
+    # url(r'analiza_glicemiei/$', requests.analiza_glicemiei),
     url(r'login/$', requests.autentificare),
     url(r'register/$', requests.create_account),
     url(r'logout/$', requests.logout),

@@ -56,9 +56,9 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        #'DIRS': [r'C:\Users\tkulcsar\Desktop\mysite\mysite\mysite\templates'],
+        'DIRS': [r'C:\Users\tkulcsar\Desktop\monitor_diabet\mysite\templates'],
         #'DIRS': [r'D:\Facultate\Licenta\git\monitor_diabet\mysite\templates'],
-        'DIRS': [r'C:\Users\Ovidiu\git\monitor_diabet\mysite\templates'],
+        # 'DIRS': [r'C:\Users\Ovidiu\git\monitor_diabet\mysite\templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -82,7 +82,7 @@ DATABASES = {
         'ENGINE' : 'django.db.backends.mysql',
         'USER' : 'root',
         'PASSWORD':'',
-        'NAME' : 'monitor_diabet',
+        'NAME' : 'monitor_diabet3',
         'HOST':'127.0.0.1',
         'PORT' : '3306',
     }
