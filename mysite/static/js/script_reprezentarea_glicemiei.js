@@ -106,7 +106,6 @@ function getInputValues()
 for(var i=0;i<size;i++)
   {
     var number=Math.abs(parseFloat(document.getElementById('timp'+(i+1)).value));
-
     if(validNr(number))  tabelInput[i]=number;
     else tabelInput[i]=null;
 
@@ -181,8 +180,9 @@ function drawChart(param) {
       ]);
 
       var options = {
+        chartArea:{width:"70%", height:"70%"},
         curveType: 'function',
-        width: 1000,
+        width: 1100,
         height: 800,
 
         hAxis: {
@@ -209,9 +209,16 @@ function drawChart(param) {
             italic: true
           },
 
-          title: 'Concentratia glicemiei (mg/dl)',
-          ticks: [0,20,40,60,80,100,120,140,160,180] 
+          title: 'Concentratia glicemiei (mg/dl)'
+         // ticks: [0,20,40,60,80,100,120,140,160,180] 
         },
+
+        legend: { 
+          position: 'right', 
+           textStyle: {fontSize:12} 
+         },
+
+
         curveType: 'function',
          colors:['blue','green','black']
 

@@ -111,16 +111,17 @@ function parseFile(event)
 		dynamicTyping:true,
 		complete: function(results) {
 			parseFileSucces=true;
+			tabel=results.data;
 
 			for(var i=0;i<cols;i++)
 			{ 
-			for(var j=0;j<results.data.length-1;j++)
-				{
-				tabel[i][j]=results.data[i][j];
+			for(var j=0;j<rows;j++)
+				{			
 				document.getElementById('val'+(j+1)+'day'+(i+1)).value=tabel[i][j];
 				}
 		 	}
-		console.log(results.data);
+
+		 	changeCookie();
 		}
 	})
 	}
