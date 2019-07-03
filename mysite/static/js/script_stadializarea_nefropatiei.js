@@ -144,7 +144,7 @@ function drawChart()
 
 
     var options = {
-        width: 1810,
+        width: 1750,
         height: 800,
         fontSize: 14,
         // #008000 green ;   #FF0000 red ;  #FFFF00 yellow ; #FFA500 orange
@@ -167,7 +167,7 @@ function drawChart()
 
         title: 'Rata de filtrare glomerulară (ml/min/1,73 m^2), descriere, stadii și intervale de valori' 
     			},
-    	chartArea:{left:"21.6%",top:0,width:"40%",height:"50%"},
+    	chartArea:{left:"17.4%",top:0,width:"42%",height:"50%"},
     	enableInteractivity: false, // sau tooltip: { trigger: 'none'},		
         legend: { position:'right', alignment:'center'},
         bar: { groupWidth: '75%' },
