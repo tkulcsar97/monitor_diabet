@@ -832,11 +832,12 @@ function render_afisare_statistica(data_recived, rezultat){
     function drawChart(data_recived) {
         var data = null;
         var options = null;
-        if (Object.keys(data_recived).length == 2){
+        // if (Object.keys(data_recived).length == 2){
+        if (Object.keys(data_recived).length == 2 && Object.keys(data_recived)[1] == "total_cazuri"){
             data = google.visualization.arrayToDataTable([
                 [ rezultat, 'Numar cazuri'],
                 [ rezultat, data_recived.numar_cazuri ],
-                [ 'Alte rezultate',data_recived.total_cazuri - data_recived.numar_cazuri ]
+                [ 'Alte rezultate', data_recived.total_cazuri - data_recived.numar_cazuri ]
             ]);
 
             options = {
